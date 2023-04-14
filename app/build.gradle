@@ -14,7 +14,7 @@ plugins {
 
 javafx {
     version = "17.0.1"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web' ]
 }
 
 repositories {
@@ -23,6 +23,9 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.openjfx:javafx-controls:16'
+    implementation 'org.openjfx:javafx-fxml:16'
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 
