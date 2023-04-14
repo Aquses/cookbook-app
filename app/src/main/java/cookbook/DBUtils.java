@@ -45,25 +45,26 @@ public class DBUtils {
 
         try {
             connection = DriverManager.getConnection("", "root", ""); // need a link to a db
-            psInsert = connection.prepareStatement(""); // SELECT password from table in db
+            psInsert = connection.prepareStatement("SELECT password FROM users WHERE username ?");
             psInsert.setString(1, username);
             resultSet = psInsert.executeQuery();
 
             if (!resultSet.isBeforeFirst()) {
-                System.out.println("User does not exist in database");
+                System.out.println("User not found!");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided username or password is incorrect");
+                alert.setContentText("The provided credentials are incorrect!");
                 alert.show();
             } else {
                 while (resultSet.next()) {
-                    String retrievedPassword = resultSet.getString("password"); // gets password column
+                    String retrievedPassword = resultSet.getString("password");
+
                     if (retrievedPassword.equals(password)) {
-                        changeScene(event, "primary-stage", username);
+                        changeScene(event, "", username);
                     }
                     else {
-                        System.out.println("Incorrect password");
+                        System.out.println("Incorrect password!");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("The provided password is incorrect");
+                        alert.setContentText("The provided credentials are incorrect!");
                         alert.show();
                     }
                 }
