@@ -13,6 +13,7 @@ create table recipes (
 recipe_id int not null auto_increment,
 recipe_name varchar(50) not null,
 recipe_description TEXT not null,
+recipe_instructions TEXT not null,
 servings int not null,
 prep_time_minutes int not null,
 cook_time_minutes int not null,
@@ -52,7 +53,7 @@ constraint `recipe_ctag_fk2` foreign key (`ctag_id`) references `custom_tags` (`
 
 create table ingredients (
 ingredient_id int not null auto_increment,
-i_name varchar(20) not null,
+i_name varchar(40) not null,
 primary key (ingredient_id),
 unique key (i_name)
 );
@@ -61,7 +62,7 @@ create table r_ingredients (
 ingredient_id int not null,
 recipe_id int not null,
 qty int not null,
-measurement varchar(10) null,
+measurement varchar(40) null,
 primary key (ingredient_id, recipe_id),
 constraint `r_ingredients_fk1` foreign key (`ingredient_id`) references `ingredients` (`ingredient_id`),
 constraint `r_ingredients_fk2` foreign key (`recipe_id`) references `recipes` (`recipe_id`)
@@ -89,7 +90,7 @@ constraint `favorites_fk2` foreign key (`recipe_id`) references `recipes` (`reci
 create table shopping_list (
 list_id int not null auto_increment,
 user_id int not null,
-list_name varchar(20) not null,
+list_name varchar(30) not null,
 date_created date not null,
 primary key (list_id),
 constraint `shopping_list_fk1` foreign key (`user_id`) references `users` (`user_id`)
@@ -100,7 +101,7 @@ item_id int not null auto_increment,
 list_id int not null,
 ingredient_id int not null,
 qty int not null,
-measurement varchar(20) null,
+measurement varchar(40) null,
 item_purchased boolean not null,
 primary key (item_id),
 constraint `list_item_fk1` foreign key (`list_id`) references `shopping_list` (`list_id`),
