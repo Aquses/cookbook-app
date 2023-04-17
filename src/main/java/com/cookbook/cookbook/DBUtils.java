@@ -1,4 +1,4 @@
-package cookbook;
+package com.cookbook.cookbook;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +44,7 @@ public class DBUtils {
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("", "root", ""); // need a link to a db
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cookbook", "root", "root"); // does not properly work
             psInsert = connection.prepareStatement("SELECT password FROM users WHERE username ?");
             psInsert.setString(1, username);
             resultSet = psInsert.executeQuery();
@@ -59,7 +59,7 @@ public class DBUtils {
                     String retrievedPassword = resultSet.getString("password");
 
                     if (retrievedPassword.equals(password)) {
-                        changeScene(event, "", username);
+                        changeScene(event, "", username); // Seans fxmlFile
                     }
                     else {
                         System.out.println("Incorrect password!");

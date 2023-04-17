@@ -1,4 +1,5 @@
-package cookbook;
+package com.cookbook.cookbook;
+
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
