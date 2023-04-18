@@ -4,74 +4,62 @@
 package cookbook;
 
 import java.sql.Statement;
-
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Cookbook extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        VBox root = new VBox();
-        root.setPadding(new Insets(5));
-        Label title = new Label("Recipe List");
-        root.getChildren().add(title);
+        Splash splash = new Splash();
     
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
+
+        splash.show();
+        primaryStage.setScene(splash.getSplashScene());
+       
+        splash.getSequentialTransition().setOnFinished(e -> {
+            Timeline timeline = new Timeline();
+            KeyFrame key = new KeyFrame(Duration.millis(1500),
             
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
+            new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
+            timeline.getKeyFrames().add(key);
+            timeline.setOnFinished((event1) -> {
+                Group start = new Group();
+                Scene startScene = new Scene(start, 200,150);
+                Button button = new Button();
 
-            while (rs.next()) {
-                Button data = new Button(rs.getString(1));
-                
-                String dataText = data.getText();
-                data.setOnMouseClicked(e -> {
-                    Stage recipeStage = new Stage();
-                    StackPane stageLayout = new StackPane();
+                button.setText("Login");
+                button.setLayoutX(50);
+                button.setLayoutY(50);
+                button.setOnAction(e2 -> primaryStage.setScene(UserPageScene.getUserPage()));
+                start.getChildren().add(button);
 
-                    try {
-                        Statement getRecipe = conn.createStatement();
-                        ResultSet recipe = getRecipe.executeQuery("SELECT * FROM recipes WHERE recipe_name = \"" + dataText +"\"");
-
-                        while (recipe.next()) {
-                        Label attributes= new Label(recipe.getString(2) + "\n\n" + recipe.getString(3) + "\n" + recipe.getString(4)
-                            + "\n" + "Servings: " + recipe.getString(5) + "\n" + "Prep Time: " + recipe.getString(6) + " Minutes " + "\n"
-                            + " Cook Time: " + recipe.getString(7) + " Minutes");
-                        stageLayout.getChildren().add(attributes);
-                        } 
-                    
-                    } catch (SQLException e2) {
-                        System.out.println("An error has occurred");
-                    }       
-
-                    Scene recipeStageScene = new Scene(stageLayout);
-                    recipeStage.setScene(recipeStageScene);
-                    recipeStage.setTitle("Dish IT");
-                    recipeStage.show(); 
-                });
-
-            root.getChildren().add(data);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("An error has occurred: " + e.getMessage());
-        }
- 
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setFullScreen(false);
-        primaryStage.setTitle("Dish IT");
+                primaryStage.setTitle("Dish IT");
+                primaryStage.setScene(startScene);
+                primaryStage.show();
+            });
+            timeline.play();
+        });
+        
         primaryStage.show();
     }
 
