@@ -31,11 +31,32 @@ public class UserLoginScene {
     errorLabel.setStyle("-fx-text-fill: red;");
 
     // Add event handlers for username and password fields
-    usernameField.setOnAction(e -> login());
-    passwordField.setOnAction(e -> login());
+    usernameField.setOnAction(e -> {
+      try {
+        login();
+      } catch (SQLException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    });
+    passwordField.setOnAction(e -> {
+      try {
+        login();
+      } catch (SQLException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    });
 
     // Add event handler for login button
-    loginButton.setOnAction(e -> login());
+    loginButton.setOnAction(e -> {
+      try {
+        login();
+      } catch (SQLException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    });
 
     // Create layout and add elements
     GridPane gridPane = new GridPane();
@@ -54,7 +75,7 @@ public class UserLoginScene {
     return scene;
 }
 
-private static void login() {
+private static void login() throws SQLException {
     String username = usernameField.getText();
     String password = passwordField.getText();
     boolean validCredentials = checkCredentials(username, password);
