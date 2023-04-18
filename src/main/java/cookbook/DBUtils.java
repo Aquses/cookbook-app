@@ -1,4 +1,4 @@
-package com.cookbook.cookbook;
+package cookbook;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +59,7 @@ public class DBUtils {
                     String retrievedPassword = resultSet.getString("password");
 
                     if (retrievedPassword.equals(password)) {
-                        changeScene(event, "lal.fxml", username); // Seans fxmlFile
+                        changeScene(event, "test.fxml", username); // Seans fxmlFile
                     }
                     else {
                         System.out.println("Incorrect password!");
