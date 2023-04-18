@@ -44,7 +44,7 @@ public class DBUtils {
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("", "root", ""); // need a link to a db
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook", "root", "!!@@qqww3344EERR"); // need a link to a db
             psInsert = connection.prepareStatement("SELECT password FROM users WHERE username ?");
             psInsert.setString(1, username);
             resultSet = psInsert.executeQuery();

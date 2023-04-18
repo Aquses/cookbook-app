@@ -5,8 +5,6 @@ package cookbook;
 
 import java.sql.Statement;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +13,7 @@ import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -26,8 +25,8 @@ public class Cookbook extends Application {
         VBox root = new VBox();
         root.setPadding(new Insets(5));
         Label title = new Label("Recipe List");
+        root.getChildren().add(title);
     
-
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
             
@@ -35,7 +34,8 @@ public class Cookbook extends Application {
             ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
 
             while (rs.next()) {
-                Label data = new Label(rs.getString(1));
+                Button data = new Button(rs.getString(1));
+                
                 String dataText = data.getText();
                 data.setOnMouseClicked(e -> {
                     Stage recipeStage = new Stage();
@@ -60,8 +60,8 @@ public class Cookbook extends Application {
                     recipeStage.setScene(recipeStageScene);
                     recipeStage.setTitle("Dish IT");
                     recipeStage.show(); 
-
                 });
+
             root.getChildren().add(data);
             }
 
@@ -69,8 +69,6 @@ public class Cookbook extends Application {
             System.out.println("An error has occurred: " + e.getMessage());
         }
  
-        root.getChildren().addAll(title);
-
         primaryStage.setScene(new Scene(root));
         primaryStage.setFullScreen(false);
         primaryStage.setTitle("Dish IT");
