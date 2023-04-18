@@ -3,31 +3,18 @@
  */
 package cookbook;
 
-import java.sql.Statement;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Cookbook extends Application {
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         Splash splash = new Splash();
@@ -50,7 +37,7 @@ public class Cookbook extends Application {
                 button.setText("Login");
                 button.setLayoutX(50);
                 button.setLayoutY(50);
-                button.setOnAction(e2 -> primaryStage.setScene(UserPageScene.getUserPage()));
+                button.setOnAction(e2 -> primaryStage.setScene(UserLoginScene.getScene()));
                 start.getChildren().add(button);
 
                 primaryStage.setTitle("Dish IT");
