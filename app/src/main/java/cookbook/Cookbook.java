@@ -35,12 +35,14 @@ public class Cookbook extends Application {
                 Button button = new Button();
 
                 button.setText("Login");
-                button.setLayoutX(50);
-                button.setLayoutY(50);
+                button.setLayoutX(160);
+                button.setLayoutY(150);
                 button.setOnAction(e2 -> primaryStage.setScene(UserLoginScene.getScene()));
                 start.getChildren().add(button);
 
                 primaryStage.setTitle("Dish IT");
+                primaryStage.setWidth(400);
+                primaryStage.setHeight(400);
                 primaryStage.setScene(startScene);
                 primaryStage.show();
             });
