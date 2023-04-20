@@ -3,37 +3,56 @@
  */
 package cookbook;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Cookbook extends Application {
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
-        VBox root = new VBox();
-        root.setPadding(new Insets(5));
-        Label title = new Label("JavaFX");
-        Label mysql;
+        Splash splash = new Splash();
+    
 
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
-            mysql = new Label("Driver found and connected");
+        splash.show();
+        primaryStage.setScene(splash.getSplashScene());
+       
+        splash.getSequentialTransition().setOnFinished(e -> {
+            Timeline timeline = new Timeline();
+            KeyFrame key = new KeyFrame(Duration.millis(1500),
+            
+            new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
+            timeline.getKeyFrames().add(key);
+            timeline.setOnFinished((event1) -> {
+                Group start = new Group();
+                Scene startScene = new Scene(start, 200,150);
+                Button button = new Button();
 
-        } catch (SQLException e) {
-            mysql = new Label("An error has occurred: " + e.getMessage());
-        }
+                button.setText("Login");
+                button.setLayoutX(160);
+                button.setLayoutY(150);
+                button.setOnAction(e2 -> primaryStage.setScene(UserLoginScene.getScene()));
+                start.getChildren().add(button);
 
-        root.getChildren().addAll(title, mysql);
-
-        primaryStage.setScene(new Scene(root, 400, 200));
-        primaryStage.setTitle("JavaFX");
+                primaryStage.setTitle("Dish IT");
+                primaryStage.setWidth(400);
+                primaryStage.setHeight(400);
+                primaryStage.setScene(startScene);
+                primaryStage.show();
+            });
+            timeline.play();
+        });
+        
         primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
