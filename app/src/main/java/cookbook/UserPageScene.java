@@ -1,10 +1,7 @@
 package cookbook;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,10 +12,9 @@ import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 
 
-
 public class UserPageScene {
-    
-    public static Scene getUserPage() throws SQLException {
+      
+    public Scene getUserPage() {
         //recipe list 
         VBox root = new VBox();
         root.setPadding(new Insets(5));
@@ -28,7 +24,6 @@ public class UserPageScene {
         root.getChildren().add(title);
 
         //add recipe button
-        
         Button button = new Button();
 
         button.setText("Add Recipe");
@@ -37,11 +32,44 @@ public class UserPageScene {
         button.setOnAction(e2 -> {
         AddRecipeStage.addRecipeStage();
         });        
-        
         root.getChildren().add(button);
 
-
+        //add list of all recipes
+        DataQuery dataQuery = new DataQuery();
+        List<String> allRecipes;
         try {
+            allRecipes = dataQuery.getAllRecipes();
+
+        for (String recipeName : allRecipes) {
+            Label recipe = new Label(recipeName);
+            recipe.setOnMouseClicked(e -> {
+                Stage recipeStage = new Stage();
+                StackPane stageLayout = new StackPane();   
+
+                try {
+                    DataQuery formattedQuery = new DataQuery();
+                    stageLayout.getChildren().add(formattedQuery.getFormattedRecipe(recipeName));
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                // set recipe scene and show stage
+                Scene recipeStageScene = new Scene(stageLayout);
+                recipeStage.setScene(recipeStageScene);
+                recipeStage.setTitle("Dish IT");
+                recipeStage.show(); 
+            });
+            root.getChildren().add(recipe);
+        }
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
+        Scene scene = new Scene(root, 700, 700, false, null);
+        return scene;
+    }
+}
+        
+        
+        /*try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
                  
             Statement statement = conn.createStatement();
@@ -73,12 +101,12 @@ public class UserPageScene {
                 });
             root.getChildren().add(data);
             }
-            } catch (SQLException e) {
+        } catch (SQLException e) {
                 System.out.println("An error has occurred");
-            }
+        }
         Scene scene = new Scene(root, 700, 600);
         return scene;
         }
-}
+}*/
 
 

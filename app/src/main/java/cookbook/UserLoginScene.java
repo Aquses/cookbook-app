@@ -16,7 +16,7 @@ public class UserLoginScene {
   private static PasswordField passwordField;
   private static Label errorLabel;
 
-  public static Scene getScene() {
+  public Scene getScene() {
     // Create UI elements
     Label usernameLabel = new Label("Username:");
     Label passwordLabel = new Label("Password:");
@@ -68,18 +68,18 @@ public class UserLoginScene {
     return scene;
 }
 
-private static void login() throws SQLException {
+private void login() throws SQLException {
     String username = usernameField.getText();
     String password = passwordField.getText();
     DataQuery dq = new DataQuery();
     boolean result = dq.checkCredentials(username, password);
-    dq.close();
-
+    
     if (result) {
       Stage userStage = new Stage();
-
       userStage.setTitle("Welcome " + username + "!");
-      userStage.setScene(UserPageScene.getUserPage());
+
+      UserPageScene userPage = new UserPageScene();
+      userStage.setScene(userPage.getUserPage());
       userStage.show();
       
     } else {

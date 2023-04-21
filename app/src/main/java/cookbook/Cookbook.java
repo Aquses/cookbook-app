@@ -37,7 +37,10 @@ public class Cookbook extends Application {
                 button.setText("Login");
                 button.setLayoutX(160);
                 button.setLayoutY(150);
-                button.setOnAction(e2 -> primaryStage.setScene(UserLoginScene.getScene()));
+                button.setOnAction(e2 -> {
+                UserLoginScene userLogin = new UserLoginScene();
+                primaryStage.setScene(userLogin.getScene());
+                });
                 start.getChildren().add(button);
 
                 primaryStage.setTitle("Dish IT");
