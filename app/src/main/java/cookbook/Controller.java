@@ -55,45 +55,6 @@ public class Controller {
           System.out.println("Error: " + e.getMessage());
       }
                   
-              // Statement statement = conn.createStatement();
-              
-              
-          //     ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
-          //     while (rs.next()) {
-          //         Label data = new Label(rs.getString(1));
-          //         String dataText = data.getText();
-          //         data.setOnMouseClicked (e -> {
-          //             Stage recipeStage = new Stage();
-          //             StackPane stageLayout = new StackPane();
-  
-          //             try {
-          //                 Statement getRecipe = conn.createStatement();
-          //                 ResultSet recipe = getRecipe.executeQuery("SELECT * FROM recipes WHERE recipe_name = \"" + dataText +"\"");
-  
-          //                 while (recipe.next()) {
-          //                 Label attributes = new Label(recipe.getString(2) + "\n\n" + recipe.getString(3) + "\n" + recipe.getString(4)
-          //                     + "\n" + "Servings: " + recipe.getString(5) + "\n" + "Prep Time: " + recipe.getString(6) + " Minutes " + "\n"
-          //                     + " Cook Time: " + recipe.getString(7) + " Minutes");
-          //                 stageLayout.getChildren().add(attributes);
-          //                 }                     
-          //             } catch (SQLException e2) {
-          //                 System.out.println("An error has occurred");
-          //             }     
-          //         Scene recipeStageScene = new Scene(stageLayout);
-          //         recipeStage.setScene(recipeStageScene);
-          //         recipeStage.setTitle("Dish IT");
-          //         recipeStage.show(); 
-          //         });
-          //     root.getChildren().add(data);
-          //     }
-          //     } catch (SQLException e) {
-          //         System.out.println("An error has occurred");
-          //     }
-          // Scene scene = new Scene(root, 700, 600);
-          // return scene;
-          // }
-
-      // }
   }
 
   @FXML
@@ -129,5 +90,7 @@ public class Controller {
       }
     });
   }
+
+  
 
 }
