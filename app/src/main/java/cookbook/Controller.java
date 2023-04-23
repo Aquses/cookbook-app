@@ -9,12 +9,26 @@ import java.sql.Statement;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
+
+// Have not yet implemented back button and handleBackButton event - requires hub
 public class Controller {
+
+  @FXML
+  private Button addRecipeButton;
+
+  @FXML
+  private Button viewRecipeButton;
 
   @FXML
   private Label recipeHeader;
@@ -24,9 +38,11 @@ public class Controller {
 
   @FXML
   void initialize() {
+    assert addRecipeButton != null : "fx:id=\"addRecipeButton\" was not injected: check your FXML file 'browserecipe.fxml'.";
+    assert descriptionArea != null : "fx:id=\"descriptionArea\" was not injected: check your FXML file 'browserecipe.fxml'.";
     assert recipeHeader != null : "fx:id=\"recipeHeader\" was not injected: check your FXML file 'browserecipe.fxml'.";
     assert recipeList != null : "fx:id=\"recipeList\" was not injected: check your FXML file 'browserecipe.fxml'.";
-    addRecipe();
+    populateRecipeList();
     selectRecipe();
   }
 
@@ -34,7 +50,7 @@ public class Controller {
   private TextArea descriptionArea;
 
   @FXML
-  private void addRecipe() {
+  private void populateRecipeList() {
 
       try {
           Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
@@ -46,7 +62,6 @@ public class Controller {
           while (rs.next()) {
               String recipeName = rs.getString(1);
               recipeList.getItems().add(recipeName);
-              System.out.print(rs.getString((1)));
           }
       
           recipeList.refresh();
@@ -89,7 +104,47 @@ public class Controller {
 
       }
     });
+    
   }
+
+  // Still need to add code below so that it knows which recipe is being selected
+  @FXML
+  private void handleViewRecipe(ActionEvent event) {
+    try {
+      Parent root = FXMLLoader.load(getClass().getResource("viewrecipe.fxml"));
+
+      Stage stage = new Stage();
+      stage.setTitle("Viewing Recipe");
+      stage.setScene(new Scene(root));
+      stage.show();
+      
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+
+  }
+
+  @FXML
+  private void handleAddRecipe(ActionEvent event) {
+    try {
+
+      // Contains temp fxml file
+      // Mohammed: change the fxml file to addRecipe fxml page when you create it
+      Parent root = FXMLLoader.load(getClass().getResource("viewrecipe.fxml"));
+
+      Stage stage = new Stage();
+      stage.setTitle("Adding Recipe");
+      stage.setScene(new Scene(root));
+      stage.show();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
+
 
   
 
