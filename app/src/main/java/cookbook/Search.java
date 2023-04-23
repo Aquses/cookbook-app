@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.Action;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,7 +62,7 @@ public class Search {
     assert searchBar != null : "fx:id=\"searchBar\" was not injected: check your FXML file 'searchpage.fxml'.";
     assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'searchpage.fxml'.";
     assert viewRecipe != null : "fx:id=\"viewRecipe\" was not injected: check your FXML file 'searchpage.fxml'.";
-    
+    selectRecipe();
   }
 
 
@@ -92,9 +94,41 @@ public class Search {
     } catch (SQLException e) {
       System.out.println("Error: " + e.getMessage());
     }
-
-    
-
   } 
+
+  @FXML
+  private void selectRecipe() {
+    recipeList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+      @Override
+      public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+        try {
+
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+
+          String currentRecipe = recipeList.getSelectionModel().getSelectedItem();
+
+          String query = "select recipe_description from recipes where recipe_name = ?";
+          PreparedStatement statement = conn.prepareStatement(query);
+          statement.setString(1, currentRecipe);
+          ResultSet rs = statement.executeQuery();
+
+          while (rs.next()) {
+            descriptionArea.setText(rs.getString(1));
+
+          }
+
+        } catch (SQLException e) {
+          System.out.println("Error:" + e.getMessage());
+        }
+
+
+
+
+      }
+    });
+  }
+
 
 }
