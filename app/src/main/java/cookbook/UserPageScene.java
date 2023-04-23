@@ -80,5 +80,3 @@ public class UserPageScene {
         return scene;
         }
 }
-
-
