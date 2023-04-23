@@ -8,13 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.sql.PreparedStatement;
 
 import javafx.scene.control.Label;
 
 public class DataQuery {
-  private String database = "jdbc:mysql://localhost/test?user=root&password=root&useSSL=false";
+  private String database = "jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false";
   private Connection conn;
 
   // this method closes database objects and helps reduce code repetition

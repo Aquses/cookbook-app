@@ -91,7 +91,7 @@ public class AddRecipeStage {
         int cookTime = Integer.parseInt(cookField.getText());
 
         try {
-          Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=root&useSSL=false");
+          Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
           Statement stmt = conn2.createStatement();
           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
                   "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +

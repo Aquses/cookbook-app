@@ -27,14 +27,14 @@ public class HubController implements Initializable {
         search_bar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ChangeScenes.changeScene(event, "search.fxml");
+                ChangeScenes.changeScene(event, "searchpage.fxml");
             }
         });
 
         browse_bar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                ChangeScenes.changeScene(event, "browse.fxml");
+                ChangeScenes.changeScene(event, "browserecipe.fxml");
             }
         });
     }
