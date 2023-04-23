@@ -1,5 +1,4 @@
-package cookbook; 
-import javax.naming.spi.DirStateFactory.Result;
+package cookbook;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +8,7 @@ import java.sql.Statement;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 public class UserPageScene {
     
     public static Scene getUserPage() throws SQLException {
+        //recipe list 
         VBox root = new VBox();
         root.setPadding(new Insets(5));
         Label title = new Label("Recipe List");
@@ -26,8 +27,22 @@ public class UserPageScene {
         title.setUnderline(true);
         root.getChildren().add(title);
 
+        //add recipe button
+        
+        Button button = new Button();
+
+        button.setText("Add Recipe");
+        button.setLayoutX(50);
+        button.setLayoutY(50);
+        button.setOnAction(e2 -> {
+        AddRecipeStage.addRecipeStage();
+        });        
+        
+        root.getChildren().add(button);
+
+
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=123456&useSSL=false");
                  
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
@@ -61,9 +76,8 @@ public class UserPageScene {
             } catch (SQLException e) {
                 System.out.println("An error has occurred");
             }
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 700, 600);
         return scene;
-        }
+
+        }      
 }
-
-

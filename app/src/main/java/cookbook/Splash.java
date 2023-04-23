@@ -1,4 +1,6 @@
-package cookbook; 
+
+package cookbook;
+
 import javafx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

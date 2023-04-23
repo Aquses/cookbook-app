@@ -96,8 +96,8 @@ private static void login() throws SQLException {
   private static boolean checkCredentials(String username, String password) {
     boolean Credentials = false;
     try {
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
-           
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false"); 
+        
       Statement statement = conn.createStatement();
       String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";
       ResultSet rs = statement.executeQuery(query);
@@ -118,5 +118,4 @@ private static void login() throws SQLException {
     passwordField.clear();
 }
 }
-
 
