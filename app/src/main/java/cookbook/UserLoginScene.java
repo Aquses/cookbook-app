@@ -1,6 +1,5 @@
 package cookbook; 
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -97,7 +96,6 @@ private static void login() throws SQLException {
   private static boolean checkCredentials(String username, String password) {
     boolean Credentials = false;
     try {
-      
       Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
            
       Statement statement = conn.createStatement();

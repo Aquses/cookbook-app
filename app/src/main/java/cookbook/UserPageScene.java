@@ -78,5 +78,9 @@ public class UserPageScene {
             }
         Scene scene = new Scene(root, 700, 600);
         return scene;
+
+
+
+        
         }      
 }
