@@ -14,7 +14,7 @@
       <Button fx:id="backButton" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" text="Back" />
       <ListView fx:id="recipeList" layoutX="14.0" layoutY="85.0" prefHeight="299.0" prefWidth="254.0" />
       <TextArea fx:id="descriptionArea" layoutX="293.0" layoutY="86.0" prefHeight="254.0" prefWidth="291.0" wrapText="true" />
-      <Button fx:id="viewRecipe" layoutX="386.0" layoutY="358.0" mnemonicParsing="false" text="View full recipe" />
+      <Button fx:id="viewRecipe" layoutX="386.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleViewRecipe" text="View full recipe" />
       <Label fx:id="recipeHeader" layoutX="100.0" layoutY="60.0" text="Search Results" />
       <Label fx:id="descriptionHeader" layoutX="404.0" layoutY="60.0" text="Description" />
    </children>

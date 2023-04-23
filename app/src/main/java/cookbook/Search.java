@@ -14,11 +14,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class Search {
 
@@ -88,8 +92,6 @@ public class Search {
       while (rs.next()) {
         String searchResult = rs.getString(1);
         recipeList.getItems().add(searchResult);
-        System.out.println(searchResult);
-        System.out.print(rs.getString((1)));
       }
     } catch (SQLException e) {
       System.out.println("Error: " + e.getMessage());
@@ -123,12 +125,29 @@ public class Search {
           System.out.println("Error:" + e.getMessage());
         }
 
-
-
-
       }
+
     });
+
   }
+
+
+  // Still need to add code below so that it knows which recipe is being selected
+  @FXML
+    void handleViewRecipe(ActionEvent event) {
+      try {
+        Parent root = FXMLLoader.load(getClass().getResource("viewrecipe.fxml"));
+  
+        Stage stage = new Stage();
+        stage.setTitle("Viewing Recipe");
+        stage.setScene(new Scene(root));
+        stage.show();
+        
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      
+    }
 
 
 }
