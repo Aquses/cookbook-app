@@ -2,6 +2,7 @@ package cookbook;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -94,23 +95,21 @@ private static void login() throws SQLException {
   }
 
   private static boolean checkCredentials(String username, String password) {
-    boolean Credentials = false;
+    boolean credentials = false;
     try {
       Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false"); 
         
       Statement statement = conn.createStatement();
       String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";
       ResultSet rs = statement.executeQuery(query);
-      System.out.println(query);
-      
 
       if (rs.next()) {
-        Credentials = true;
+        credentials = true;
       } 
       } catch (SQLException e) {
         e.printStackTrace();
       }
-    return Credentials;
+    return credentials;
   }
 
   private static void clearFields() {
