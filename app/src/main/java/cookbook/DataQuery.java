@@ -120,10 +120,32 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
     return null;
   }
 
-  public List<String> searchByIngredient(String[] ingredient) throws SQLException {
-    // TODO: implement a search by ingredient method USER STORY 7
-    return null;
+  public Label searchByIngredient(String ingredientName) throws SQLException {
+    String query = "SELECT r.recipe_name FROM recipes r " +
+    "INNER JOIN r_ingredients ri ON r.recipe_id = ri.recipe_id " +
+    "INNER JOIN ingredients i ON ri.ingredient_id = i.ingredient_id " +
+    "WHERE i.i_name LIKE '%" + ingredientName + "%'"; 
+    Label  searchByIngredient = new Label();
+    Statement statement = null;
+    ResultSet rs = null;
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
+
+      while (rs.next()) {
+        searchByIngredient.setText(rs.getString(2) + "\n\n" + rs.getString(3) + "\n" + rs.getString(4)
+        + "\n" + "Servings: " + rs.getString(5) + "\n" + "Prep Time: " + rs.getString(6) + " Minutes " + "\n"
+        + " Cook Time: " + rs.getString(7) + " Minutes");
+      } 
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      } finally {
+        closeDatabaseObjects(rs, statement, conn);
+      }
+      return  searchByIngredient; 
   }
+
+  
 
   public List<String> searchByTag(String tagName, List<String> listOfStrings) throws SQLException {
     String tagQuery = "SELECT * FROM tags WHERE tags_name = ?";
