@@ -27,6 +27,26 @@ public class RecipeEditor extends Application {
     Label lblIngredient = new Label("Ingredient:");
     TextField tfIngredient = new TextField();
     tfIngredient.textProperty().bindBidirectional(ingredient);
+    Label lblShortDescription = new Label("Short Description:");
+    TextArea taShortDescription = new TextArea();
+    taShortDescription.setWrapText(true);
+    taShortDescription.setMaxHeight(100);
+    taShortDescription.textProperty().bindBidirectional(shortDescription);
 
+    Label lblDetailedDescription = new Label("Detailed Description:");
+    TextArea taDetailedDescription = new TextArea();
+    taDetailedDescription.setWrapText(true);
+    taDetailedDescription.textProperty().bindBidirectional(detailedDescription);
+
+    Button btnAddIngredient = new Button("Add Ingredient");
+    btnAddIngredient.setOnAction(event -> {
+      String currentIngredient = ingredient.get();
+      if (!currentIngredient.isEmpty()) {
+        String currentIngredients = recipeName.get();
+        currentIngredients += "\n- " + currentIngredient;
+        recipeName.set(currentIngredients);
+        ingredient.set("");
+      }
+    });
   }
 }
