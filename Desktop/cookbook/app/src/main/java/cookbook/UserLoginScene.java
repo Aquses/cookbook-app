@@ -1,6 +1,11 @@
 package cookbook;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,7 +21,7 @@ public class UserLoginScene {
   private static PasswordField passwordField;
   private static Label errorLabel;
 
-  public Scene getScene() {
+  public static Scene getScene() {
     // Create UI elements
     Label usernameLabel = new Label("Username:");
     Label passwordLabel = new Label("Password:");
@@ -31,6 +36,7 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
+        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -38,6 +44,7 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
+        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -47,6 +54,7 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
+        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -68,25 +76,46 @@ public class UserLoginScene {
     return scene;
 }
 
-private void login() throws SQLException {
+private static void login() throws SQLException {
     String username = usernameField.getText();
     String password = passwordField.getText();
-    DataQuery dq = new DataQuery();
-    boolean result = dq.checkCredentials(username, password);
-    
-    if (result) {
+    boolean validCredentials = checkCredentials(username, password);
+    if (validCredentials) {
       Stage userStage = new Stage();
-      userStage.setTitle("Welcome " + username + "!");
 
-      UserPageScene userPage = new UserPageScene();
-      userStage.setScene(userPage.getUserPage());
-      userStage.show();
-      
+      userStage.setTitle("Welcome " + username + "!");
+      userStage.setScene(UserPageScene.getUserPage());
+      userStage.show();     
+
     } else {
         System.out.println("Invalid username or password.");
         clearFields();
         errorLabel.setText("Invalid username or password.") ;
     }
+  }
+
+  private static boolean checkCredentials(String username, String password) {
+    boolean credentials = false;
+    try {
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+      
+      // // String query = "select * from users where username = ? and password = ?";
+      // // PreparedStatement statement = conn.prepareStatement(query);
+      // // statement.setString(1, username);
+      // // statement.setString(2, password);
+      // ResultSet rs = statement.executeQuery();
+
+      Statement statement = conn.createStatement();
+      String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";
+      ResultSet rs = statement.executeQuery(query);
+
+      if (rs.next()) {
+        credentials = true;
+      } 
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    return credentials;
   }
 
   private static void clearFields() {
