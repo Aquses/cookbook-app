@@ -1,4 +1,4 @@
-package cookbook;
+package cookbook; 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -97,14 +97,8 @@ private static void login() throws SQLException {
   private static boolean checkCredentials(String username, String password) {
     boolean credentials = false;
     try {
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
-      
-      // // String query = "select * from users where username = ? and password = ?";
-      // // PreparedStatement statement = conn.prepareStatement(query);
-      // // statement.setString(1, username);
-      // // statement.setString(2, password);
-      // ResultSet rs = statement.executeQuery();
-
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false"); 
+        
       Statement statement = conn.createStatement();
       String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";
       ResultSet rs = statement.executeQuery(query);
