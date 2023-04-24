@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.sql.PreparedStatement;
 
 import javafx.scene.control.Label;
 
 public class DataQuery {
-  private String database = "jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false";
+  private String database = "jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false";
   private Connection conn;
 
   // this method closes database objects and helps reduce code repetition
@@ -123,8 +125,32 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
     return null;
   }
 
-  public List<String> searchByTag(String[] tag) throws SQLException {
-    // TODO: implement a search by tag method USER STORY 8
-    return null;
+  public List<String> searchByTag(String tagName, List<String> listOfStrings) throws SQLException {
+    String tagQuery = "SELECT * FROM tags WHERE tags_name = ?";
+    PreparedStatement statement = null;
+    ResultSet rs = null;
+
+    try {
+        statement = conn.prepareStatement(tagQuery);
+        statement.setString(1, tagName);
+        rs = statement.executeQuery();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    List<String> searchedTag = new ArrayList<>();
+    if (rs.next()) {
+        String tagString = rs.getString("tags_name");
+        searchedTag = Arrays.asList(tagString.trim().split(" "));
+    }
+
+    List<String> resultList = new ArrayList<>();
+    for (String input : listOfStrings) {
+        if (searchedTag.stream().allMatch(word -> input.toLowerCase().contains(word.toLowerCase()))) {
+            resultList.add(input);
+        }
+    }
+
+    return resultList;
   }
 }
