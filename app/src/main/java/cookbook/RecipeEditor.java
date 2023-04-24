@@ -48,5 +48,35 @@ public class RecipeEditor extends Application {
         ingredient.set("");
       }
     });
+    Button btnSave = new Button("Save");
+    btnSave.disableProperty()
+        .bind(Bindings.createBooleanBinding(() -> recipeName.get().isEmpty() || shortDescription.get().isEmpty()
+            || detailedDescription.get().isEmpty(), recipeName, shortDescription, detailedDescription));
+    btnSave.setOnAction(event -> {
+      String recipe = "Recipe Name: " + recipeName.get()
+          + "\nIngredients:\n" + recipeName.get()
+          + "\nShort Description: " + shortDescription.get()
+          + "\nDetailed Description: " + detailedDescription.get();
+      System.out.println(recipe);
+      // Save the recipe to a file or database
+      // TODO: Add logic to save the recipe to a file or database
+    });
+
+    // Create UI layout
+    GridPane gridPane = new GridPane();
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
+    gridPane.setPadding(new Insets(10));
+
+    gridPane.add(lblRecipeName, 0, 0);
+    gridPane.add(tfRecipeName, 1, 0);
+    gridPane.add(lblIngredient, 0, 1);
+    gridPane.add(tfIngredient, 1, 1);
+    gridPane.add(btnAddIngredient, 2, 1);
+    gridPane.add(lblShortDescription, 0, 2);
+    gridPane.add(taShortDescription, 1, 2, 2, 1);
+    gridPane.add(lblDetailedDescription, 0, 3);
+    gridPane.add(taDetailedDescription, 1, 3, 2, 1);
+    gridPane.add(btnSave, 1, 4);
   }
 }
