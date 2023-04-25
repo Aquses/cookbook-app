@@ -1,5 +1,6 @@
 package cookbook;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -83,8 +84,12 @@ private static void login() throws SQLException {
       Stage userStage = new Stage();
 
       userStage.setTitle("Welcome " + username + "!");
-      userStage.setScene(UserPageScene.getUserPage());
-      userStage.show();     
+      try {
+        userStage.setScene(HubScene.getScene());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      userStage.show();
 
     } else {
         System.out.println("Invalid username or password.");
@@ -96,7 +101,7 @@ private static void login() throws SQLException {
   private static boolean checkCredentials(String username, String password) {
     boolean Credentials = false;
     try {
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=pass&useSSL=false");
            
       Statement statement = conn.createStatement();
       String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";

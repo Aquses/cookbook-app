@@ -42,7 +42,7 @@ public class UserPageScene {
 
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=!LOcs33635963&useSSL=false");
                  
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
