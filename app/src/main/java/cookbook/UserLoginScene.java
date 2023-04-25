@@ -1,13 +1,12 @@
 package cookbook; 
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +21,7 @@ public class UserLoginScene {
   private static PasswordField passwordField;
   private static Label errorLabel;
 
-  public static Scene getScene() {
+  public Scene getScene() {
     // Create UI elements
     Label usernameLabel = new Label("Username:");
     Label passwordLabel = new Label("Password:");
@@ -37,7 +36,6 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -45,7 +43,6 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -55,7 +52,6 @@ public class UserLoginScene {
       try {
         login();
       } catch (SQLException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       }
     });
@@ -77,14 +73,16 @@ public class UserLoginScene {
     return scene;
 }
 
-private static void login() throws SQLException {
+private void login() throws SQLException {
     String username = usernameField.getText();
     String password = passwordField.getText();
-    boolean validCredentials = checkCredentials(username, password);
-    if (validCredentials) {
+    DataQuery dq = new DataQuery();
+    boolean result = dq.checkCredentials(username, password);
+    
+    if (result) {
       Stage userStage = new Stage();
-
       userStage.setTitle("Welcome " + username + "!");
+
       try {
         userStage.setScene(HubScene.getScene());
       } catch (IOException e) {
@@ -92,12 +90,18 @@ private static void login() throws SQLException {
       }
       userStage.show();
 
+
+      UserPageScene userPage = new UserPageScene();
+      userStage.setScene(userPage.getUserPage());
+      userStage.show();
+      
     } else {
         System.out.println("Invalid username or password.");
         clearFields();
         errorLabel.setText("Invalid username or password.") ;
     }
   }
+
 
   private static boolean checkCredentials(String username, String password) {
     boolean credentials = false;
@@ -117,9 +121,13 @@ private static void login() throws SQLException {
     return credentials;
   }
 
+
   private static void clearFields() {
     usernameField.clear();
     passwordField.clear();
 }
 }
+
+
+
 
