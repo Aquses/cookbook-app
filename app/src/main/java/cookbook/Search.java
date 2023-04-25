@@ -74,7 +74,7 @@ public class Search {
   private void retrieveResults(ActionEvent event) {
     
     try {
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
       recipeList.getItems().clear();
       String searchedWord = "%" + searchBar.getText() + "%";
       String query = "select distinct recipe_name "
@@ -107,7 +107,7 @@ public class Search {
 
         try {
 
-          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
 
           String currentRecipe = recipeList.getSelectionModel().getSelectedItem();
 

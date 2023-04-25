@@ -57,7 +57,7 @@ public class RecipesScene implements Initializable {
 
         // find out how many there are in the db
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=!LOcs33635963&useSSL=false");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
 
             Statement statement = conn.createStatement();
             ResultSet sqlRecipeNames = statement.executeQuery("SELECT * FROM recipes");
