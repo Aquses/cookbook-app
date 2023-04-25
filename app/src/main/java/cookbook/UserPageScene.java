@@ -42,7 +42,7 @@ public class UserPageScene {
 
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=!LOcs33635963&useSSL=false");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=123456&useSSL=false");
                  
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT recipe_name FROM recipes");
@@ -78,7 +78,6 @@ public class UserPageScene {
             }
         Scene scene = new Scene(root, 700, 600);
         return scene;
-        }
+
+        }      
 }
-
-
