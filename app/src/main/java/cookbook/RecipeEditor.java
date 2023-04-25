@@ -1,10 +1,13 @@
 package cookbook;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -13,9 +16,9 @@ import javafx.stage.Stage;
 public class RecipeEditor extends Application {
 
   private final StringProperty recipeName = new SimpleStringProperty("");
-  private final StringProperty ingredient = new SimpleStringProperty("");
   private final StringProperty shortDescription = new SimpleStringProperty("");
   private final StringProperty detailedDescription = new SimpleStringProperty("");
+  private final ObservableList<String> ingredients = FXCollections.observableArrayList();
 
   @Override
   public void start(Stage primaryStage) {
@@ -24,9 +27,6 @@ public class RecipeEditor extends Application {
     TextField tfRecipeName = new TextField();
     tfRecipeName.textProperty().bindBidirectional(recipeName);
 
-    Label lblIngredient = new Label("Ingredient:");
-    TextField tfIngredient = new TextField();
-    tfIngredient.textProperty().bindBidirectional(ingredient);
     Label lblShortDescription = new Label("Short Description:");
     TextArea taShortDescription = new TextArea();
     taShortDescription.setWrapText(true);
@@ -38,45 +38,93 @@ public class RecipeEditor extends Application {
     taDetailedDescription.setWrapText(true);
     taDetailedDescription.textProperty().bindBidirectional(detailedDescription);
 
-    Button btnAddIngredient = new Button("Add Ingredient");
-    btnAddIngredient.setOnAction(event -> {
-      String currentIngredient = ingredient.get();
-      if (!currentIngredient.isEmpty()) {
-        String currentIngredients = recipeName.get();
-        currentIngredients += "\n- " + currentIngredient;
-        recipeName.set(currentIngredients);
-        ingredient.set("");
+    Label lblIngredients = new Label("Ingredients:");
+    ListView<String> lvIngredients = new ListView<>();
+    lvIngredients.setItems(ingredients);
+
+    TextField tfIngredient = new TextField();
+
+    Button btnAddRecipeName = new Button("Add Recipe Name");
+    btnAddRecipeName.setOnAction(event -> {
+      String currentRecipeName = tfRecipeName.getText();
+      if (!currentRecipeName.isEmpty()) {
+        recipeName.set(currentRecipeName);
+        tfRecipeName.clear();
       }
     });
-    Button btnSave = new Button("Save");
-    btnSave.disableProperty()
-        .bind(Bindings.createBooleanBinding(() -> recipeName.get().isEmpty() || shortDescription.get().isEmpty()
-            || detailedDescription.get().isEmpty(), recipeName, shortDescription, detailedDescription));
-    btnSave.setOnAction(event -> {
-      String recipe = "Recipe Name: " + recipeName.get()
-          + "\nIngredients:\n" + recipeName.get()
-          + "\nShort Description: " + shortDescription.get()
-          + "\nDetailed Description: " + detailedDescription.get();
-      System.out.println(recipe);
-      // Save the recipe to a file or database
-      // TODO: Add logic to save the recipe to a file or database
+
+    Button btnAddShortDescription = new Button("Add Short Description");
+    btnAddShortDescription.setOnAction(event -> {
+      String currentShortDescription = taShortDescription.getText();
+      if (!currentShortDescription.isEmpty()) {
+        shortDescription.set(currentShortDescription);
+        taShortDescription.clear();
+      }
     });
+
+    Button btnAddDetailedDescription = new Button("Add Detailed Description");
+    btnAddDetailedDescription.setOnAction(event -> {
+      String currentDetailedDescription = taDetailedDescription.getText();
+      if (!currentDetailedDescription.isEmpty()) {
+        detailedDescription.set(currentDetailedDescription);
+        taDetailedDescription.clear();
+      }
+    });
+
+    Button btnAddIngredient = new Button("Add Ingredient");
+    btnAddIngredient.setOnAction(event -> {
+      String currentIngredient = tfIngredient.getText();
+      if (!currentIngredient.isEmpty()) {
+        ingredients.add(currentIngredient);
+        tfIngredient.clear();
+      }
+    });
+
+    Button btnSave = new Button("Save");
+
+    // Save the recipe to a file or database
+    // TODO: Add logic to save the recipe to a file or database
 
     // Create UI layout
     GridPane gridPane = new GridPane();
     gridPane.setHgap(10);
     gridPane.setVgap(10);
     gridPane.setPadding(new Insets(10));
-
+    gridPane.setAlignment(Pos.TOP_LEFT);
+    gridPane.setPrefSize(400, 600);
     gridPane.add(lblRecipeName, 0, 0);
     gridPane.add(tfRecipeName, 1, 0);
-    gridPane.add(lblIngredient, 0, 1);
-    gridPane.add(tfIngredient, 1, 1);
-    gridPane.add(btnAddIngredient, 2, 1);
-    gridPane.add(lblShortDescription, 0, 2);
-    gridPane.add(taShortDescription, 1, 2, 2, 1);
-    gridPane.add(lblDetailedDescription, 0, 3);
-    gridPane.add(taDetailedDescription, 1, 3, 2, 1);
-    gridPane.add(btnSave, 1, 4);
+    gridPane.add(btnAddRecipeName, 2, 0);
+    gridPane.add(lblShortDescription, 0, 1);
+    gridPane.add(taShortDescription, 1, 1);
+    gridPane.add(btnAddShortDescription, 2, 1);
+    gridPane.add(lblDetailedDescription, 0, 2);
+    gridPane.add(taDetailedDescription, 1, 2);
+    gridPane.add(btnAddDetailedDescription, 2, 2);
+    gridPane.add(lblIngredients, 0, 3);
+    gridPane.add(lvIngredients, 1, 3);
+    gridPane.add(tfIngredient, 1, 4);
+    gridPane.add(btnAddIngredient, 2, 4);
+    gridPane.add(btnSave, 0, 5, 3, 1);
+
+    ColumnConstraints col1Constraints = new ColumnConstraints();
+    col1Constraints.setHgrow(Priority.NEVER);
+    col1Constraints.setMinWidth(150);
+
+    ColumnConstraints col2Constraints = new ColumnConstraints();
+    col2Constraints.setHgrow(Priority.ALWAYS);
+
+    gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints);
+
+    VBox vbox = new VBox(gridPane);
+    vbox.setPadding(new Insets(10));
+    Scene scene = new Scene(vbox, 400, 600);
+    primaryStage.setTitle("Recipe Editor");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+  }
+
+  public static void main(String[] args) {
+    launch(args);
   }
 }
