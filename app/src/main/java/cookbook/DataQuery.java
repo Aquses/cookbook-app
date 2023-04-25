@@ -11,6 +11,7 @@ import java.util.List;
 import java.sql.PreparedStatement;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class DataQuery {
   private String database = "jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false";
@@ -93,9 +94,9 @@ public class DataQuery {
 
 // method to return a formattetd recipe label -- this method will get very beefy **TODO**
 // user story #13 for Sean
-public Label getFormattedRecipe(String recipe) throws SQLException {
+public VBox getFormattedRecipe(String recipe) throws SQLException {
   String query = "SELECT * FROM recipes WHERE recipe_name = \"" + recipe +"\"";
-  Label formattedRecipe = new Label();
+  VBox formattedRecipe = new VBox();
   Statement statement = null;
   ResultSet rs = null;
   try {
@@ -103,10 +104,32 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
     rs = statement.executeQuery(query);
     
     while (rs.next()) {
-      formattedRecipe.setText(rs.getString(2) + "\n\n" + rs.getString(3) + "\n" + rs.getString(4)
-      + "\n" + "Servings: " + rs.getString(5) + "\n" + "Prep Time: " + rs.getString(6) + " Minutes " + "\n"
-      + " Cook Time: " + rs.getString(7) + " Minutes");
+      Label recipeName = new Label(rs.getString(2) + "\n");
+      recipeName.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+      Label shortDescription = new Label(rs.getString(3) + "\n\n");
+      shortDescription.setStyle("-fx-font-style: italic;");
+      Label instructions = new Label(rs.getString(4));
+      Label ingredientsLabel = new Label("\nIngredients");
+      ingredientsLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+      ingredientsLabel.setUnderline(true);
+    
+      //ingredients adding loop
+      StringBuilder ingredientsString = new StringBuilder();
+      for (String string : getIngredients(recipe)) {
+        ingredientsString.append(string).append("\n");
+      }
+      Label ingredients = new Label(ingredientsString.toString());
+
+      Label servings = new Label("\nServings: " + rs.getString(5) + "\n");
+
+      Label prepTime = new Label("Prep Time: " + rs.getString(6) + " Minutes " + "\n");
+
+      Label cookTime = new Label("Cook Time: " + rs.getString(7) + " Minutes " + "\n");
+
+    formattedRecipe.getChildren().addAll(recipeName, shortDescription, instructions, ingredientsLabel,
+      ingredients, servings, prepTime, cookTime);
     } 
+    
     } catch (SQLException e1) {
       e1.printStackTrace();
     } finally {
@@ -163,10 +186,7 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
         closeDatabaseObjects(rs, statement, conn);
       }
       return  recipeList; 
-      
   }
-
-  
 
   public List<String> searchByTag(String tagName, List<String> listOfStrings) throws SQLException {
     String tagQuery = "SELECT * FROM tags WHERE tags_name = ?";
@@ -193,7 +213,54 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
             resultList.add(input);
         }
     }
-
     return resultList;
   }
+
+  public List<String> getIngredients(String recipe) throws SQLException {
+    List<String> ingredients = new ArrayList<>();
+    String query = "SELECT i.i_name, ri.qty, ri.measurement " +
+    "FROM ingredients i " +
+    "INNER JOIN r_ingredients ri ON i.ingredient_id = ri.ingredient_id " +
+    "INNER JOIN recipes r ON ri.recipe_id = r.recipe_id " +
+    "WHERE r.recipe_name = \""+ recipe +"\"";
+
+    Statement statement = null;
+    ResultSet rs = null;
+
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
+
+      while (rs.next()) {
+        String line = rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3);
+        ingredients.add(line);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return ingredients;
+  }
+
+  public void addRecipe(String recipeName, String recipeDesc, String recipeInstructions,int servings, int prepTime, int cookTime) {
+  
+    String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
+    "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
+    servings + ", " + prepTime + ", " + cookTime + ")";
+    Statement statement = null;
+    ResultSet rs = null;
+
+    try {
+      statement = conn.createStatement();
+      statement.executeUpdate(query);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+    closeDatabaseObjects(rs, statement, conn);
+}
+  }
+
+
+
 }

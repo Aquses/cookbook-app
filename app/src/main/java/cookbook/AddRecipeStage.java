@@ -9,11 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 public class AddRecipeStage {
 
   public static void addRecipeStage() {
@@ -90,16 +85,8 @@ public class AddRecipeStage {
         int prepTime = Integer.parseInt(servingsField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
 
-        try {
-          Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-          Statement stmt = conn2.createStatement();
-          String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
-                  "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
-                  servings + ", " + prepTime + ", " + cookTime + ")";
-          stmt.executeUpdate(query);
-        } catch (SQLException e) {
-          e.printStackTrace();
-      }
+        DataQuery dq = new DataQuery();
+        dq.addRecipe(recipeName, recipeDesc, recipeInstructions, servings, prepTime, cookTime);
 
       // Clear text fields
       nameField.clear();
