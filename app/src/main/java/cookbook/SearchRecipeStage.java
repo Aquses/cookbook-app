@@ -30,7 +30,7 @@ public class SearchRecipeStage {
         Label searchLabel = new Label("Search for Recipe By Name:");
         TextField searchField = new TextField();
 
-        Label searchLabe2 = new Label("Search for Recipe By Name:");
+        Label searchLabe2 = new Label("Search for Recipe By ingredient:");
         TextField searchField2 = new TextField();
 
         Button searchButton1 = new Button("Find recipes by name");
