@@ -1,5 +1,6 @@
 package cookbook; 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -84,8 +85,12 @@ private static void login() throws SQLException {
       Stage userStage = new Stage();
 
       userStage.setTitle("Welcome " + username + "!");
-      userStage.setScene(UserPageScene.getUserPage());
-      userStage.show();     
+      try {
+        userStage.setScene(HubScene.getScene());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      userStage.show();
 
     } else {
         System.out.println("Invalid username or password.");
