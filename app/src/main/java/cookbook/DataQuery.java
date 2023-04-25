@@ -143,6 +143,7 @@ public Label getFormattedRecipe(String recipe) throws SQLException {
         closeDatabaseObjects(rs, statement, conn);
       }
       return  searchByIngredient; 
+      
   }
 
   
