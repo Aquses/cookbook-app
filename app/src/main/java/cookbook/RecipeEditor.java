@@ -1,5 +1,10 @@
 package cookbook;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.application.Application;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -83,7 +88,21 @@ public class RecipeEditor extends Application {
     Button btnSave = new Button("Save");
 
     // Save the recipe to a file or database
-    // TODO: Add logic to save the recipe to a file or database
+    Label mysql;
+    try {
+      Connection conn = DriverManager
+          .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
+      mysql = new Label("Driver found and connected");
+      Statement stmt = conn.createStatement();
+      String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions)" + "VALUES ('"
+          + recipeName + "', '" + shortDescription + "', '" + detailedDescription + ")";
+      String query2 = "INSERT INTO ingredients (i_name)" + "VALUES ('" + ingredients + ")";
+      stmt.executeUpdate(query);
+      stmt.executeUpdate(query2);
+
+    } catch (SQLException e) {
+      mysql = new Label("An error has occurred: " + e.getMessage());
+    }
 
     // Create UI layout
     GridPane gridPane = new GridPane();
