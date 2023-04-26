@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javafx.application.Application;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -18,15 +16,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class RecipeEditor extends Application {
+public class RecipeEditor {
 
-  private final StringProperty recipeName = new SimpleStringProperty("");
-  private final StringProperty shortDescription = new SimpleStringProperty("");
-  private final StringProperty detailedDescription = new SimpleStringProperty("");
-  private final ObservableList<String> ingredients = FXCollections.observableArrayList();
+  private final static StringProperty recipeName = new SimpleStringProperty("");
+  private final static StringProperty shortDescription = new SimpleStringProperty("");
+  private final static StringProperty detailedDescription = new SimpleStringProperty("");
+  private final static ObservableList<String> ingredients = FXCollections.observableArrayList();
 
-  @Override
-  public void start(Stage primaryStage) {
+  
+  public static void getRecipeEditor() {
     // Create UI components
     Label lblRecipeName = new Label("Recipe Name:");
     TextField tfRecipeName = new TextField();
@@ -91,7 +89,7 @@ public class RecipeEditor extends Application {
     Label mysql;
     try {
       Connection conn = DriverManager
-          .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=abcd1234&useSSL=false");
+          .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=123456&useSSL=false");
       mysql = new Label("Driver found and connected");
       Statement stmt = conn.createStatement();
       String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions)" + "VALUES ('"
@@ -138,12 +136,10 @@ public class RecipeEditor extends Application {
     VBox vbox = new VBox(gridPane);
     vbox.setPadding(new Insets(10));
     Scene scene = new Scene(vbox, 400, 600);
-    primaryStage.setTitle("Recipe Editor");
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    Stage stage = new Stage();
+    stage.setTitle("Recipe Editor");
+    stage.setScene(scene);
+    stage.show();
   }
 
-  public static void main(String[] args) {
-    launch(args);
-  }
 }

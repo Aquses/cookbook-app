@@ -2,11 +2,7 @@ package cookbook;
 
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -68,8 +64,12 @@ public class UserLoginScene {
     gridPane.add(loginButton, 1, 2);
     gridPane.add(errorLabel, 1, 3);
 
+    gridPane.setPrefWidth(5);
+    gridPane.setPrefHeight(5);
+
+
     // Create scene and add layout
-    Scene scene = new Scene(gridPane, 300, 150);
+    Scene scene = new Scene(gridPane,40,40);
     return scene;
 }
 
@@ -81,46 +81,23 @@ private void login() throws SQLException {
     
     if (result) {
       Stage userStage = new Stage();
-      userStage.setTitle("Welcome " + username + "!");
+      DataQuery usernameQuery = new DataQuery();
+      userStage.setTitle("Welcome " + usernameQuery.getUsername(username) + "!");
 
       try {
         userStage.setScene(HubScene.getScene());
+        userStage.show();
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
       userStage.show();
-
-
-      UserPageScene userPage = new UserPageScene();
-      userStage.setScene(userPage.getUserPage());
-      userStage.show();
-      
+     
     } else {
         System.out.println("Invalid username or password.");
         clearFields();
         errorLabel.setText("Invalid username or password.") ;
     }
   }
-
-
-  private static boolean checkCredentials(String username, String password) {
-    boolean credentials = false;
-    try {
-      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false"); 
-        
-      Statement statement = conn.createStatement();
-      String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";
-      ResultSet rs = statement.executeQuery(query);
-
-      if (rs.next()) {
-        credentials = true;
-      } 
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    return credentials;
-  }
-
 
   private static void clearFields() {
     usernameField.clear();

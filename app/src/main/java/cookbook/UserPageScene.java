@@ -3,7 +3,9 @@ package cookbook;
 import java.sql.SQLException;
 import java.util.List;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
 
 public class UserPageScene {
       
-    public Scene getUserPage() {
+    public static Scene getUserPage() {
         //recipe list 
         VBox root = new VBox();
         root.setPadding(new Insets(5));
@@ -21,16 +23,34 @@ public class UserPageScene {
         title.setUnderline(true);
         root.getChildren().add(title);
 
-        //add recipe button
-        Button button = new Button();
+        //search recipe button
+        Button searchButton = new Button("Search Recipe");
+        searchButton.setOnAction(e -> {
+            try {
+                // Load the FXML file for the search page
+                Parent searchPageParent = FXMLLoader.load(UserPageScene.class.getResource("searchpage.fxml"));
+                // Create a new scene with the loaded FXML file
+                Scene searchScene = new Scene(searchPageParent);
+                // Get the current stage and set the scene to the search scene
+                Stage stage = (Stage) searchButton.getScene().getWindow();
+                stage.setScene(searchScene);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        
+        root.getChildren().add(searchButton);
 
-        button.setText("Add Recipe");
-        button.setLayoutX(50);
-        button.setLayoutY(50);
-        button.setOnAction(e2 -> {
+        //add recipe button
+        Button button2 = new Button();
+
+        button2.setText("Add Recipe");
+        button2.setLayoutX(50);
+        button2.setLayoutY(50);
+        button2.setOnAction(e2 -> {
         AddRecipeStage.addRecipeStage();
         });        
-        root.getChildren().add(button);
+        root.getChildren().add(button2);
 
         //add list of all recipes
         DataQuery dataQuery = new DataQuery();
@@ -46,7 +66,6 @@ public class UserPageScene {
                 Stage recipeStage = new Stage();
                 DataQuery formattedQuery = new DataQuery();   
 
-
                 try {
                     Scene recipeStageScene = new Scene(formattedQuery.getFormattedRecipe(recipeName));
                     recipeStage.setScene(recipeStageScene);
@@ -61,7 +80,7 @@ public class UserPageScene {
         } catch (SQLException e) {
         e.printStackTrace();
         }
-        Scene scene = new Scene(root, 700, 700, false, null);
+        Scene scene = new Scene(root, 700, 500, false, null);
         return scene;
     }
 }

@@ -33,7 +33,7 @@ public class HubScene implements Initializable {
 
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("HubScene.fxml"));
-        Scene hub = new Scene(fxmlLoader.load(), 1280, 720);
+        Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
         return hub;
     }
@@ -81,12 +81,7 @@ public class HubScene implements Initializable {
 
         RecipesButton.setOnMouseClicked(event -> {
             Stage stage = (Stage) ap.getScene().getWindow();
-            try {
-                stage.setScene(RecipesScene.getScene());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            stage.setScene(UserPageScene.getUserPage());
         });
 
         HomeButton.setOnMouseClicked(event -> {

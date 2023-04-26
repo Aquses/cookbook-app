@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.sql.PreparedStatement;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -88,7 +90,6 @@ public class DataQuery {
       } finally {
         closeDatabaseObjects(rs, statement, conn);
       }
-    
     return recipes;
   }
 
@@ -126,8 +127,19 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
 
       Label cookTime = new Label("Cook Time: " + rs.getString(7) + " Minutes " + "\n");
 
+      //add recipe button
+      Button editRecipe = new Button();
+
+      editRecipe.setText("Edit Ricpe");
+      editRecipe.setPadding(new Insets(10));
+      editRecipe.setLayoutX(50);
+      editRecipe.setLayoutY(50);
+      editRecipe.setOnAction(e2 -> {
+      RecipeEditor.getRecipeEditor();
+      });    
+
     formattedRecipe.getChildren().addAll(recipeName, shortDescription, instructions, ingredientsLabel,
-      ingredients, servings, prepTime, cookTime);
+      ingredients, servings, prepTime, cookTime, editRecipe);
     } 
     
     } catch (SQLException e1) {
@@ -258,9 +270,27 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
       e.printStackTrace();
     } finally {
     closeDatabaseObjects(rs, statement, conn);
-}
+    }
   }
 
+  public String getUsername(String username) {
+    String query = "SELECT fname, lname FROM users WHERE username = \"" + username +"\"";
+    Statement statement = null;
+    ResultSet rs = null;
+    String name = null;
+    
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
 
-
+      if (rs.next()) {
+        name = rs.getString(1) + " " + rs.getString(2);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+    closeDatabaseObjects(rs, statement, conn);
+    }
+    return name;   
+  }
 }
