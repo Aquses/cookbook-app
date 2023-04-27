@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="108.0" prefWidth="192.0" style="-fx-border-radius: 5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.ItemController">
+<AnchorPane prefHeight="108.0" prefWidth="192.0" style="-fx-border-radius: 5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.ItemController">
    <children>
       <ImageView fx:id="FoodImage" fitHeight="118.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true" />
       <VBox layoutX="15.0" layoutY="-41.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

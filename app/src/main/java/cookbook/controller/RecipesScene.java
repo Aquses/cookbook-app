@@ -1,5 +1,9 @@
-package cookbook;
+package cookbook.controller;
 
+import cookbook.Cookbook;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -47,50 +51,88 @@ public class RecipesScene implements Initializable {
         return recipesScene;
     }
 
-    private List<Recipe> recipes = new ArrayList<>();
-
-    private List<Recipe> getData(){
-        List<Recipe> recipes = new ArrayList<>();
-        Recipe recipe;
-
-        // find out how many there are in the db
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-
-            Statement statement = conn.createStatement();
-            ResultSet sqlRecipeNames = statement.executeQuery("SELECT * FROM recipes");
-
-            while (sqlRecipeNames.next()) {
-                //String queryByRecipeName = sqlRecipeNames.getString(1);
-                //Statement st = conn.createStatement();
-                //ResultSet rt = st.executeQuery("SELECT * FROM recipes WHERE recipe_name = \"" + queryByRecipeName + "\"");
-                //System.out.println(sqlRecipeNames.getString(2));
-                recipe = new Recipe(sqlRecipeNames);
-                recipes.add(recipe);
-
-            }
-        } catch (SQLException e) {
-            System.out.println("An error has occurred");
-        }
-
-        return recipes;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        commonMenuControls();
+        //int col = 0, row = 0;
 
-        recipes.addAll(getData());
-        int col = 0, row = 0;
+        commonMenuControls();
+        specificControls();
+
         try {
-            System.out.println(recipes.size());
-            for(int i=0; i<recipes.size(); i++){
+            QueryMaker qm = new QueryMaker();
+            ObservableList<Recipe> recipes = qm.getAllRecipes();
+            FilteredList<Recipe> filteredRecipes = new FilteredList<>(recipes, b -> true);
+
+            RecipeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredRecipes.setPredicate(Recipe -> {
+                    // if no search value, display everything.
+                    if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                        return true;
+                    }
+
+                    String searchKeyword = newValue.toLowerCase();
+                    if (    Recipe.getName().toLowerCase().indexOf(searchKeyword) > -1 ||
+                            Recipe.getDescription().toLowerCase().indexOf(searchKeyword) > -1 ||
+                            Recipe.getInstructions().toLowerCase().indexOf(searchKeyword) > -1) {
+                        return  true; //found matches
+                    } else {
+                        return false;
+                    }
+                });
+                SortedList<Recipe> sortedRecipes = new SortedList<>(filteredRecipes);
+
+                // horribly clears the grid to spawn new nodes
+                for (int i = 0; i < grid.getRowCount(); i++) {
+                    for (int j = 0; j < grid.getRowCount(); j++) {
+                        int k = i+j;
+                        grid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == k);
+                    }
+                }
+
+                int col = 0, row = 0;
+
+                for(int i=0; i<sortedRecipes.size(); i++){
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/cookbook/RecipeItem.fxml"));
+                    AnchorPane anchorPane = null;
+                    try {
+                        anchorPane = fxmlLoader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    ItemController itemController = fxmlLoader.getController();
+                    itemController.setData(sortedRecipes.get(i));
+
+                    if(col == 2){
+                        col = 0;
+                        row++;
+                    }
+
+                    grid.add(anchorPane, col++, row);
+                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                    //GridPane.setMargin(anchorPane, new Insets(10));
+                }
+            });
+
+            //SortedList<Recipe> sortedRecipes = new SortedList<>(filteredRecipes);
+
+            //sortedRecipes.comparatorProperty().bind(grid.)
+            /*
+            for(int i=0; i<sortedRecipes.size(); i++){
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/cookbook/RecipeItem.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setData(recipes.get(i));
+                itemController.setData(sortedRecipes.get(i));
 
                 if(col == 4){
                     col = 0;
@@ -107,13 +149,14 @@ public class RecipesScene implements Initializable {
                 grid.setMaxHeight(Region.USE_PREF_SIZE);
 
                 //GridPane.setMargin(anchorPane, new Insets(10));
-            }
-        } catch (IOException e) {
+            }*/
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void specificControls() {
+
         AddRecipeButton.setOnMouseClicked(event -> {
             AddRecipeStage.addRecipeStage();
         });

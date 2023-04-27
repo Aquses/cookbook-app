@@ -1,8 +1,9 @@
-package cookbook;
+package cookbook.controller;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import cookbook.Cookbook;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -27,11 +28,17 @@ public class UserPageScene {
         Button searchButton = new Button("Search Recipe");
         searchButton.setOnAction(e -> {
             try {
+                /*
                 // Load the FXML file for the search page
                 Parent searchPageParent = FXMLLoader.load(UserPageScene.class.getResource("searchpage.fxml"));
                 // Create a new scene with the loaded FXML file
                 Scene searchScene = new Scene(searchPageParent);
+
+                 */
                 // Get the current stage and set the scene to the search scene
+                FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("searchpage.fxml"));
+                Scene searchScene = new Scene(fxmlLoader.load(), 1280, 720);
+
                 Stage stage = (Stage) searchButton.getScene().getWindow();
                 stage.setScene(searchScene);
             } catch (Exception ex) {

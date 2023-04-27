@@ -1,5 +1,6 @@
-package cookbook;
+package cookbook.controller;
 
+import cookbook.Cookbook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -81,7 +82,12 @@ public class HubScene implements Initializable {
 
         RecipesButton.setOnMouseClicked(event -> {
             Stage stage = (Stage) ap.getScene().getWindow();
-            stage.setScene(UserPageScene.getUserPage());
+            //stage.setScene(UserPageScene.getUserPage());
+            try {
+                stage.setScene(RecipesScene.getScene());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         HomeButton.setOnMouseClicked(event -> {

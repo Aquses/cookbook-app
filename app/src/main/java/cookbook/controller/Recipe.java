@@ -1,9 +1,10 @@
-package cookbook;
+package cookbook.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Recipe {
+    private int id;
     private String name;
     private String imgSrc;
     private String description;
@@ -14,6 +15,7 @@ public class Recipe {
 
     public Recipe(ResultSet rt) {
         try {
+            setId(rt.getInt(1));
             setName(rt.getString(2));
             setDescription(rt.getString(3));
             setInstructions(rt.getString(4));
@@ -24,6 +26,14 @@ public class Recipe {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
