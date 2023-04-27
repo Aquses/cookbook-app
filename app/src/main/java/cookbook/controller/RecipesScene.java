@@ -7,6 +7,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -89,7 +90,7 @@ public class RecipesScene implements Initializable {
                     }
                 }
 
-                int col = 0, row = 0;
+                int col = 0, row = 1;
 
                 for(int i=0; i<sortedRecipes.size(); i++){
                     FXMLLoader fxmlLoader = new FXMLLoader();
@@ -104,7 +105,7 @@ public class RecipesScene implements Initializable {
                     ItemController itemController = fxmlLoader.getController();
                     itemController.setData(sortedRecipes.get(i));
 
-                    if(col == 2){
+                    if(col == 4){
                         col = 0;
                         row++;
                     }
@@ -118,7 +119,7 @@ public class RecipesScene implements Initializable {
                     grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
                     grid.setMaxHeight(Region.USE_PREF_SIZE);
 
-                    //GridPane.setMargin(anchorPane, new Insets(10));
+                    //GridPane.setMargin(anchorPane, new Insets(0,10,0,10));
                 }
             });
 

@@ -9,7 +9,7 @@ public class Recipe {
     private String imgSrc;
     private String description;
     private String instructions;
-    private float servings;
+    private int servings;
     private float prepTime;
     private float cookTime;
 
@@ -19,7 +19,7 @@ public class Recipe {
             setName(rt.getString(2));
             setDescription(rt.getString(3));
             setInstructions(rt.getString(4));
-            setServings(rt.getFloat(5));
+            setServings(rt.getInt(5));
             setPrepTime(rt.getFloat(6));
             setCookTime(rt.getFloat(7));
             //setImgSrc(); //TODO: Add image source to the recipe in Recipe.java
@@ -68,11 +68,11 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public float getServings() {
+    public int getServings() {
         return servings;
     }
 
-    public void setServings(float servings) {
+    public void setServings(int servings) {
         this.servings = servings;
     }
 
