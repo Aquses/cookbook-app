@@ -1,19 +1,24 @@
 package cookbook.controller;
 
+import cookbook.Cookbook;
 import javafx.animation.FadeTransition;
 import javafx.animation.FillTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,10 +39,12 @@ public class ItemController implements Initializable {
     private Pane RecipePane;
     @FXML
     private VBox NumberLabels;
+    private AnchorPane parentAnchorPane;
     private Recipe recipe;
 
-    public void setData(Recipe recipe){
+    public void setData(Recipe recipe, AnchorPane parent){
         this.recipe = recipe;
+        parentAnchorPane = parent;
 
         System.out.println(recipe.getName());
         this.FoodItemNameWhite.setText(recipe.getName());
@@ -101,6 +108,28 @@ public class ItemController implements Initializable {
             }
         });
 
+        RecipeButton.setOnMouseClicked(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
+            DisplayRecipeScene drs;
+            Node n;
 
+            // load first
+            try {
+                n = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // then get controller
+            drs = fxmlLoader.getController();
+            drs.addRecipeObject(recipe);
+
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+
+            parentAnchorPane.getChildren().clear();
+            parentAnchorPane.getChildren().add(n);
+        });
     }
 }
