@@ -53,7 +53,7 @@ public class Controller {
   private void populateRecipeList() {
 
       try {
-          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
 
           String query = "select recipe_name from recipes";
           Statement statement = conn.createStatement();
@@ -81,7 +81,7 @@ public class Controller {
 
         try {
 
-          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
 
           String currentRecipe = recipeList.getSelectionModel().getSelectedItem();
 

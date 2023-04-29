@@ -21,5 +21,4 @@ public class ViewRecipe {
         assert tempHeader != null : "fx:id=\"tempHeader\" was not injected: check your FXML file 'viewrecipe.fxml'.";
 
     }
-
 }

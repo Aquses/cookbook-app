@@ -1,6 +1,5 @@
 package cookbook;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,25 +27,16 @@ public class HubController implements Initializable {
         search_bar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    ChangeScenes.changeScene(event, "searchpage.fxml");
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                ChangeScenes.changeScene(event, "searchpage.fxml");
             }
         });
 
         browse_bar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    ChangeScenes.changeScene(event, "browserecipe.fxml");
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                ChangeScenes.changeScene(event, "browserecipe.fxml");
             }
         });
     }
 }
+ 

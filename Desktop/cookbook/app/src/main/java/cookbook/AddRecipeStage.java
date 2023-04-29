@@ -1,5 +1,7 @@
 package cookbook;
 
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,105 +11,122 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
-public class AddRecipeStage {
+public class AddRecipeStage implements Initializable {
 
-  public static void addRecipeStage() {
-    Stage stage = new Stage();
-    stage.setTitle("Add Recipe");
+  @FXML
+  private TextField nameField;
 
-    // Create UI controls
-    Label nameLabel = new Label("Recipe Name:");
-    TextField nameField = new TextField();
+  @FXML
+  private Label nameLabel;
 
-    Label descLabel = new Label("Recipe Description:");
-    TextArea descArea = new TextArea();
+  @FXML
+  private TextArea textArea;
 
-    Label instrLabel = new Label("Recipe Instructions:");
-    TextArea instrArea = new TextArea();
+  @FXML
+  private Button addRecipeButton;
 
-    Label servingsLabel = new Label("Number of Servings:");
-    TextField servingsField = new TextField();
+  @FXML
+  private Label descLabel;
 
-    Label prepLabel = new Label("Prep Time (mins):");
-    TextField prepField = new TextField();
+  @FXML
+  private TextField ingField;
 
-    Label cookLabel = new Label("Cook Time (mins):");
-    TextField cookField = new TextField();
+  @FXML
+  private static Button ingButton;
 
-    Button addButton = new Button("Add Recipe");
+  @FXML
+  private Label ingLabel;
 
+  @FXML
+  private TextField tagsField;
 
+  @FXML
+  private Button tagsButton;
 
-    // Create layout
-    GridPane grid = new GridPane();
-    grid.setAlignment(Pos.CENTER);
-    grid.setHgap(10);
-    grid.setVgap(10);
-    grid.setPadding(new Insets(25, 25, 25, 25));
+  @FXML
+  private Label tagsLabel;
 
-    grid.add(nameLabel, 0, 0);
-    grid.add(nameField, 1, 0);
+  @FXML
+  private TextField portionSizeField;
 
-    grid.add(descLabel, 0, 1);
-    grid.add(descArea, 1, 1);
+  @FXML
+  private Label portionSizeLabel;
 
-    grid.add(instrLabel, 0, 2);
-    grid.add(instrArea, 1, 2);
+  @FXML
+  private TextField prepTimeField;
 
-    grid.add(servingsLabel, 0, 3);
-    grid.add(servingsField, 1, 3);
+  @FXML
+  private Label prepTimeLabel;
 
-    grid.add(prepLabel, 0, 4);
-    grid.add(prepField, 1, 4);
+  @FXML
+  private TextField cookTimeField;
 
-    grid.add(cookLabel, 0, 5);
-    grid.add(cookField, 1, 5);
+  @FXML
+  private Label cookTimeLabel;
 
-    HBox buttonBox = new HBox(10);
-    buttonBox.setAlignment(Pos.CENTER);
-    buttonBox.getChildren().add(addButton);
+  @FXML
+  private TextField servingsField;
 
-    VBox root = new VBox(20);
-    root.setAlignment(Pos.CENTER);
-    root.getChildren().addAll(grid, buttonBox);
-   
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  @FXML
+  private Label servingsLabel;
 
-    // Set up button action
-    addButton.setOnAction(event -> {
-        // Get values from text fields
-        String recipeName = nameField.getText();
-        String recipeDesc = descArea.getText();
-        String recipeInstructions = instrArea.getText();
-        int servings = Integer.parseInt(servingsField.getText());
-        int prepTime = Integer.parseInt(servingsField.getText());
-        int cookTime = Integer.parseInt(cookField.getText());
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+      // initialize the controller
+  }
 
-        try {
-          Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/Cookbook?user=root&password=!!@@qqww3344EERR&useSSL=false");
-          Statement stmt = conn2.createStatement();
-          String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
-                  "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
-                  servings + ", " + prepTime + ", " + cookTime + ")";
-          stmt.executeUpdate(query);
-        } catch (SQLException e) {
-          e.printStackTrace();
-      }
-
-      // Clear text fields
-      nameField.clear();
-      descArea.clear();
-      instrArea.clear();
-      servingsField.clear();
-      prepField.clear();
-      cookField.clear();
-  });
 }
-}
+  
+//   public static void addRecipeStage() {
+    
+//     ingButton.setOnAction(event -> {
+//       TextField newTextField = new TextField();
+//       newTextField.setPrefWidth(150);
+//       int index = root.getChildren().indexOf(ingField);
+//       root.getChildren().add(index + 2, newTextField);
+//     });
+  
+
+//     tagsButton.setOnAction(event -> {
+
+//     });
+
+
+//     // Set up button action
+//     addButton.setOnAction(event -> {
+//         // Get values from text fields
+//         String recipeName = nameField.getText();
+//         String recipeDesc = descArea.getText();
+//         String recipeInstructions = instrArea.getText();
+//         int servings = Integer.parseInt(servingsField.getText());
+//         int prepTime = Integer.parseInt(servingsField.getText());
+//         int cookTime = Integer.parseInt(cookField.getText());
+
+//         try {
+//           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+//           Statement stmt = conn2.createStatement();
+//           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
+//                   "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
+//                   servings + ", " + prepTime + ", " + cookTime + ")";
+//           stmt.executeUpdate(query);
+//         } catch (SQLException e) {
+//           e.printStackTrace();
+//       }
+
+//       // Clear text fields
+//       nameField.clear();
+//       descArea.clear();
+//       instrArea.clear();
+//       servingsField.clear();
+//       prepField.clear();
+//       cookField.clear();
+//   });
+// }
+// }
