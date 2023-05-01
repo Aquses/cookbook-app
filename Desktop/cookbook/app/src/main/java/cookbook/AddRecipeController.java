@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
@@ -81,16 +80,13 @@ public class AddRecipeController implements Initializable {
     private Button tagsButton;
 
     @FXML
-    private AnchorPane anchorPane;
+    private Label ingLabel;
+
+    @FXML
+    private TextField ingField;
 
     @FXML
     private GridPane grid;
-    
-    @FXML 
-    private TextField test;
-
-    @FXML
-    private HBox hBox;
 
     @FXML
     private ListView<String> tagList;
@@ -106,6 +102,8 @@ public class AddRecipeController implements Initializable {
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
         String recipeInstructions = insField.getText();
+        String recipeIngredients = ingField.getText();
+        String recipeTags = tagsField.getText();
         int servings = Integer.parseInt(servingsField.getText());
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
@@ -113,10 +111,37 @@ public class AddRecipeController implements Initializable {
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
           Statement stmt = conn2.createStatement();
+            
           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes) " +
-                 "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
-                  servings + ", " + prepTime + ", " + cookTime + ")";
+                          "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
+                          servings + ", " + prepTime + ", " + cookTime + ")";
           stmt.executeUpdate(query);
+            
+          ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+          rs.next();
+          int recipeId = rs.getInt(1);
+    
+          String[] tagList = recipeTags.split(",");
+          for (String tagName : tagList) {
+            tagName = tagName.trim();
+            if (tagName.length() > 0) {
+              ResultSet rsTag = stmt.executeQuery("SELECT tag_id FROM tags WHERE tag_name = '" + tagName + "'");
+              if (rsTag.next()) {
+                int tagId = rsTag.getInt(1);
+                stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
+                                  "VALUES ('" + recipeId + "', " + tagId + ")");
+              } 
+              else {
+                stmt.executeUpdate("INSERT INTO tags (tag_name) " +
+                                  "VALUES ('" + tagName + "')");
+                rsTag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+                rsTag.next();
+                int tagId = rsTag.getInt(1);
+                stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
+                                  "VALUES ('" + recipeId + "', " + tagId + ")");
+              }
+            }
+          }
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -125,12 +150,15 @@ public class AddRecipeController implements Initializable {
         nameField.clear();
         descField.clear();
         insField.clear();
+        ingField.clear();
+        tagsField.clear();
         servingsField.clear();
         portionSize.clear();
         prepField.clear();
         cookField.clear();
-        tagsField.clear();
       });
+    
+    
 
       insButton.setOnAction(event -> {
         int row = 3, col = 2;

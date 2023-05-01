@@ -86,6 +86,8 @@
                                  </padding>
                               </Label>
                               <ListView fx:id="tagList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="190.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                              <TextField fx:id="ingField" GridPane.columnIndex="7" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </content>
