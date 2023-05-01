@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -103,13 +104,10 @@ public class Cookbook extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            //Parent root = FXMLLoader.load(getClass().getResource("browserecipe.fxml"));
-
-            // Uncomment below (searchpage.fxml) and comment above (browserecipe.fxml) to see search scene
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
-
-            stage.setTitle("");
-            stage.setScene(new Scene(root, 800, 800, false, null));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+            AnchorPane root = loader.load();
+            Scene scene = new Scene(root, 1200, 800, false, null);
+            stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
