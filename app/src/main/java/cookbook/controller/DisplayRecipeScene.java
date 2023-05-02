@@ -2,6 +2,7 @@ package cookbook.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -29,6 +30,12 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private AnchorPane ap;
     Recipe recipe;
+
+    // for vic
+    @FXML
+    private Button EditRecipeButton;
+    @FXML
+    private Button FavouriteRecipeButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
