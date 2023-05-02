@@ -1,145 +1,208 @@
 package cookbook.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ResourceBundle;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javax.management.Query;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class RecipeEditor {
 
-  private final static StringProperty recipeName = new SimpleStringProperty("");
-  private final static StringProperty shortDescription = new SimpleStringProperty("");
-  private final static StringProperty detailedDescription = new SimpleStringProperty("");
-  private final static ObservableList<String> ingredients = FXCollections.observableArrayList();
+    @FXML
+    private ResourceBundle resources;
 
-  
-  public static void getRecipeEditor() {
-    // Create UI components
-    Label lblRecipeName = new Label("Recipe Name:");
-    TextField tfRecipeName = new TextField();
-    tfRecipeName.textProperty().bindBidirectional(recipeName);
+    @FXML
+    private URL location;
 
-    Label lblShortDescription = new Label("Short Description:");
-    TextArea taShortDescription = new TextArea();
-    taShortDescription.setWrapText(true);
-    taShortDescription.setMaxHeight(100);
-    taShortDescription.textProperty().bindBidirectional(shortDescription);
+    @FXML
+    private Button addButton;
 
-    Label lblDetailedDescription = new Label("Detailed Description:");
-    TextArea taDetailedDescription = new TextArea();
-    taDetailedDescription.setWrapText(true);
-    taDetailedDescription.textProperty().bindBidirectional(detailedDescription);
+    @FXML
+    private AnchorPane ap;
 
-    Label lblIngredients = new Label("Ingredients:");
-    ListView<String> lvIngredients = new ListView<>();
-    lvIngredients.setItems(ingredients);
+    @FXML
+    private Button deleteButton;
 
-    TextField tfIngredient = new TextField();
+    @FXML
+    private TextArea descriptionArea;
 
-    Button btnAddRecipeName = new Button("Add Recipe Name");
-    btnAddRecipeName.setOnAction(event -> {
-      String currentRecipeName = tfRecipeName.getText();
-      if (!currentRecipeName.isEmpty()) {
-        recipeName.set(currentRecipeName);
-        tfRecipeName.clear();
-      }
-    });
+    @FXML
+    private TextField editCookTimeField;
 
-    Button btnAddShortDescription = new Button("Add Short Description");
-    btnAddShortDescription.setOnAction(event -> {
-      String currentShortDescription = taShortDescription.getText();
-      if (!currentShortDescription.isEmpty()) {
-        shortDescription.set(currentShortDescription);
-        taShortDescription.clear();
-      }
-    });
+    @FXML
+    private TextField editNameField;
 
-    Button btnAddDetailedDescription = new Button("Add Detailed Description");
-    btnAddDetailedDescription.setOnAction(event -> {
-      String currentDetailedDescription = taDetailedDescription.getText();
-      if (!currentDetailedDescription.isEmpty()) {
-        detailedDescription.set(currentDetailedDescription);
-        taDetailedDescription.clear();
-      }
-    });
+    @FXML
+    private TextField editPrepTimeField;
 
-    Button btnAddIngredient = new Button("Add Ingredient");
-    btnAddIngredient.setOnAction(event -> {
-      String currentIngredient = tfIngredient.getText();
-      if (!currentIngredient.isEmpty()) {
-        ingredients.add(currentIngredient);
-        tfIngredient.clear();
-      }
-    });
+    @FXML
+    private TextField editServingsField;
 
-    Button btnSave = new Button("Save");
+    @FXML
+    private TableView<Ingredient> ingredientsTable;
 
-    // Save the recipe to a file or database
-    Label mysql;
-    try {
-      Connection conn = DriverManager
-          .getConnection("jdbc:mysql://localhost/StarWars?user=tobias&password=123456&useSSL=false");
-      mysql = new Label("Driver found and connected");
-      Statement stmt = conn.createStatement();
-      String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions)" + "VALUES ('"
-          + recipeName + "', '" + shortDescription + "', '" + detailedDescription + ")";
-      String query2 = "INSERT INTO ingredients (i_name)" + "VALUES ('" + ingredients + ")";
-      stmt.executeUpdate(query);
-      stmt.executeUpdate(query2);
+    @FXML
+    private TableColumn<Ingredient, String> measurementCol;
 
-    } catch (SQLException e) {
-      mysql = new Label("An error has occurred: " + e.getMessage());
+    @FXML
+    private TableColumn<Ingredient, String> nameCol;
+
+
+    @FXML
+    private TableColumn<Ingredient, Integer> qtyCol;
+
+
+    @FXML
+    private TextField inputMeasurement;
+
+    @FXML
+    private TextField inputName;
+
+    @FXML
+    private TextField inputQty;
+
+    @FXML
+    private Button submitButton;
+
+
+    ObservableList<Ingredient> ingredientList =  FXCollections.observableArrayList();
+    Recipe recipe;
+    int recipeId;
+
+    @FXML
+    void initialize() {
+        loadData();
+        refreshTable(2);
+
     }
 
-    // Create UI layout
-    GridPane gridPane = new GridPane();
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(10));
-    gridPane.setAlignment(Pos.TOP_LEFT);
-    gridPane.setPrefSize(400, 600);
-    gridPane.add(lblRecipeName, 0, 0);
-    gridPane.add(tfRecipeName, 1, 0);
-    gridPane.add(btnAddRecipeName, 2, 0);
-    gridPane.add(lblShortDescription, 0, 1);
-    gridPane.add(taShortDescription, 1, 1);
-    gridPane.add(btnAddShortDescription, 2, 1);
-    gridPane.add(lblDetailedDescription, 0, 2);
-    gridPane.add(taDetailedDescription, 1, 2);
-    gridPane.add(btnAddDetailedDescription, 2, 2);
-    gridPane.add(lblIngredients, 0, 3);
-    gridPane.add(lvIngredients, 1, 3);
-    gridPane.add(tfIngredient, 1, 4);
-    gridPane.add(btnAddIngredient, 2, 4);
-    gridPane.add(btnSave, 0, 5, 3, 1);
+    public void loadData() {
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
+        qtyCol.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        measurementCol.setCellValueFactory(new PropertyValueFactory<>("measurement"));
+    }
 
-    ColumnConstraints col1Constraints = new ColumnConstraints();
-    col1Constraints.setHgrow(Priority.NEVER);
-    col1Constraints.setMinWidth(150);
+    public void refreshTable(int recipeId) {
+        this.recipeId = recipeId;
+        ingredientList.clear();
 
-    ColumnConstraints col2Constraints = new ColumnConstraints();
-    col2Constraints.setHgrow(Priority.ALWAYS);
+        try {
+            QueryMaker qm = new QueryMaker();
+            ObservableList<Ingredient> databaseList = qm.retrieveIngredients(recipeId);
+            
+            for (Ingredient i : databaseList) {
+                System.out.println(i.getIngredientName());
+                System.out.println(i.getQty());
+                System.out.println(i.getMeasurement());
+                ingredientList.add(new Ingredient(i.getIngredientName(), i.getQty(), i.getMeasurement()));
+            }
 
-    gridPane.getColumnConstraints().addAll(col1Constraints, col2Constraints);
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
-    VBox vbox = new VBox(gridPane);
-    vbox.setPadding(new Insets(10));
-    Scene scene = new Scene(vbox, 400, 600);
-    Stage stage = new Stage();
-    stage.setTitle("Recipe Editor");
-    stage.setScene(scene);
-    stage.show();
-  }
+        ingredientsTable.setItems(ingredientList);
+    }
+
+    @FXML
+    private void ingredientClicked(MouseEvent event) {
+        Ingredient selectedIngredient = ingredientsTable.getSelectionModel().getSelectedItem();
+        inputName.setText(selectedIngredient.getIngredientName());
+        inputQty.setText(String.valueOf(selectedIngredient.getQty()));
+        inputMeasurement.setText(selectedIngredient.getMeasurement());
+    }
+
+    
+    @FXML
+    private void submit(ActionEvent event) {
+        Ingredient editedIngredient = ingredientsTable.getSelectionModel().getSelectedItem();
+        String originalName = editedIngredient.getIngredientName();
+        editedIngredient.setIngredientName(inputName.getText());
+        editedIngredient.setQty(Integer.parseInt(inputQty.getText()));
+        editedIngredient.setMeasurement(inputMeasurement.getText());
+
+        try {
+            QueryMaker qm = new QueryMaker();
+            qm.updateIngredient(editedIngredient, originalName, recipeId);
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        ingredientsTable.refresh();
+        inputName.clear();
+        inputQty.clear();
+        inputMeasurement.clear();
+    }
+
+    @FXML
+    private void deleteIngredient(ActionEvent event) {
+        Ingredient selectedIngredient = ingredientsTable.getSelectionModel().getSelectedItem();
+        ingredientsTable.getItems().remove(selectedIngredient);
+
+        try {
+            QueryMaker qm = new QueryMaker();
+            qm.deleteIngredient(selectedIngredient, recipeId);
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        ingredientsTable.refresh();
+        inputName.clear();
+        inputQty.clear();
+        inputMeasurement.clear();
+    }
+
+    @FXML
+    private void addIngredient(ActionEvent event) {
+        String ingredientName = inputName.getText();
+        int id = recipeId;
+        int qty = Integer.parseInt(inputQty.getText());
+        String measurement = inputMeasurement.getText();
+
+        Ingredient newIngredient = new Ingredient(ingredientName, id, qty, measurement);
+
+        try {
+            QueryMaker qm = new QueryMaker();
+            qm.addIngredient(newIngredient);
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        ingredientList.add(newIngredient);
+        ingredientsTable.refresh();
+        inputName.clear();
+        inputQty.clear();
+        inputMeasurement.clear();
+    }
+
+
+    // private void addRecipeObject(Recipe recipe){
+    //     this.recipe = recipe;
+
+    //     editNameField.setText(recipe.getName());
+    //     descriptionArea.setText(recipe.getDescription());
+    //     // RecipeDetails.setText(recipe.getInstructions());
+    //     editServingsField.setText(String.valueOf(recipe.getServings()));
+    //     editPrepTimeField.setText(String.valueOf(recipe.getPrepTime()));
+    //     editCookTimeField.setText(String.valueOf(recipe.getCookTime()));
+
+    // }
+
+
 
 }
+    
