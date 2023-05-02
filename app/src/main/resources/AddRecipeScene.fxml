@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -33,6 +35,7 @@
                               <Label fx:id="createLabel" text="Create your own recipe" textFill="#fff9f9" />
                            </children>
                         </HBox>
+                        <Button fx:id="addRecipeButton" layoutX="638.0" layoutY="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="132.0" text="ADD" />
                      </children>
                   </AnchorPane>
                </children>
@@ -45,10 +48,12 @@
             </VBox>
             <HBox alignment="TOP_CENTER" prefHeight="515.0" prefWidth="1098.0" style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="466.0" prefWidth="958.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
-                        <GridPane fx:id="grid" hgap="10.0" prefHeight="236.0" prefWidth="808.0" vgap="20.0">
+                        <GridPane fx:id="grid" hgap="10.0" prefHeight="308.0" prefWidth="795.0" vgap="20.0">
                            <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -64,6 +69,7 @@
                               <ColumnConstraints />
                               <ColumnConstraints />
                               <ColumnConstraints />
+                              <ColumnConstraints />
                            </columnConstraints>
                            <children>
                               <Label fx:id="nameLabel" text="Name" GridPane.columnIndex="1" />
@@ -71,23 +77,23 @@
                               <TextField fx:id="servingsField" prefHeight="21.0" prefWidth="149.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                               <Label fx:id="servingsLabel" text="Servings" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label fx:id="cookLabel" text="Cooking time" GridPane.columnIndex="3" />
-                              <TextField fx:id="cookField" GridPane.columnIndex="4" />
-                              <Label fx:id="prepLabel" prefHeight="17.0" prefWidth="104.0" text="Preperation time" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                              <TextField fx:id="prepField" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                              <Label fx:id="descLabel" prefHeight="17.0" prefWidth="74.0" text="Description" textFill="#fff9f9" GridPane.columnIndex="5" />
-                              <TextArea fx:id="descField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                              <Label fx:id="insLabel" prefHeight="17.0" prefWidth="73.0" text="Instructions" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="cookField" GridPane.columnIndex="5" />
+                              <Label fx:id="prepLabel" prefHeight="17.0" prefWidth="124.0" text="Preperation time" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="prepField" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                              <Label fx:id="descLabel" prefHeight="17.0" prefWidth="65.0" text="Description" textFill="#fff9f9" GridPane.columnIndex="6" />
+                              <TextArea fx:id="descField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                              <Label fx:id="insLabel" prefHeight="17.0" prefWidth="87.0" text="Instructions" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="insField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <Button fx:id="insButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                              <TextField fx:id="tagsField" prefHeight="19.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                              <Label fx:id="descLabel1" prefHeight="17.0" prefWidth="86.0" text="Tags" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                 <padding>
-                                    <Insets left="40.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="tagList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="190.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                              <TextField fx:id="ingField" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                              <TextField fx:id="tagsField" prefHeight="19.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                              <ListView fx:id="tagList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="190.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="ingField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label fx:id="quantityLabel" text="Quantity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="measurementLabel" prefHeight="17.0" prefWidth="103.0" text="Measurement" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="quantityField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <TextField fx:id="measurementField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <Button fx:id="submitButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="ADD INGREDIENT" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Label fx:id="tagsLabel" text="Tags" textFill="#fff9f9" GridPane.columnIndex="6" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </content>
@@ -97,13 +103,16 @@
                   </ScrollPane>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="299.0" prefWidth="810.0">
                <children>
-                  <AnchorPane prefHeight="71.0" prefWidth="812.0">
-                     <children>
-                        <Button fx:id="addRecipeButton" layoutX="339.0" layoutY="21.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="132.0" text="ADD" />
-                     </children>
-                  </AnchorPane>
+                  <TableView fx:id="tableView" prefHeight="170.0" prefWidth="226.0">
+                    <columns>
+                      <TableColumn fx:id="ingColumn" prefWidth="75.0" text="Ingredient" />
+                      <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="Quantity" />
+                        <TableColumn fx:id="measurementColumn" prefWidth="75.0" text="Measurement" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="REMOVE" />
                </children>
             </HBox>
          </children>

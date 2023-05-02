@@ -1,6 +1,5 @@
 package cookbook;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -49,17 +48,7 @@ public class UserPageScene {
         button2.setLayoutX(50);
         button2.setLayoutY(50);
         button2.setOnAction(e2 -> {
-            try {
-                Parent addRecipeParent = FXMLLoader.load(UserPageScene.class.getResource("AddRecipeScene.fxml"));
-                // Create a new scene with the loaded FXML file
-                Scene addScene = new Scene(addRecipeParent);
-                // Get the current stage and set the scene to the search scene
-                Stage stage = (Stage) button2.getScene().getWindow();
-                stage.setScene(addScene);
-            } catch (IOException e1) {
-
-                e1.printStackTrace();
-            }
+        // AddRecipeStage.addRecipeStage();
         });        
         root.getChildren().add(button2);
 
