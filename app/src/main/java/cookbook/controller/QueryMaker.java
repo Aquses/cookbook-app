@@ -14,7 +14,7 @@ public class QueryMaker {
     String query;
 
     public QueryMaker() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
         statement = conn.createStatement();
     }
 
@@ -98,4 +98,71 @@ public class QueryMaker {
 
 
     }
+
+
+    public void updateIngredient(Ingredient updatedIngredient, String originalName, int recipeId) {
+        String newName = updatedIngredient.getIngredientName();
+        int newQty = updatedIngredient.getQty();
+        String newMeasurement = updatedIngredient.getMeasurement();
+
+    
+        String query = "UPDATE ingredients "
+                    + "SET i_name = ?, qty = ?, measurement = ? "
+                    + "WHERE i_name = ? and recipe_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newName);
+            statement.setInt(2, newQty);
+            statement.setString(3, newMeasurement);
+            statement.setString(4, originalName);
+            statement.setInt(5, recipeId);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+
+    }
+
+    public void deleteIngredient(Ingredient ingredient, int recipeId) {
+        String ingredientName = ingredient.getIngredientName();
+        String query = "DELETE from ingredients "
+                    + "WHERE i_name = ? and recipe_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ingredientName);
+            statement.setInt(2, recipeId);
+
+            statement.executeUpdate();
+
+            System.out.println("great success!");
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        String query = "INSERT INTO ingredients VALUES(?, ?, ?, ?)";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ingredient.getIngredientName());
+            statement.setInt(2, ingredient.getRecipeId());
+            statement.setInt(3, ingredient.getQty());
+            statement.setString(4, ingredient.getMeasurement());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+    }
+
 }
