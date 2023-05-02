@@ -55,64 +55,64 @@ public class Cookbook extends Application {
     // AddRecipeStage class not implemented with Browse class "addRecipe" button
 
     // [ ORIGINAL START METHOD BELOW ]
-    // @Override
-    // public void start(Stage primaryStage) throws Exception {
-    //  Splash splash = new Splash();
-       
-
-    // splash.show();
-    // primaryStage.setScene(splash.getSplashScene());
-       
-    // splash.getSequentialTransition().setOnFinished(e -> {
-    //     Timeline timeline = new Timeline();
-    //     KeyFrame key = new KeyFrame(Duration.millis(1500),
-            
-    //         new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
-    //         timeline.getKeyFrames().add(key);
-    //         timeline.setOnFinished((event1) -> {
-    //             VBox start = new VBox();
-    //             Scene startScene = new Scene(start, 50,50);
-    //             Button button = new Button();
-    //             Label header = new Label("Are you ready for DISH IT!!!");
-    //             header.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-style: italic;");
-
-    //             start.setSpacing(10);
-    //             start.setAlignment(Pos.CENTER);
-              
-    //             button.setText("Login");
-
-    //             button.setOnAction(e2 -> {
-    //             UserLoginScene login = new UserLoginScene();
-    //             primaryStage.setScene(login.getScene());
-    //             primaryStage.setWidth(300);
-    //             primaryStage.setHeight(180);
-    //             });
-    //             start.getChildren().addAll(header, button);
-
-    //             primaryStage.setTitle("Dish IT");
-    //             primaryStage.setWidth(400);
-    //             primaryStage.setHeight(400);
-    //             primaryStage.setScene(startScene);
-    //             primaryStage.show();
-    //         });
-    //         timeline.play();
-    //     });
-        
-    //     primaryStage.show();
-    // }
-
     @Override
-    public void start(Stage stage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
-            AnchorPane root = loader.load();
-            Scene scene = new Scene(root, 1200, 800, false, null);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void start(Stage primaryStage) throws Exception {
+     Splash splash = new Splash();
+       
+
+    splash.show();
+    primaryStage.setScene(splash.getSplashScene());
+       
+    splash.getSequentialTransition().setOnFinished(e -> {
+        Timeline timeline = new Timeline();
+        KeyFrame key = new KeyFrame(Duration.millis(1500),
+            
+            new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
+            timeline.getKeyFrames().add(key);
+            timeline.setOnFinished((event1) -> {
+                VBox start = new VBox();
+                Scene startScene = new Scene(start, 50,50);
+                Button button = new Button();
+                Label header = new Label("Are you ready for DISH IT!!!");
+                header.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-style: italic;");
+
+                start.setSpacing(10);
+                start.setAlignment(Pos.CENTER);
+              
+                button.setText("Login");
+
+                button.setOnAction(e2 -> {
+                UserLoginScene login = new UserLoginScene();
+                primaryStage.setScene(login.getScene());
+                primaryStage.setWidth(300);
+                primaryStage.setHeight(180);
+                });
+                start.getChildren().addAll(header, button);
+
+                primaryStage.setTitle("Dish IT");
+                primaryStage.setWidth(400);
+                primaryStage.setHeight(400);
+                primaryStage.setScene(startScene);
+                primaryStage.show();
+            });
+            timeline.play();
+        });
+        
+        primaryStage.show();
     }
+
+    // @Override
+    // public void start(Stage stage) {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+    //         AnchorPane root = loader.load();
+    //         Scene scene = new Scene(root, 1200, 800, false, null);
+    //         stage.setScene(scene);
+    //         stage.show();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     
     public static void main(String[] args) {
