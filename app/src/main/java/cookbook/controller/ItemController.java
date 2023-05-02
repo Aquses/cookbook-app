@@ -122,6 +122,7 @@ public class ItemController implements Initializable {
             // then get controller
             drs = fxmlLoader.getController();
             drs.addRecipeObject(recipe);
+            drs.addIngredients();
 
             AnchorPane.setTopAnchor(n, 0.0);
             AnchorPane.setRightAnchor(n, 0.0);

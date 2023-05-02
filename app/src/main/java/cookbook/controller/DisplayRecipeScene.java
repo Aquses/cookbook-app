@@ -1,5 +1,6 @@
 package cookbook.controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DisplayRecipeScene implements Initializable {
@@ -29,7 +31,7 @@ public class DisplayRecipeScene implements Initializable {
     private Text TimePrepareText;
     @FXML
     private AnchorPane ap;
-    Recipe recipe;
+    private Recipe recipe;
 
     // for vic
     @FXML
@@ -54,6 +56,23 @@ public class DisplayRecipeScene implements Initializable {
         TimeCookText.setText(floatToMinutes(recipe.getCookTime()));
 
         return;
+    }
+
+    public void addIngredients() {
+        try {
+            QueryMaker qm = new QueryMaker();
+            ObservableList<Ingredient> ingredientsList = qm.retrieveIngredients(recipe.getId());
+            StringBuilder sb = new StringBuilder();
+            
+            for (Ingredient i : ingredientsList) {
+                sb.append(i.getIngredientName() + " | " + i.getQty() + " | " + i.getMeasurement() + "\n");
+            }
+
+            RecipeIngredients.setText(sb.toString());
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private String floatToMinutes(float time){
