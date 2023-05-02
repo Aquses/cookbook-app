@@ -1,4 +1,4 @@
-package cookbook;
+package cookbook.controller;
 
 // AddRecipe Controller made by Eldaras
 
@@ -61,7 +61,7 @@ public class AddRecipeController implements Initializable {
 
     @FXML private Label tagsLabel;
 
-    @FXML private TextField insField;
+    @FXML private TextArea insField;
 
     @FXML private TextField tagsField;
 

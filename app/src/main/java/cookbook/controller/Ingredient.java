@@ -1,4 +1,4 @@
-package cookbook;
+package cookbook.controller;
 
 public class Ingredient {
     

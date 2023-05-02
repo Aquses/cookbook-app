@@ -1,8 +1,10 @@
-package cookbook;
+package cookbook.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import cookbook.Cookbook;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -27,11 +29,17 @@ public class UserPageScene {
         Button searchButton = new Button("Search Recipe");
         searchButton.setOnAction(e -> {
             try {
+                /*
                 // Load the FXML file for the search page
                 Parent searchPageParent = FXMLLoader.load(UserPageScene.class.getResource("searchpage.fxml"));
                 // Create a new scene with the loaded FXML file
                 Scene searchScene = new Scene(searchPageParent);
+
+                 */
                 // Get the current stage and set the scene to the search scene
+                FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("searchpage.fxml"));
+                Scene searchScene = new Scene(fxmlLoader.load(), 1280, 720);
+
                 Stage stage = (Stage) searchButton.getScene().getWindow();
                 stage.setScene(searchScene);
             } catch (Exception ex) {
@@ -48,7 +56,18 @@ public class UserPageScene {
         button2.setLayoutX(50);
         button2.setLayoutY(50);
         button2.setOnAction(e2 -> {
-        // AddRecipeStage.addRecipeStage();
+            button2.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
+                    Parent addRecipeRoot = fxmlLoader.load();
+                    Scene addRecipeScene = new Scene(addRecipeRoot);
+                    Stage currentStage = (Stage) button2.getScene().getWindow();
+                    currentStage.setScene(addRecipeScene);
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+            });
+         
         });        
         root.getChildren().add(button2);
 

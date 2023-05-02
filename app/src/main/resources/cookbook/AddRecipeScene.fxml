@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.AddRecipeController">
+<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.AddRecipeController">
    <children>
       <VBox prefHeight="650.0" prefWidth="1158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -82,18 +82,18 @@
                               <TextField fx:id="prepField" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                               <Label fx:id="descLabel" prefHeight="17.0" prefWidth="65.0" text="Description" textFill="#fff9f9" GridPane.columnIndex="6" />
                               <TextArea fx:id="descField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-                              <Label fx:id="insLabel" prefHeight="17.0" prefWidth="87.0" text="Instructions" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="insField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="insLabel" prefHeight="17.0" prefWidth="87.0" text="Instructions" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                               <TextField fx:id="tagsField" prefHeight="19.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
                               <ListView fx:id="tagList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="190.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="ingField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Label fx:id="quantityLabel" text="Quantity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label fx:id="measurementLabel" prefHeight="17.0" prefWidth="103.0" text="Measurement" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <TextField fx:id="quantityField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                              <TextField fx:id="measurementField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                              <Button fx:id="submitButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="ADD INGREDIENT" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="ingField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="quantityLabel" text="Quantity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="measurementLabel" prefHeight="17.0" prefWidth="103.0" text="Measurement" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="quantityField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="measurementField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="submitButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="ADD INGREDIENT" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                               <Label fx:id="tagsLabel" text="Tags" textFill="#fff9f9" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                              <TextArea fx:id="insField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </content>

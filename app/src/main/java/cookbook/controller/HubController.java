@@ -1,4 +1,4 @@
-package cookbook;
+package cookbook.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
