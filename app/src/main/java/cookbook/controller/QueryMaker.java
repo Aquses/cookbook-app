@@ -70,4 +70,32 @@ public class QueryMaker {
         }
         return list;
     }
+
+
+    public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
+        ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
+        String query = "SELECT * FROM ingredients WHERE recipe_id = ?";    
+        try { 
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, recipeId);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+    
+                Ingredient ingredient = new Ingredient(rs.getString(1), rs.getInt(2),
+                                                         rs.getInt(3), rs.getString(4));
+                ingredientList.add(ingredient);
+            }
+
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ingredientList;
+
+
+    }
 }
