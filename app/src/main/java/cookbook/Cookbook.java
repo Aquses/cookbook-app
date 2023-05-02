@@ -7,38 +7,85 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Cookbook extends Application {
-    
+
+    // [ COMMENT ]
+    // This start method was to test the Browse and Search scenes
+    // They are not connected to the rest of scenes as of right now
+    // Currently it will simply open the Browse and Search scenes individually
+    // Need Hub scene to transition to browse or search
+
+    // [ START METHOD WITH RESPECTIVE BROWSE AND SEARCH ]
+   /* @Override
+    public void start(Stage stage) {
+        try {
+            //Parent root = FXMLLoader.load(getClass().getResource("browserecipe.fxml"));
+
+            // Uncomment below (searchpage.fxml) and comment above (browserecipe.fxml) to see search scene
+            Parent root = FXMLLoader.load(getClass().getResource("hub.fxml"));
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+
+
+    // [ COMMENT ]
+    // Original app execution with animation > login > userpage (containing add recipe)
+    // Now UserPageScene for displaying list of recipes is Browse class (potentially delete UserPageScene class)
+    // Must implement transitions for Search and Browse scenes with the rest
+    // AddRecipeStage class not implemented with Browse class "addRecipe" button
+
+    // [ ORIGINAL START METHOD BELOW ]
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Splash splash = new Splash();
-    
-
-        splash.show();
-        primaryStage.setScene(splash.getSplashScene());
+     Splash splash = new Splash();
        
-        splash.getSequentialTransition().setOnFinished(e -> {
-            Timeline timeline = new Timeline();
-            KeyFrame key = new KeyFrame(Duration.millis(1500),
+
+    splash.show();
+    primaryStage.setScene(splash.getSplashScene());
+       
+    splash.getSequentialTransition().setOnFinished(e -> {
+        Timeline timeline = new Timeline();
+        KeyFrame key = new KeyFrame(Duration.millis(1500),
             
             new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
             timeline.getKeyFrames().add(key);
             timeline.setOnFinished((event1) -> {
-                Group start = new Group();
-                Scene startScene = new Scene(start, 200,150);
+                VBox start = new VBox();
+                Scene startScene = new Scene(start, 50,50);
                 Button button = new Button();
+                Label header = new Label("Are you ready for DISH IT!!!");
+                header.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-style: italic;");
 
+                start.setSpacing(10);
+                start.setAlignment(Pos.CENTER);
+              
                 button.setText("Login");
-                button.setLayoutX(160);
-                button.setLayoutY(150);
-                button.setOnAction(e2 -> primaryStage.setScene(UserLoginScene.getScene()));
-                start.getChildren().add(button);
+
+                button.setOnAction(e2 -> {
+                UserLoginScene login = new UserLoginScene();
+                primaryStage.setScene(login.getScene());
+                primaryStage.setWidth(300);
+                primaryStage.setHeight(180);
+                });
+                start.getChildren().addAll(header, button);
 
                 primaryStage.setTitle("Dish IT");
                 primaryStage.setWidth(400);
@@ -52,13 +99,8 @@ public class Cookbook extends Application {
         primaryStage.show();
     }
 
+    
     public static void main(String[] args) {
-        launch(args);
+        launch(args);  
     }
 }
-
-
-
-
-
-
