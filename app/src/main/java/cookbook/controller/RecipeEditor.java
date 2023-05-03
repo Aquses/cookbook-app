@@ -41,6 +41,9 @@ public class RecipeEditor {
     private TextArea descriptionArea;
 
     @FXML
+    private TextArea instructionsArea;
+
+    @FXML
     private TextField editCookTimeField;
 
     @FXML
@@ -76,7 +79,10 @@ public class RecipeEditor {
     private TextField inputQty;
 
     @FXML
-    private Button submitButton;
+    private Button updateButton;
+
+    @FXML
+    private Button saveButton;
 
 
     ObservableList<Ingredient> ingredientList =  FXCollections.observableArrayList();
@@ -84,10 +90,12 @@ public class RecipeEditor {
     int recipeId;
 
     @FXML
-    void initialize() {
+    void initialize(Recipe recipe) {
+        this.recipe = recipe;
+        this.recipeId = recipe.getId();
         loadData();
-        refreshTable(2);
-
+        refreshTable(recipeId);
+        addRecipeObject(recipe);
     }
 
     public void loadData() {
@@ -97,7 +105,7 @@ public class RecipeEditor {
     }
 
     public void refreshTable(int recipeId) {
-        this.recipeId = recipeId;
+        // this.recipeId = recipeId;
         ingredientList.clear();
 
         try {
@@ -105,9 +113,6 @@ public class RecipeEditor {
             ObservableList<Ingredient> databaseList = qm.retrieveIngredients(recipeId);
             
             for (Ingredient i : databaseList) {
-                System.out.println(i.getIngredientName());
-                System.out.println(i.getQty());
-                System.out.println(i.getMeasurement());
                 ingredientList.add(new Ingredient(i.getIngredientName(), i.getQty(), i.getMeasurement()));
             }
 
@@ -128,7 +133,7 @@ public class RecipeEditor {
 
     
     @FXML
-    private void submit(ActionEvent event) {
+    private void update(ActionEvent event) {
         Ingredient editedIngredient = ingredientsTable.getSelectionModel().getSelectedItem();
         String originalName = editedIngredient.getIngredientName();
         editedIngredient.setIngredientName(inputName.getText());
@@ -190,17 +195,47 @@ public class RecipeEditor {
     }
 
 
-    // private void addRecipeObject(Recipe recipe){
-    //     this.recipe = recipe;
+    public void addRecipeObject(Recipe recipe){
 
-    //     editNameField.setText(recipe.getName());
-    //     descriptionArea.setText(recipe.getDescription());
-    //     // RecipeDetails.setText(recipe.getInstructions());
-    //     editServingsField.setText(String.valueOf(recipe.getServings()));
-    //     editPrepTimeField.setText(String.valueOf(recipe.getPrepTime()));
-    //     editCookTimeField.setText(String.valueOf(recipe.getCookTime()));
+        // this.recipe = recipe;
+        // this.recipeId = recipe.getId();
 
-    // }
+        editNameField.setText(recipe.getName());
+        descriptionArea.setText(recipe.getDescription());
+        instructionsArea.setText(recipe.getInstructions());
+        editServingsField.setText(String.valueOf(recipe.getServings()));
+        editPrepTimeField.setText(String.valueOf(recipe.getPrepTime()));
+        editCookTimeField.setText(String.valueOf(recipe.getCookTime()));
+
+    }
+
+    @FXML
+    void saveRecipe(ActionEvent event) {
+        System.out.println(recipe.getName());
+        String savedName = editNameField.getText();
+        String savedDescription = descriptionArea.getText();
+        String savedInstructions = instructionsArea.getText();
+        int savedServings = Integer.parseInt(editServingsField.getText());
+        int savedPrepTime = Integer.parseInt(editPrepTimeField.getText());
+        int savedCookTime = Integer.parseInt(editCookTimeField.getText());
+
+        System.out.println(savedName);
+        recipe.setName(savedName);
+        recipe.setDescription(savedDescription);
+        recipe.setInstructions(savedInstructions);
+        recipe.setServings(savedServings);
+        recipe.setPrepTime(savedPrepTime);
+        recipe.setCookTime(savedCookTime);
+
+        try {
+            QueryMaker qm = new QueryMaker();
+            qm.updateRecipe(recipe);
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+
+    }
 
 
 
