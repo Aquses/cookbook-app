@@ -10,8 +10,13 @@ public class Recipe {
     private String description;
     private String instructions;
     private int servings;
-    private float prepTime;
-    private float cookTime;
+
+    // Below is for float type
+    // private float prepTime;
+    // private float cookTime;
+
+    private int prepTime;
+    private int cookTime;
 
     public Recipe(ResultSet rt) {
         try {
@@ -20,8 +25,13 @@ public class Recipe {
             setDescription(rt.getString(3));
             setInstructions(rt.getString(4));
             setServings(rt.getInt(5));
-            setPrepTime(rt.getFloat(6));
-            setCookTime(rt.getFloat(7));
+
+            // Below is for float type
+            // setPrepTime(rt.getFloat(6));
+            // setCookTime(rt.getFloat(7));
+
+            setPrepTime(rt.getInt(6));
+            setCookTime(rt.getInt(7));
             //setImgSrc(); //TODO: Add image source to the recipe in Recipe.java
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,19 +86,21 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public float getPrepTime() {
+    // If using float must change the preptime getters and setters to float type
+    public int getPrepTime() {
         return prepTime;
     }
 
-    public void setPrepTime(float prepTime) {
+    public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
 
-    public float getCookTime() {
+    // If using float must change the cooktime getters and setters to float type
+    public int getCookTime() {
         return cookTime;
     }
 
-    public void setCookTime(float cookTime) {
+    public void setCookTime(int cookTime) {
         this.cookTime = cookTime;
     }
 }
