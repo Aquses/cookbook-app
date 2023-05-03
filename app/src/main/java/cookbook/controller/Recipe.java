@@ -1,29 +1,39 @@
-package cookbook;
+package cookbook.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Recipe {
+    private int id;
     private String name;
     private String imgSrc;
     private String description;
     private String instructions;
-    private float servings;
+    private int servings;
     private float prepTime;
     private float cookTime;
 
     public Recipe(ResultSet rt) {
         try {
+            setId(rt.getInt(1));
             setName(rt.getString(2));
             setDescription(rt.getString(3));
             setInstructions(rt.getString(4));
-            setServings(rt.getFloat(5));
+            setServings(rt.getInt(5));
             setPrepTime(rt.getFloat(6));
             setCookTime(rt.getFloat(7));
             //setImgSrc(); //TODO: Add image source to the recipe in Recipe.java
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -58,11 +68,11 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public float getServings() {
+    public int getServings() {
         return servings;
     }
 
-    public void setServings(float servings) {
+    public void setServings(int servings) {
         this.servings = servings;
     }
 

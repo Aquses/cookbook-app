@@ -1,7 +1,9 @@
-package cookbook;
+package cookbook.controller;
 
+import cookbook.Cookbook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 
 import javafx.fxml.Initializable;
@@ -9,13 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HubScene implements Initializable {
+public class MainNavigation implements Initializable {
     @FXML
     private Button MenuClosed;
     @FXML
@@ -25,14 +26,14 @@ public class HubScene implements Initializable {
     @FXML
     private Button RecipesButton;
     @FXML
-    private AnchorPane ap;
-    @FXML
     private Pane darkenPane;
     @FXML
     private Button HomeButton;
+    @FXML
+    private AnchorPane ContentAnchor;
 
     public static Scene getScene() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("HubScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
         Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
         return hub;
@@ -40,10 +41,16 @@ public class HubScene implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        commonMenuControls();
+        try {
+            loadScene(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        menuControls();
     }
 
-    private void commonMenuControls() {
+    private void menuControls() {
         MenuSlider.setPrefWidth(50);
         darkenPane.setVisible(false);
 
@@ -80,18 +87,51 @@ public class HubScene implements Initializable {
         });
 
         RecipesButton.setOnMouseClicked(event -> {
-            Stage stage = (Stage) ap.getScene().getWindow();
-            stage.setScene(UserPageScene.getUserPage());
+            try {
+                loadScene(1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         HomeButton.setOnMouseClicked(event -> {
-            Stage stage = (Stage) ap.getScene().getWindow();
             try {
-                stage.setScene(HubScene.getScene());
+                loadScene(0);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
         });
+    }
+
+    private void loadScene(int sceneID) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Node n;
+
+        switch (sceneID){
+            // Load hub
+            case 0:
+                fxmlLoader.setLocation(Cookbook.class.getResource("HubScene.fxml"));
+                break;
+            // Load recipes scene
+            case 1:
+                fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
+                break;
+            // Load hub when given an invalid number
+            default:
+                IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
+                throw wrongSceneIDException;
+        }
+
+        n = fxmlLoader.load();
+        AnchorPane.setTopAnchor(n, 0.0);
+        AnchorPane.setRightAnchor(n, 0.0);
+        AnchorPane.setBottomAnchor(n, 0.0);
+        AnchorPane.setLeftAnchor(n, 0.0);
+
+        ContentAnchor.getChildren().clear();
+        ContentAnchor.getChildren().add(n);
+
+        return;
     }
 }
