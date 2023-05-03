@@ -135,7 +135,7 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
       editRecipe.setLayoutX(50);
       editRecipe.setLayoutY(50);
       editRecipe.setOnAction(e2 -> {
-      RecipeEditor.getRecipeEditor();
+      // RecipeEditor.getRecipeEditor();
       });    
 
     formattedRecipe.getChildren().addAll(recipeName, shortDescription, instructions, ingredientsLabel,

@@ -58,10 +58,15 @@ public class DisplayRecipeScene implements Initializable {
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
         RecipeDetails.setText(recipe.getInstructions());
-        //RecipeIngredients.setText(recipe.getIngredients); //TODO: missing ingredients as text
         ServingsText.setText(String.valueOf(recipe.getServings()));
-        TimePrepareText.setText(floatToMinutes(recipe.getPrepTime()));
-        TimeCookText.setText(floatToMinutes(recipe.getCookTime()));
+
+        // Uncomment below if recipe class prep time and cook time attributes are float type
+        // TimePrepareText.setText(floatToMinutes(recipe.getPrepTime()));
+        // TimeCookText.setText(floatToMinutes(recipe.getCookTime()));
+
+        // For int type below
+        TimePrepareText.setText(String.valueOf(recipe.getPrepTime()));
+        TimeCookText.setText(String.valueOf(recipe.getCookTime()));
 
         return;
     }
@@ -83,6 +88,7 @@ public class DisplayRecipeScene implements Initializable {
         }
     }
 
+    // Below method is used if the prep time and cook time attributes are float
     private String floatToMinutes(float time){
         String t = Float.toString(time);
         float remainder = (time * 60) % 60;
@@ -116,10 +122,7 @@ public class DisplayRecipeScene implements Initializable {
         }
         // then get controller
         editor = fxmlLoader.getController();
-        System.out.println(editor);
-        // drs.addRecipeObject(recipe);
-        // drs.addIngredients();
-        editor.refreshTable(2);
+        editor.initialize(recipe);
 
         AnchorPane.setTopAnchor(n, 0.0);
         AnchorPane.setRightAnchor(n, 0.0);
