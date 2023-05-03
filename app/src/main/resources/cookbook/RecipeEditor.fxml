@@ -81,7 +81,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="saveButton" mnemonicParsing="false" text="Save">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveRecipe" text="Save">
                            <HBox.margin>
                               <Insets left="50.0" top="5.0" />
                            </HBox.margin>
