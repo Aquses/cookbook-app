@@ -3,6 +3,8 @@
  */
 package cookbook;
 
+import cookbook.controller.Splash;
+import cookbook.controller.UserLoginScene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -15,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,6 +56,7 @@ public class Cookbook extends Application {
     // Must implement transitions for Search and Browse scenes with the rest
     // AddRecipeStage class not implemented with Browse class "addRecipe" button
 
+    // [ ORIGINAL START METHOD BELOW ]
     // [ ORIGINAL START METHOD BELOW ]
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -98,6 +103,20 @@ public class Cookbook extends Application {
         
         primaryStage.show();
     }
+
+
+    // @Override
+    // public void start(Stage stage) {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+    //         AnchorPane root = loader.load();
+    //         Scene scene = new Scene(root, 1200, 800, false, null);
+    //         stage.setScene(scene);
+    //         stage.show();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     
     public static void main(String[] args) {
