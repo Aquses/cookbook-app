@@ -176,8 +176,8 @@ public class QueryMaker {
             statement.setString(2, recipe.getDescription());
             statement.setString(3, recipe.getInstructions());
             statement.setInt(4, recipe.getServings());
-            statement.setInt(5, recipe.getPrepTime());
-            statement.setInt(6, recipe.getCookTime());
+            statement.setFloat(5, recipe.getPrepTime());
+            statement.setFloat(6, recipe.getCookTime());
             statement.setInt(7, recipe.getId());
 
             statement.executeUpdate();
