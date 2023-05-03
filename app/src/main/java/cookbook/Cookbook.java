@@ -4,6 +4,7 @@
 package cookbook;
 
 import cookbook.controller.QueryMaker;
+
 import cookbook.controller.Splash;
 import cookbook.controller.UserLoginScene;
 import javafx.animation.KeyFrame;
@@ -55,6 +56,7 @@ public class Cookbook extends Application {
 
 
     // [ ORIGINAL START METHOD BELOW ]
+    // [ ORIGINAL START METHOD BELOW ]
     @Override
     public void start(Stage primaryStage) throws Exception {
      Splash splash = new Splash();
@@ -100,6 +102,20 @@ public class Cookbook extends Application {
         
         primaryStage.show();
     }
+
+
+    // @Override
+    // public void start(Stage stage) {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+    //         AnchorPane root = loader.load();
+    //         Scene scene = new Scene(root, 1200, 800, false, null);
+    //         stage.setScene(scene);
+    //         stage.show();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     
     public static void main(String[] args) {

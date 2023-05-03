@@ -61,6 +61,14 @@ public class Ingredient {
         this.measurement = measurement;
     }
 
+    public String getName() {
+        return null;
+    }
+
+    public int getQuantity() {
+        return 0;
+    }
+
     
 
     
