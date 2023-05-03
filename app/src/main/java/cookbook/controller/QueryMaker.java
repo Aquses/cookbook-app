@@ -139,7 +139,6 @@ public class QueryMaker {
 
             statement.executeUpdate();
 
-            System.out.println("great success!");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -163,6 +162,29 @@ public class QueryMaker {
             System.out.println("Error: " + e.getMessage());
         }
 
+    }
+
+    public void updateRecipe(Recipe recipe) {
+        String query = "UPDATE recipes "
+                    + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
+                    + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
+                    + "WHERE recipe_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, recipe.getName());
+            statement.setString(2, recipe.getDescription());
+            statement.setString(3, recipe.getInstructions());
+            statement.setInt(4, recipe.getServings());
+            statement.setInt(5, recipe.getPrepTime());
+            statement.setInt(6, recipe.getCookTime());
+            statement.setInt(7, recipe.getId());
+
+            statement.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }
