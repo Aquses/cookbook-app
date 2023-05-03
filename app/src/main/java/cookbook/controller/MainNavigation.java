@@ -26,13 +26,17 @@ public class MainNavigation implements Initializable {
     @FXML
     private Button RecipesButton;
     @FXML
+    private Button AdminButton;
+    @FXML
     private Pane darkenPane;
     @FXML
     private Button HomeButton;
     @FXML
     private AnchorPane ContentAnchor;
-
-    public static Scene getScene() throws IOException {
+    private static boolean admin;
+ 
+    public static Scene getScene(boolean isAdmin) throws IOException {
+        admin = isAdmin;
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
         Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
@@ -41,6 +45,7 @@ public class MainNavigation implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        AdminButton.setVisible(admin);
         try {
             loadScene(0);
         } catch (IOException e) {
@@ -102,6 +107,15 @@ public class MainNavigation implements Initializable {
             }
 
         });
+        
+        AdminButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(2);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -116,6 +130,10 @@ public class MainNavigation implements Initializable {
             // Load recipes scene
             case 1:
                 fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
+                break;
+            // Load admin scene
+            case 2:
+                fxmlLoader.setLocation(Cookbook.class.getResource("AdminScene.fxml"));
                 break;
             // Load hub when given an invalid number
             default:

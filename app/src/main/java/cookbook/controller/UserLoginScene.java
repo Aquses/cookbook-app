@@ -85,7 +85,7 @@ private void login() throws SQLException {
       userStage.setTitle("Welcome " + usernameQuery.getUsername(username) + "!");
 
       try {
-        userStage.setScene(MainNavigation.getScene());
+        userStage.setScene(MainNavigation.getScene(result));
         userStage.show();
       } catch (IOException e) {
         throw new RuntimeException(e);

@@ -46,6 +46,12 @@ public class QueryMaker {
         return setToList();
     }
 
+    public ObservableList<User> getAllusers() throws SQLException{
+        // here we want a generic search, but the search text needs to be filtered and found based on the query.
+        query = "SELECT * FROM users;";
+        return setUserToList();
+    }
+
     /*
     private List<Recipe> setToList() throws SQLException {
         List<Recipe> list = new ArrayList<>();
@@ -187,4 +193,15 @@ public class QueryMaker {
         }
     }
 
+    public ObservableList<User> setUserToList() throws SQLException {
+        ObservableList<User> list = FXCollections.observableArrayList();
+        User user;
+        results = statement.executeQuery(query);
+
+        while (results.next()) {
+            user = new User(results);
+            list.add(user);
+        }
+        return list;
+    }
 }
