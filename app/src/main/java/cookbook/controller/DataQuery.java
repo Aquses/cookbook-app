@@ -135,7 +135,7 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
       editRecipe.setLayoutX(50);
       editRecipe.setLayoutY(50);
       editRecipe.setOnAction(e2 -> {
-      RecipeEditor.getRecipeEditor();
+      // RecipeEditor.getRecipeEditor();
       });    
 
     formattedRecipe.getChildren().addAll(recipeName, shortDescription, instructions, ingredientsLabel,
@@ -292,5 +292,46 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
     closeDatabaseObjects(rs, statement, conn);
     }
     return name;   
+  }
+
+  
+  public void deleteUser(int id) {
+    String query = "DELETE FROM users WHERE user_id = " + id;
+    Statement statement = null;
+
+    try {
+      statement = conn.createStatement();
+
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addUser(String fname, String lname, int isAdmin, String username, String password) {
+    String query = "INSERT INTO users (fname, lname, is_admin, username, password) VALUES ('" + fname + "', '" + lname + "', " + isAdmin + ", '" + username + "', '" + password + "')";
+    Statement statement = null;
+
+    try {
+      statement = conn.createStatement();
+
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void editUser(int userId, String fname, String lname, int isAdmin, String username, String password) {
+    String query = "UPDATE users SET fname='" + fname + "', lname='" + lname + "', is_admin=" + isAdmin + ", username='"
+       + username + "', password='" + password + "' WHERE user_id=" + userId;
+    Statement statement = null;
+
+    try {
+      statement = conn.createStatement();
+
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

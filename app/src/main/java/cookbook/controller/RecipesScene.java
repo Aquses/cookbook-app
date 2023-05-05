@@ -78,8 +78,7 @@ public class RecipesScene implements Initializable {
     }
 
     private void specificControls() {
-
-        AddRecipeButton.setOnMouseClicked(event -> {
+        AddRecipeButton.setOnAction(e2 -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
                 Parent addRecipeRoot = fxmlLoader.load();

@@ -56,19 +56,17 @@ public class UserPageScene {
         button2.setLayoutX(50);
         button2.setLayoutY(50);
         button2.setOnAction(e2 -> {
-            button2.setOnMouseClicked(event -> {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
-                    Parent addRecipeRoot = fxmlLoader.load();
-                    Scene addRecipeScene = new Scene(addRecipeRoot);
-                    Stage currentStage = (Stage) button2.getScene().getWindow();
-                    currentStage.setScene(addRecipeScene);
-                } catch (IOException e) {
-                  e.printStackTrace();
-                }
-            });
-         
-        });        
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
+                Parent addRecipeRoot = fxmlLoader.load();
+                Scene addRecipeScene = new Scene(addRecipeRoot);
+                Stage currentStage = (Stage) button2.getScene().getWindow();
+                currentStage.setScene(addRecipeScene);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+        });
+
         root.getChildren().add(button2);
 
         //add list of all recipes

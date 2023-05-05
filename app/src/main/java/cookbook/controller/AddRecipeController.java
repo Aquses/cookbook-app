@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -75,19 +76,21 @@ public class AddRecipeController implements Initializable {
 
     @FXML private Label measurementLabel;
 
-    @FXML private TextField measurementField;
+    @FXML private ChoiceBox<String> measurementField;
+
+    private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
 
     @FXML private Label quantityLabel;
 
     @FXML private TextField quantityField;
 
-    @FXML private TableView<Ingredient> tableView;
+    @FXML private TableView<IngredientsAddRecipe> tableView;
 
-    @FXML private TableColumn<Ingredient, String> ingColumn;
+    @FXML private TableColumn<IngredientsAddRecipe, String> ingColumn;
 
-    @FXML private TableColumn<Ingredient, Integer> quantityColumn;
+    @FXML private TableColumn<IngredientsAddRecipe, Integer> quantityColumn;
 
-    @FXML private TableColumn<Ingredient, String> measurementColumn;
+    @FXML private TableColumn<IngredientsAddRecipe, String> measurementColumn;
 
     @FXML private Button submitButton;
 
@@ -102,6 +105,7 @@ public class AddRecipeController implements Initializable {
       loadData();
       String[] tags = loadListView();
       tagList.setItems(FXCollections.observableArrayList(tags));
+      measurementField.getItems().addAll(measurements);
 
       addRecipeButton.setOnAction(event -> {
         // Get values from text fields
@@ -148,8 +152,8 @@ public class AddRecipeController implements Initializable {
             }
           }
 
-          ObservableList<Ingredient> ingredients = tableView.getItems();
-          for (Ingredient ingredient : ingredients) {
+          ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
+          for (IngredientsAddRecipe ingredient : ingredients) {
             String ingName = ingredient.getName();
             int quantity = ingredient.getQuantity();
             String measurement = ingredient.getMeasurement();
@@ -172,7 +176,6 @@ public class AddRecipeController implements Initializable {
         prepField.clear();
         cookField.clear();
         quantityField.clear();
-        measurementField.clear();
       });
 
       tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -184,10 +187,10 @@ public class AddRecipeController implements Initializable {
       });
 
       submitButton.setOnAction(event -> {
-        Ingredient ingredient = new Ingredient(ingField.getText(),
+        IngredientsAddRecipe ingredient = new IngredientsAddRecipe(ingField.getText(),
                                               Integer.parseInt(quantityField.getText()),
-                                              measurementField.getText());
-        ObservableList<Ingredient> ingredients = tableView.getItems();
+                                              measurementField.getValue());
+        ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
         ingredients.add(ingredient);
         tableView.setItems(ingredients);
       });
@@ -199,9 +202,9 @@ public class AddRecipeController implements Initializable {
     }
 
     public void loadData() {
-      ingColumn.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("name"));
-      quantityColumn.setCellValueFactory(new PropertyValueFactory<Ingredient, Integer>("quantity"));
-      measurementColumn.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("measurement"));
+      ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
+      quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
+      measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
     }
 
     public String[] loadListView() {
@@ -213,7 +216,7 @@ public class AddRecipeController implements Initializable {
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
         stmt = conn2.createStatement();
         String query = "SELECT * FROM tags";
-       ResultSet rs = stmt.executeQuery(query);
+        ResultSet rs = stmt.executeQuery(query);
 
         ArrayList<String> resultList = new ArrayList<>();
         while (rs.next()) {
@@ -245,5 +248,5 @@ public class AddRecipeController implements Initializable {
           se.printStackTrace();
         }
       }
-    }
+  }
 }
