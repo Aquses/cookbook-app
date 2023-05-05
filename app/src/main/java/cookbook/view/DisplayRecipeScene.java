@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.view;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +16,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import cookbook.Cookbook;
+import cookbook.controller.Cookbook;
+import cookbook.model.Ingredient;
+import cookbook.model.QueryMaker;
+import cookbook.model.Recipe;
+import cookbook.model.RecipeEditor;
 
 public class DisplayRecipeScene implements Initializable {
     @FXML
@@ -89,7 +93,7 @@ public class DisplayRecipeScene implements Initializable {
     }
 
     // Below method is used if the prep time and cook time attributes are float
-    private String floatToMinutes(float time){
+    public String floatToMinutes(float time){
         String t = Float.toString(time);
         float remainder = (time * 60) % 60;
 

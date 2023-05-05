@@ -1,6 +1,5 @@
-package cookbook.controller;
+package cookbook.view;
 
-import cookbook.Cookbook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import cookbook.controller.Cookbook;
 
 public class HubScene implements Initializable {
 

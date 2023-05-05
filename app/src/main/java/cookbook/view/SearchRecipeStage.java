@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+
+import cookbook.model.DataQuery;
 
 public class SearchRecipeStage {
 

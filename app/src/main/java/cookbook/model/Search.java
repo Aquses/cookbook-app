@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.model;
 
 import java.net.URL;
 import java.sql.Connection;

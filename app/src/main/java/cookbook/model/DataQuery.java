@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -93,7 +93,7 @@ public class DataQuery {
     return recipes;
   }
 
-// method to return a formattetd recipe label -- this method will get very beefy **TODO**
+// method to return a formattetd recipe label -- this method will get very beefy **tODO**
 // user story #13 for Sean
 public VBox getFormattedRecipe(String recipe) throws SQLException {
   String query = "SELECT * FROM recipes WHERE recipe_name = \"" + recipe +"\"";

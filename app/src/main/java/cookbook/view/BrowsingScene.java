@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.view;
 
 public class BrowsingScene {
 }

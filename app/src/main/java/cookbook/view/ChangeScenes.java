@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.view;
 
 //import java.io.IOException;
 

@@ -1,5 +1,5 @@
 
-package cookbook.controller;
+package cookbook.view;
 
 import javafx.animation.*;
 import javafx.scene.Scene;

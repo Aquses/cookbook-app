@@ -1,6 +1,8 @@
-package cookbook.controller;
+package cookbook.view;
 
-import cookbook.Cookbook;
+import cookbook.controller.Cookbook;
+import cookbook.controller.ItemController;
+import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -11,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
+//import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +39,7 @@ public class RecipesScene implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO: In the first use of the QueryMaker, make it so it retrieves only the USER's recipes.
+        //tODO: In the first use of the QueryMaker, make it so it retrieves only the USER's recipes.
 
         specificControls();
 

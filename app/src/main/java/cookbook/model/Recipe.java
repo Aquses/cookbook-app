@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +32,9 @@ public class Recipe {
 
             setPrepTime(rt.getInt(6));
             setCookTime(rt.getInt(7));
-            //setImgSrc(); //TODO: Add image source to the recipe in Recipe.java
+            //setImgSrc();
+            //tODO: Add image source to the recipe in Recipe.java
+            
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

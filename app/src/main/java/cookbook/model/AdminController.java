@@ -1,9 +1,11 @@
-package cookbook.controller;
+package cookbook.model;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import cookbook.Cookbook;
+import cookbook.controller.Cookbook;
+import cookbook.controller.DeleteUserController;
+import cookbook.controller.EditUserController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +36,9 @@ public class AdminController {
 
     private ObservableList<User> userObservableList;
 
+    /**
+     * @throws SQLException
+     */
     @ FXML
     void initialize() throws SQLException {
         // set up the user list on the list View field

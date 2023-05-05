@@ -1,12 +1,14 @@
-package cookbook.controller;
+package cookbook.view;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import cookbook.Cookbook;
+import cookbook.controller.Cookbook;
+import cookbook.model.AddRecipeStage;
+import cookbook.model.DataQuery;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
+//import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

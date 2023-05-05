@@ -1,17 +1,16 @@
-package cookbook.controller;
+package cookbook.model;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import javax.management.Query;
-
+//import javax.management.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+//import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -90,6 +89,7 @@ public class RecipeEditor {
     int recipeId;
 
     @FXML
+    public
     void initialize(Recipe recipe) {
         this.recipe = recipe;
         this.recipeId = recipe.getId();

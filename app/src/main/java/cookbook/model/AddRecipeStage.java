@@ -1,4 +1,4 @@
-package cookbook.controller;
+package cookbook.model;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
