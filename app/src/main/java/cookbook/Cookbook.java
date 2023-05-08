@@ -3,21 +3,22 @@
  */
 package cookbook;
 
+//import cookbook.model.QueryMaker;
+import cookbook.view.Splash;
+import cookbook.view.UserLoginScene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+//import javax.management.Query;
 
 public class Cookbook extends Application {
 
@@ -52,6 +53,8 @@ public class Cookbook extends Application {
     // Must implement transitions for Search and Browse scenes with the rest
     // AddRecipeStage class not implemented with Browse class "addRecipe" button
 
+
+    // [ ORIGINAL START METHOD BELOW ]
     // [ ORIGINAL START METHOD BELOW ]
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -80,10 +83,10 @@ public class Cookbook extends Application {
                 button.setText("Login");
 
                 button.setOnAction(e2 -> {
-                UserLoginScene login = new UserLoginScene();
-                primaryStage.setScene(login.getScene());
-                primaryStage.setWidth(300);
-                primaryStage.setHeight(180);
+                    UserLoginScene login = new UserLoginScene();
+                    primaryStage.setScene(login.getScene());
+                    primaryStage.setWidth(300);
+                    primaryStage.setHeight(180);
                 });
                 start.getChildren().addAll(header, button);
 
@@ -98,6 +101,20 @@ public class Cookbook extends Application {
         
         primaryStage.show();
     }
+
+
+    // @Override
+    // public void start(Stage stage) {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+    //         AnchorPane root = loader.load();
+    //         Scene scene = new Scene(root, 1200, 800, false, null);
+    //         stage.setScene(scene);
+    //         stage.show();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     
     public static void main(String[] args) {
