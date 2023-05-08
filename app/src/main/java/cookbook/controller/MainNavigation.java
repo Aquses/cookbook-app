@@ -31,6 +31,10 @@ public class MainNavigation implements Initializable {
     private Pane darkenPane;
     @FXML
     private Button HomeButton;
+
+    @FXML
+    private Button MessagesButton;
+
     @FXML
     private AnchorPane ContentAnchor;
     private static boolean admin;
@@ -116,6 +120,15 @@ public class MainNavigation implements Initializable {
             }
 
         });
+
+        MessagesButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(3);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -136,6 +149,9 @@ public class MainNavigation implements Initializable {
                 fxmlLoader.setLocation(Cookbook.class.getResource("AdminScene.fxml"));
                 break;
             // Load hub when given an invalid number
+            case 3:
+                fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
+                break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
                 throw wrongSceneIDException;
