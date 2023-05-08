@@ -1,8 +1,10 @@
 package cookbook.controller;
 
 import cookbook.Cookbook;
+import cookbook.model.Recipe;
+import cookbook.view.DisplayRecipeScene;
 import javafx.animation.FadeTransition;
-import javafx.animation.FillTransition;
+//import javafx.animation.FillTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
+//import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -3,6 +3,8 @@ package cookbook.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import cookbook.model.DataQuery;
+import cookbook.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

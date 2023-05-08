@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.AdminController">
+<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.model.AdminController">
    <children>
       <ListView fx:id="userList" layoutX="74.0" layoutY="109.0" prefHeight="200.0" prefWidth="600.0" />
       <Button fx:id="addUser" layoutX="74.0" layoutY="327.0" mnemonicParsing="false" onAction="#addUser" prefHeight="25.0" prefWidth="97.0" text="Add User" />

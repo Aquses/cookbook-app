@@ -3,10 +3,9 @@
  */
 package cookbook;
 
-import cookbook.controller.QueryMaker;
-
-import cookbook.controller.Splash;
-import cookbook.controller.UserLoginScene;
+//import cookbook.model.QueryMaker;
+import cookbook.view.Splash;
+import cookbook.view.UserLoginScene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -19,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.management.Query;
+//import javax.management.Query;
 
 public class Cookbook extends Application {
 
@@ -84,10 +83,10 @@ public class Cookbook extends Application {
                 button.setText("Login");
 
                 button.setOnAction(e2 -> {
-                UserLoginScene login = new UserLoginScene();
-                primaryStage.setScene(login.getScene());
-                primaryStage.setWidth(300);
-                primaryStage.setHeight(180);
+                    UserLoginScene login = new UserLoginScene();
+                    primaryStage.setScene(login.getScene());
+                    primaryStage.setWidth(300);
+                    primaryStage.setHeight(180);
                 });
                 start.getChildren().addAll(header, button);
 

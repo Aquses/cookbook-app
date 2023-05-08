@@ -1,5 +1,7 @@
 package cookbook.controller;
 
+import cookbook.model.DataQuery;
+import cookbook.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

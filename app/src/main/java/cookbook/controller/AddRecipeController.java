@@ -28,6 +28,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import cookbook.model.IngredientsAddRecipe;
+
 public class AddRecipeController implements Initializable {
 
     @FXML private TextField nameField;
@@ -121,16 +123,17 @@ public class AddRecipeController implements Initializable {
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
           Statement stmt = conn2.createStatement();
-            
+                
           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes, user_id) " +
                           "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
                           servings + ", " + prepTime + ", " + cookTime + ", " + user_id + ")";
           stmt.executeUpdate(query);
-            
+                
           ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
           rs.next();
           int recipeId = rs.getInt(1);
           String[] tagList = recipeTags.split(",");
+
           for (String tagName : tagList) {
             tagName = tagName.trim();
             if (tagName.length() > 0) {
@@ -141,13 +144,13 @@ public class AddRecipeController implements Initializable {
                                   "VALUES ('" + recipeId + "', " + tagId + ")");
               } 
               else {
-                stmt.executeUpdate("INSERT INTO tags (tag_name) " +
-                                  "VALUES ('" + tagName + "')");
-                rsTag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
-                rsTag.next();
-                int tagId = rsTag.getInt(1);
-                stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
-                                  "VALUES ('" + recipeId + "', " + tagId + ")");
+                stmt.executeUpdate("INSERT INTO custom_tags (user_id, ctag_name) " +
+                                  "VALUES (" + user_id + ", '" + tagName + "')");
+                ResultSet rsCtag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+                rsCtag.next();
+                int ctagId = rsCtag.getInt(1);
+                stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, ctag_id) " +
+                                  "VALUES ('" + recipeId + "', " + ctagId + ")");
               }
             }
           }
@@ -161,6 +164,7 @@ public class AddRecipeController implements Initializable {
                                     "VALUES ('" + ingName + "', " + recipeId + ", " + quantity + ", '" + measurement + "')";
             stmt.executeUpdate(ingredientQuery);
           }
+          tableView.getItems().clear();
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -180,10 +184,10 @@ public class AddRecipeController implements Initializable {
 
       tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       tagList.setOnMouseClicked(event -> {
-          ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
-          if (!selectedItems.isEmpty()) {
-            tagsField.setText(String.join(", ", selectedItems));
-          }
+        ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
+        if (!selectedItems.isEmpty()) {
+          tagsField.setText(String.join(", ", selectedItems));
+        }
       });
 
       submitButton.setOnAction(event -> {
@@ -208,7 +212,6 @@ public class AddRecipeController implements Initializable {
     }
 
     public String[] loadListView() {
-
       Connection conn = null;
       Statement stmt = null;
 
@@ -232,21 +235,21 @@ public class AddRecipeController implements Initializable {
 
         return resultArray;
 
-      } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
-      } 
-      finally {
-        try {
-          if (stmt != null) stmt.close();
-        } catch (SQLException se) {
-          se.printStackTrace();
-        }
-        try {
-          if (conn != null) conn.close();
-        } catch (SQLException se) {
-          se.printStackTrace();
-        }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    } 
+    finally {
+      try {
+        if (stmt != null) stmt.close();
+      } catch (SQLException se) {
+        se.printStackTrace();
       }
+      try {
+        if (conn != null) conn.close();
+      } catch (SQLException se) {
+        se.printStackTrace();
+      }
+    }
   }
 }
