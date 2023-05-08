@@ -50,8 +50,11 @@ public class RecipesScene implements Initializable {
             QueryMaker qm = new QueryMaker();
             ObservableList<Recipe> recipes = qm.getAllRecipes();
             FilteredList<Recipe> filteredRecipes = new FilteredList<>(recipes, b -> true);
+            ObservableList<Tags> tags = qm.getAllTags();
+            FilteredList<Tags> filteredTags = new FilteredList<>(tags, b -> true);
 
             loadRecipes(recipes);
+            loadTags(tags);
 
             RecipeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredRecipes.setPredicate(Recipe -> {
@@ -81,6 +84,7 @@ public class RecipesScene implements Initializable {
         }
     }
 
+
     private void specificControls() {
         AddRecipeButton.setOnAction(e2 -> {
             try {
@@ -92,10 +96,9 @@ public class RecipesScene implements Initializable {
             } catch (IOException e) {
               e.printStackTrace();
             }
-        }); 
-
-        
+        });
     }
+    
 
     private void loadRecipes(ObservableList<Recipe> allRecipes){
         int row = 1, col = 0;
