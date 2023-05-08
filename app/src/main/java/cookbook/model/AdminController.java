@@ -3,7 +3,7 @@ package cookbook.model;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import cookbook.controller.Cookbook;
+import cookbook.Cookbook;
 import cookbook.controller.DeleteUserController;
 import cookbook.controller.EditUserController;
 import javafx.collections.ObservableList;

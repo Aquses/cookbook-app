@@ -1,6 +1,6 @@
 package cookbook.view;
 
-import cookbook.controller.Cookbook;
+import cookbook.Cookbook;
 import cookbook.controller.ItemController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;

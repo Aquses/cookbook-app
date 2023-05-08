@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.Search">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.model.Search">
    <children>
       <TextField fx:id="searchBar" layoutX="79.0" layoutY="25.0" prefHeight="26.0" prefWidth="427.0" />
       <Button fx:id="searchButton" layoutX="521.0" layoutY="25.0" mnemonicParsing="false" onAction="#retrieveResults" prefHeight="26.0" prefWidth="63.0" text="Search" />

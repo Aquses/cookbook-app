@@ -3,7 +3,7 @@ package cookbook.view;
 import java.sql.SQLException;
 import java.util.List;
 
-import cookbook.controller.Cookbook;
+import cookbook.Cookbook;
 import cookbook.model.AddRecipeStage;
 import cookbook.model.DataQuery;
 import javafx.fxml.FXMLLoader;

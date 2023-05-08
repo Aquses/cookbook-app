@@ -16,7 +16,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import cookbook.controller.Cookbook;
+import cookbook.Cookbook;
 import cookbook.model.Ingredient;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
