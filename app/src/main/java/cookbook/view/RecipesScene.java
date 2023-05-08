@@ -1,6 +1,7 @@
 package cookbook.view;
 
 import cookbook.Cookbook;
+import cookbook.controller.AddRecipeController;
 import cookbook.controller.ItemController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
@@ -9,11 +10,13 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 //import javafx.stage.Stage;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -79,11 +82,19 @@ public class RecipesScene implements Initializable {
     }
 
     private void specificControls() {
-
-        AddRecipeButton.setOnMouseClicked(event -> {
-            AddRecipeStage.addRecipeStage();
+        AddRecipeButton.setOnAction(e2 -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));
+                Parent addRecipeRoot = fxmlLoader.load();
+                Scene addRecipeScene = new Scene(addRecipeRoot);
+                Stage currentStage = (Stage) AddRecipeButton.getScene().getWindow();
+                currentStage.setScene(addRecipeScene);
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
         });
     }
+
 
     private void loadRecipes(ObservableList<Recipe> allRecipes){
         int row = 1, col = 0;

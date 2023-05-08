@@ -1,33 +1,33 @@
 package cookbook.model;
 
+import com.google.protobuf.Timestamp;
+
 public class Message {
     private int message_id; 
-    private String sender_id;
-    private String receiver_id;
+    private int sender_id;
+    private int receiver_id;
     private String content;
-    private Recipe recipe_id;
-    private int date_created; 
+    private int recipe_id;
+    private Timestamp date_created; 
 
-    public Message(String sender_id, String receiver_id, String content,int message_id,Recipe recipe_id, int date_created ) {
+    public Message(int sender_id, int receiver_id, String content, int message_id, int recipe_id, Timestamp date_created) {
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.content = content;
-        this.message_id= message_id; 
+        this.message_id = message_id; 
         this.recipe_id = recipe_id;
-        this.date_created= date_created; 
+        this.date_created = date_created; 
     }
 
-    public String getSender() {
+    public int getSenderId() {
         return sender_id;
     }
 
-    public int getMessage_id() {
+    public int getMessageId() {
         return message_id;
     }
 
-   
-
-    public String getReceiver() {
+    public int getReceiverId() {
         return receiver_id;
     }
 
@@ -35,39 +35,35 @@ public class Message {
         return content;
     }
 
-    public Recipe getRecipe_id() {
+    public int getRecipeId() {
         return recipe_id;
     }
 
-    public int getDate_created() {
+    public Timestamp getDateCreated() {
         return date_created;
     }
 
-
-    public void setRecipe_id(Recipe recipe_id) {
+    public void setRecipeId(int recipe_id) {
         this.recipe_id = recipe_id;
     }
 
-
-    public void setMessage_id(int message_id) {
+    public void setMessageId(int message_id) {
         this.message_id = message_id;
     }
 
-    public void setSender(String sender) {
-        this.sender_id = sender;
+    public void setSenderId(int sender_id) {
+        this.sender_id = sender_id;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver_id = receiver;
+    public void setReceiverId(int receiver_id) {
+        this.receiver_id = receiver_id;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    
-    public void setDate_created(int date_created) {
+    public void setDateCreated(Timestamp date_created) {
         this.date_created = date_created;
     }
-
 }
