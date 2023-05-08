@@ -14,9 +14,11 @@ public class Comment {
   private int recipe_id;
 
   public Comment(ResultSet rt) throws SQLException {
+    setId(rt.getInt(1));
+    setUser_id(rt.getInt(2));
+    setRecipe_id(rt.getInt(3));
     setComment_text(rt.getString(4));
     setDate(rt.getDate(5));
-    setId(rt.getInt(1));
 
   }
 
