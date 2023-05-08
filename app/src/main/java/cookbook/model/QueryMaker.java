@@ -204,4 +204,14 @@ public class QueryMaker {
         }
         return list;
     }
+
+    public void saveMessage(Message message) throws SQLException {
+        String sql = "INSERT INTO messages(sender_id, receiver_id, content) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, message.getSender());
+            pstmt.setString(2, message.getReceiver());
+            pstmt.setString(3, message.getContent());
+            pstmt.executeUpdate();
+        }
+    }
 }
