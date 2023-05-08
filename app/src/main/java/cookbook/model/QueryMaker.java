@@ -205,14 +205,54 @@ public class QueryMaker {
         return list;
     }
 
-
+    
+    /**
+     * Inserts new messages into message table.
+     
+     * @param message message. 
+     * @throws SQLException
+     */
+    public void saveMessage(Message message) throws SQLException {
+        String sqlQuery = "INSERT INTO messages(message_id, sender_id, receiver_id, recipe_id, content, date_created) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement  statement = conn.prepareStatement(sqlQuery)) {
+    
+            statement.setInt(1, message.getSenderId());
+            statement.setInt(2, message.getReceiverId());
+            statement.setString(3, message.getContent());
+            statement.setInt(4, message.getRecipeId());
+            statement.setInt(5, message.getMessageId());
+            statement.setDate(6, message.getDateCreated());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
    
-    public ObservableList<Message> getMessagesForUser(String username) throws SQLException {
-        return null;
-
     }
 
+
+    /**
+     * gets the messages.
     
+     * @param loggedInUser loggedInUser.
+     * @return messages.
+     * @throws SQLException
+     */
+    public ObservableList<Message> getMessagesForUser(String loggedInUser) throws SQLException {
+        String sqlQuery = "SELECT * FROM messages WHERE sender_id = ? OR receiver_id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(sqlQuery)) {
+            statement.setString(1, loggedInUser);
+            statement.setString(2, loggedInUser);
+            ResultSet rs = statement.executeQuery();
+            ObservableList<Message> messages = FXCollections.observableArrayList();
+            while (rs.next()) {
+                Message message = new Message(rs.getInt("message_id"), rs.getInt("sender_id"), rs.getInt("receiver_id"), rs.getString("content"), rs.getInt("recipe_id"), rs.getDate("date_created", null));
+                messages.add(message);
+            }
+            return messages;
+        }
+    }
+    
+
 
 
 }

@@ -1,6 +1,8 @@
 package cookbook.model;
 
-import com.google.protobuf.Timestamp;
+import java.sql.Date;
+
+
 
 public class Message {
     private int message_id; 
@@ -8,9 +10,9 @@ public class Message {
     private int receiver_id;
     private String content;
     private int recipe_id;
-    private Timestamp date_created; 
+    private Date date_created; 
 
-    public Message(int sender_id, int receiver_id, String content, int message_id, int recipe_id, Timestamp date_created) {
+    public Message(int message_id,int sender_id, int receiver_id, String content, int recipe_id, Date date_created) {
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
         this.content = content;
@@ -39,7 +41,7 @@ public class Message {
         return recipe_id;
     }
 
-    public Timestamp getDateCreated() {
+    public Date getDateCreated() {
         return date_created;
     }
 
@@ -63,7 +65,7 @@ public class Message {
         this.content = content;
     }
 
-    public void setDateCreated(Timestamp date_created) {
+    public void setDateCreated(Date date_created) {
         this.date_created = date_created;
     }
 }
