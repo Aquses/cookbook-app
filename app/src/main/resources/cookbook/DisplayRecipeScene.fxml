@@ -52,9 +52,9 @@
                                  <children>
                                     <Button fx:id="FavouriteRecipeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
                                        <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="FavButtonIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../menuIcons/icons8-bookmark-48.png" />
+                                                <Image url="@../menuIcons/star-gold.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>

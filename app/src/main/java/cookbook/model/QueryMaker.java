@@ -34,9 +34,8 @@ public class QueryMaker {
         return setToList();
     }
 
-    public ObservableList<Recipe> getFavoriteRecipes() throws SQLException{
-        // the idea here is to find favorites based on the id of the users' favorites.
-        query = "";
+    public ObservableList<Recipe> getFavoriteRecipes(int user_id) throws SQLException {
+        query = "SELECT recipes.recipe_id, recipes.recipe_name, recipes.recipe_description, recipes.recipe_instructions, recipes.servings, recipes.servings, recipes.cook_time_minutes FROM favorites JOIN recipes ON favorites.recipe_id = recipes.recipe_id WHERE favorites.user_id = " + user_id + ";";
         return setToList();
     }
 
