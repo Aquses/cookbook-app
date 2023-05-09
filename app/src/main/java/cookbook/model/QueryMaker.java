@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 //import java.util.ArrayList;
 //import java.util.List;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class QueryMaker {
     Connection conn;
@@ -245,14 +247,13 @@ public class QueryMaker {
             ResultSet rs = statement.executeQuery();
             ObservableList<Message> messages = FXCollections.observableArrayList();
             while (rs.next()) {
-                Message message = new Message(rs.getInt("message_id"), rs.getInt("sender_id"), rs.getInt("receiver_id"), rs.getString("content"), rs.getInt("recipe_id"), rs.getDate("date_created", null));
+                Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                Message message = new Message(rs.getInt("message_id"), rs.getInt("sender_id"), rs.getInt("receiver_id"), rs.getString("content"), rs.getInt("recipe_id"),   rs.getDate("date_created", utcCalendar));
                 messages.add(message);
             }
             return messages;
         }
     }
     
-
-
 
 }
