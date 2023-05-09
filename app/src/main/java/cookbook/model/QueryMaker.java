@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -210,21 +211,51 @@ public class QueryMaker {
     }
 
     // Use comment object here in place of the string
-    public void sendComment(String comment){
-        query = "INSERT INTO comments VALUES(?, ?, ?, ?, ?)";
+    public void sendComment(String comment, Recipe recipe){
+        query = "INSERT INTO comments(user_id, recipe_id, content, comment_Date)" +
+                "VALUES(?, ?, ?, ?)";
+        int user_id, recipe_id;
 
-        //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        //LocalDateTime now = LocalDateTime.now();
-        //dtf.format(now);
+        // Id is set to auto-increment, so it is not set here
+        // User id who. Who is the current user? TODO: this is being auto-set to anthony. Needs to get from context.
+        user_id = 2;
+        // Recipe id
+        recipe_id = recipe.getId();
+        // Comment is already available from function input
+        // Get data on "sqlToday"
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        java.util.Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        java.sql.Date sqlToday = new java.sql.Date(today.getTime());
 
-        /*
         try {
-            //prepStatement = conn.prepareStatement(query);
-            //prepStatement.setString();
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, user_id);
+            prepStatement.setInt(2, recipe_id);
+            prepStatement.setString(3, comment);
+            prepStatement.setDate(4, sqlToday);
 
             prepStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
-        }*/
+        }
+    }
+
+    public ObservableList<Comment> getThisRecipesComments(Recipe recipe) throws SQLException {
+        query = "SELECT * FROM comments WHERE recipe_id = " + recipe.getId();
+        return commentsToList();
+    }
+
+    private ObservableList<Comment> commentsToList() throws SQLException {
+        ObservableList<Comment> list = FXCollections.observableArrayList();
+        Comment comment;
+
+        results = statement.executeQuery(query);
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
     }
 }

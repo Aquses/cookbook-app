@@ -1,5 +1,8 @@
 package cookbook.view;
 
+import cookbook.controller.ItemController;
+import cookbook.controller.SampleCommentItem;
+import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -20,15 +24,13 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
-import cookbook.model.Ingredient;
-import cookbook.model.QueryMaker;
-import cookbook.model.Recipe;
-import cookbook.model.RecipeEditor;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
+
+import javax.management.Query;
 
 public class DisplayRecipeScene implements Initializable {
 
@@ -137,13 +139,19 @@ public class DisplayRecipeScene implements Initializable {
 
         // Remark button: Sends the comment to be saved to the database
         SubmitCommentButton.setOnMouseClicked(event -> {
+            // Get original message
             String comment = CommentTextField.getText();
+
+            // Blank the comment field
             CommentTextField.setText("");
+
+            // Update button responsiveness
             SubmitCommentButton.setDisable(true);
             CancelCommentButton.setDisable(true);
             CharacterCountHBox.setDisable(true);
 
-            qm.sendComment(comment);
+            qm.sendComment(comment, this.recipe);
+            reloadComments();
         });
         SubmitCommentButton.setOnMouseEntered(event -> {
             SubmitCommentButton.setStyle("-fx-background-radius: 20; -fx-background-color: #d4ea7b");
@@ -165,6 +173,9 @@ public class DisplayRecipeScene implements Initializable {
         this.recipe = recipe;
         this.parentAnchorPane = parentAnchorPane;
         this.previousScene = previousScene;
+
+        // Always load comments after recipe exists
+        reloadComments();
 
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
@@ -245,6 +256,7 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
+    // Return to previous scene
     @FXML
     private void transitionPreviousScene() {
         // previousScene is already loaded when the addRecipeObject function is called.
@@ -258,5 +270,47 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
+    private void reloadComments(){
+        int row = 1, col = 0;
+        QueryMaker qm = null;
 
+        // Clear the grid to update for new comments
+        CommentsGridPane.getChildren().clear();
+
+        try {
+            // Get all comments from this recipe using QueryMaker
+            qm = new QueryMaker();
+            ObservableList<Comment> allComments = qm.getThisRecipesComments(recipe);
+            NumberOfCommentsLabel.setText(Integer.toString(allComments.size()));
+            System.out.println("We reached this point but i dont know whats happening " + allComments.size());
+
+            // For all comments found, spawn the comment with a specific fxml design
+            for(int i=0; i<allComments.size(); i++){
+                // Load the fxml design onto a new AnchorPane
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                // TODO: set correct comment fxml here
+                fxmlLoader.setLocation(getClass().getResource("/cookbook/SampleCommentItem.fxml"));
+                AnchorPane anchorPane = null;
+                anchorPane = fxmlLoader.load();
+
+                // Obtain the controller from the respective fxml design and add the details of the comments
+                SampleCommentItem commentController = fxmlLoader.getController();
+                // TODO: set the comments data to the controller here
+                //commentController.setData(allComments.get(i), ap);
+
+                // Grid pane commands
+                CommentsGridPane.add(anchorPane, col, row++);
+                CommentsGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                CommentsGridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                CommentsGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+                CommentsGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                CommentsGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                CommentsGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+            }
+
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

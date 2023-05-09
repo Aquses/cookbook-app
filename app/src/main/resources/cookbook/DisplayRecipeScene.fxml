@@ -18,16 +18,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.DisplayRecipeScene">
+<AnchorPane fx:id="ap" prefHeight="674.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.DisplayRecipeScene">
     <children>
-      <ScrollPane fx:id="Scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="680.0" prefWidth="940.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fx:id="Scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="744.0" prefWidth="940.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;" AnchorPane.bottomAnchor="-36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
-              <VBox prefHeight="678.0" prefWidth="938.0" spacing="10.0">
+              <VBox prefHeight="803.0" prefWidth="937.0" spacing="10.0">
                   <padding>
                       <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
                   </padding>
                   <children>
-                  <HBox prefHeight="34.0" prefWidth="200.0" spacing="20.0">
+                  <HBox prefHeight="34.0" prefWidth="803.0" spacing="20.0">
                      <children>
                         <ImageView fx:id="ReturnButton" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -178,79 +178,93 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <VBox prefHeight="193.0" prefWidth="808.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <HBox prefHeight="45.0" prefWidth="787.0" spacing="10.0">
+                        <VBox prefHeight="193.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label fx:id="NumberOfCommentsLabel" text="0" textFill="WHITE">
-                                 <font>
-                                    <Font name="Segoe UI Black" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Comments" textFill="WHITE">
-                                 <font>
-                                    <Font name="Segoe UI Black" size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="166.0" prefWidth="787.0">
-                           <children>
-                              <AnchorPane prefHeight="142.0" prefWidth="794.0">
+                              <HBox prefHeight="45.0" prefWidth="787.0" spacing="10.0">
                                  <children>
-                                    <Circle fx:id="ProfilePictureCircle" fill="#fefd9f" radius="20.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <VBox alignment="TOP_CENTER" layoutY="-42.0" prefHeight="160.0" prefWidth="732.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <Label fx:id="NumberOfCommentsLabel" text="0" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Comments" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="166.0" prefWidth="787.0">
+                                 <children>
+                                    <AnchorPane prefHeight="142.0" prefWidth="794.0">
                                        <children>
-                                          <TextArea fx:id="CommentTextField" minHeight="-Infinity" prefHeight="96.0" prefWidth="732.0" promptText="Add a remark..." style="-fx-text-fill: #ffffff; -fx-border-color: TRANSPARENT;" stylesheets="@../UIstuff/text-field-transparent.css" wrapText="true">
-                                             <font>
-                                                <Font name="Segoe UI" size="14.0" />
-                                             </font>
-                                          </TextArea>
-                                          <Line endX="100.0" startX="-617.10009765625" startY="4.57763671875E-5" stroke="WHITE" strokeLineCap="ROUND" VBox.vgrow="NEVER" />
-                                          <HBox alignment="TOP_RIGHT" prefHeight="34.0" prefWidth="732.0" spacing="10.0">
+                                          <Circle fx:id="ProfilePictureCircle" fill="#fefd9f" radius="20.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <VBox alignment="TOP_CENTER" layoutY="-42.0" prefHeight="160.0" prefWidth="732.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <HBox fx:id="CharacterCountHBox" alignment="CENTER_RIGHT" disable="true" prefHeight="23.0" prefWidth="193.0" spacing="5.0">
+                                                <TextArea fx:id="CommentTextField" minHeight="-Infinity" prefHeight="96.0" prefWidth="732.0" promptText="Add a remark..." style="-fx-text-fill: #ffffff; -fx-border-color: TRANSPARENT;" stylesheets="@../UIstuff/text-field-transparent.css" wrapText="true">
+                                                   <font>
+                                                      <Font name="Segoe UI" size="14.0" />
+                                                   </font>
+                                                </TextArea>
+                                                <Line endX="100.0" startX="-617.10009765625" startY="4.57763671875E-5" stroke="WHITE" strokeLineCap="ROUND" VBox.vgrow="NEVER" />
+                                                <HBox alignment="TOP_RIGHT" prefHeight="34.0" prefWidth="732.0" spacing="10.0">
                                                    <children>
-                                                      <Label fx:id="NumberCharactersLeftLabel" text="1000">
+                                                      <HBox fx:id="CharacterCountHBox" alignment="CENTER_RIGHT" disable="true" prefHeight="23.0" prefWidth="193.0" spacing="5.0">
+                                                         <children>
+                                                            <Label fx:id="NumberCharactersLeftLabel" text="1000">
+                                                               <font>
+                                                                  <Font name="Segoe UI Light" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="CharactersLeftTextLabel" text="characters left">
+                                                               <font>
+                                                                  <Font name="Segoe UI Light" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <Button fx:id="CancelCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: TRANSPARENT;" text="Cancel" textAlignment="CENTER" textFill="WHITE">
                                                          <font>
-                                                            <Font name="Segoe UI Light" size="12.0" />
+                                                            <Font name="Segoe UI Bold" size="12.0" />
                                                          </font>
-                                                      </Label>
-                                                      <Label fx:id="CharactersLeftTextLabel" text="characters left">
+                                                      </Button>
+                                                      <Button fx:id="SubmitCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: #BBDD2C;" text="Remark" textAlignment="CENTER">
                                                          <font>
-                                                            <Font name="Segoe UI Light" size="12.0" />
+                                                            <Font name="Segoe UI Bold" size="12.0" />
                                                          </font>
-                                                      </Label>
+                                                      </Button>
                                                    </children>
                                                 </HBox>
-                                                <Button fx:id="CancelCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: TRANSPARENT;" text="Cancel" textAlignment="CENTER" textFill="WHITE">
-                                                   <font>
-                                                      <Font name="Segoe UI Bold" size="12.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="SubmitCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: #BBDD2C;" text="Remark" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Segoe UI Bold" size="12.0" />
-                                                   </font>
-                                                </Button>
                                              </children>
-                                          </HBox>
+                                          </VBox>
                                        </children>
-                                    </VBox>
+                                    </AnchorPane>
                                  </children>
-                              </AnchorPane>
+                              </HBox>
                            </children>
-                        </HBox>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <GridPane fx:id="CommentsGridPane">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                  </GridPane>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <GridPane fx:id="CommentsGridPane" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="806.0" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="50.0" top="25.0" />
+                     </VBox.margin>
+                  </AnchorPane>
                   </children>
               </VBox>
          </content>
