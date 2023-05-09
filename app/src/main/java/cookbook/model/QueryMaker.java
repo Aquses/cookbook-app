@@ -1,9 +1,12 @@
 package cookbook.model;
 
+import cookbook.view.DisplayRecipeScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -12,6 +15,7 @@ public class QueryMaker {
     Statement statement;
     ResultSet results;
     String query;
+    PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -203,5 +207,24 @@ public class QueryMaker {
             list.add(user);
         }
         return list;
+    }
+
+    // Use comment object here in place of the string
+    public void sendComment(String comment){
+        query = "INSERT INTO comments VALUES(?, ?, ?, ?, ?)";
+
+        //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        //LocalDateTime now = LocalDateTime.now();
+        //dtf.format(now);
+
+        /*
+        try {
+            //prepStatement = conn.prepareStatement(query);
+            //prepStatement.setString();
+
+            prepStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }*/
     }
 }
