@@ -79,7 +79,7 @@ public class AddRecipeController implements Initializable {
     @FXML private Label measurementLabel;
 
     @FXML private ChoiceBox<String> measurementField;
-
+    // load from database or custom array?
     private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
 
     @FXML private Label quantityLabel;
@@ -125,7 +125,7 @@ public class AddRecipeController implements Initializable {
           Statement stmt = conn2.createStatement();
                 
           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes, user_id) " +
-                          "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
+                         "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
                           servings + ", " + prepTime + ", " + cookTime + ", " + user_id + ")";
           stmt.executeUpdate(query);
                 
@@ -141,16 +141,16 @@ public class AddRecipeController implements Initializable {
               if (rsTag.next()) {
                 int tagId = rsTag.getInt(1);
                 stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
-                                  "VALUES ('" + recipeId + "', " + tagId + ")");
+                                   "VALUES ('" + recipeId + "', " + tagId + ")");
               } 
               else {
                 stmt.executeUpdate("INSERT INTO custom_tags (user_id, ctag_name) " +
-                                  "VALUES (" + user_id + ", '" + tagName + "')");
+                                   "VALUES (" + user_id + ", '" + tagName + "')");
                 ResultSet rsCtag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
                 rsCtag.next();
                 int ctagId = rsCtag.getInt(1);
-                stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, ctag_id) " +
-                                  "VALUES ('" + recipeId + "', " + ctagId + ")");
+                stmt.executeUpdate("INSERT INTO recipe_ctags (recipe_id, ctag_id) " +
+                                   "VALUES ('" + recipeId + "', " + ctagId + ")");
               }
             }
           }
@@ -161,7 +161,7 @@ public class AddRecipeController implements Initializable {
             int quantity = ingredient.getQuantity();
             String measurement = ingredient.getMeasurement();
             String ingredientQuery = "INSERT INTO ingredients (i_name, recipe_id, qty, measurement) " +
-                                    "VALUES ('" + ingName + "', " + recipeId + ", " + quantity + ", '" + measurement + "')";
+                                     "VALUES ('" + ingName + "', " + recipeId + ", " + quantity + ", '" + measurement + "')";
             stmt.executeUpdate(ingredientQuery);
           }
           tableView.getItems().clear();

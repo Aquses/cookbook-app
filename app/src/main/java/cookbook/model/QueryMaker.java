@@ -54,26 +54,49 @@ public class QueryMaker {
         return setUserToList();
     }
 
+    // user story 8, Eldaras, query loads tags and custom_tags. 
+    // I'm afraid of optimization. at some point it was lagging due to overload.
     public List<String> getCustomTagsForRecipe(int recipeId) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-        // change to dataquery connection later
-        String query = "SELECT tags.tag_name FROM tags " +
-                       "JOIN recipe_tags ON tags.tag_id = recipe_tags.tag_id " +
-                       "WHERE recipe_tags.recipe_id = ?";
-        try (PreparedStatement statement = conn2.prepareStatement(query)) {
-            statement.setInt(1, recipeId);
-            ResultSet resultSet = statement.executeQuery();
     
-            while (resultSet.next()) {
-                String tagName = resultSet.getString("tag_name");
+        // Retrieve tags from the recipe_tags table
+        String tagsQuery = "SELECT tags.tag_name " +
+                           "FROM tags " +
+                           "JOIN recipe_tags ON tags.tag_id = recipe_tags.tag_id " +
+                           "WHERE recipe_tags.recipe_id = ?";
+    
+        // Retrieve custom tags from the custom_tags table
+        String customTagsQuery = "SELECT custom_tags.ctag_name " +
+                                 "FROM custom_tags " +
+                                 "JOIN recipe_ctags ON custom_tags.ctag_id = recipe_ctags.ctag_id " +
+                                 "WHERE recipe_ctags.recipe_id = ?";
+    
+        try (PreparedStatement tagsStatement = conn2.prepareStatement(tagsQuery);
+             PreparedStatement customTagsStatement = conn2.prepareStatement(customTagsQuery)) {
+            tagsStatement.setInt(1, recipeId);
+            customTagsStatement.setInt(1, recipeId);
+    
+            ResultSet tagsResultSet = tagsStatement.executeQuery();
+            ResultSet customTagsResultSet = customTagsStatement.executeQuery();
+    
+            while (tagsResultSet.next()) {
+                String tagName = tagsResultSet.getString("tag_name");
                 customTags.add(tagName);
+            }
+    
+            while (customTagsResultSet.next()) {
+                String ctagName = customTagsResultSet.getString("ctag_name");
+                customTags.add(ctagName);
             }
         } finally {
           conn2.close();
         }
+    
         return customTags;
     }
+    
+    
     
     /*
     private List<Recipe> setToList() throws SQLException {

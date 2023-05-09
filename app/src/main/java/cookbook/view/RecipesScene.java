@@ -77,7 +77,7 @@ public class RecipesScene implements Initializable {
                         List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId());
                         for (String tag : customTags) {
                             if (tag.toLowerCase().contains(searchKeyword)) {
-                                return true; //found matches in custom tags
+                                return true; // found matches
                             }
                         }
                     } catch (SQLException e) {
