@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +46,9 @@ public class DisplayRecipeScene implements Initializable {
     private AnchorPane ap;
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
+
+    @FXML
+    private Button sendRecipe;
 
     // for vic
     @FXML
@@ -136,5 +142,15 @@ public class DisplayRecipeScene implements Initializable {
         parentAnchorPane.getChildren().clear();
         parentAnchorPane.getChildren().add(n);
 
+    }
+    @FXML
+    void sendRecipe(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(Cookbook.class.getResource("SendRecipe.fxml"));
+        Parent addUserSceneRoot = loader.load();
+        
+        Scene addUserScene = new Scene(addUserSceneRoot);
+        Stage addUserStage = new Stage();
+        addUserStage.setScene(addUserScene);
+        addUserStage.showAndWait();
     }
 }
