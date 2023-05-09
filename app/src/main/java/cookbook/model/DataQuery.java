@@ -52,6 +52,24 @@ public class DataQuery {
     }
   }
 
+  public ResultSet getUser(String username, String password) {
+    Statement statement = null;
+    ResultSet rs = null;
+
+    String query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'";
+
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
+      if(rs.next()) {
+        return rs;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return rs;
+  }
+
   public boolean checkCredentials(String username, String password) {
     boolean credentials = false;
     Statement statement = null;
@@ -272,6 +290,8 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
     closeDatabaseObjects(rs, statement, conn);
     }
   }
+
+
 
   public String getUsername(String username) {
     String query = "SELECT fname, lname FROM users WHERE username = \"" + username +"\"";

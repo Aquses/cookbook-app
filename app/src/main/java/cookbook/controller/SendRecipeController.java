@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
+import cookbook.model.Session;
 import cookbook.model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,10 +58,13 @@ public class SendRecipeController {
 
     public void setRecipe(Recipe selectedRecipe) {
       recipe = selectedRecipe;
+      System.out.println(recipe.getName());
     }
 
-    public void setSender(User selectedUser) {
-      sender = selectedUser;
+    public void setSender() {
+      User currentUser = Session.getCurrentUser();
+      sender = currentUser;
+      System.out.println(sender.getUsername());
     }
 
     @FXML

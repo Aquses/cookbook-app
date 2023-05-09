@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import cookbook.controller.MainNavigation;
 import cookbook.model.DataQuery;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -84,11 +86,14 @@ private void login() throws SQLException {
     
     if (result) {
       Stage userStage = new Stage();
-      DataQuery usernameQuery = new DataQuery();
-      userStage.setTitle("Welcome " + usernameQuery.getUsername(username) + "!");
+      DataQuery userQuery = new DataQuery();
+      // set logged in user object to pass to the hub scene
+      User loggedUser = new User(userQuery.getUser(username, password));
+      Session.setCurrentUser(loggedUser);
+      userStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
 
       try {
-        userStage.setScene(MainNavigation.getScene(result));
+        userStage.setScene(MainNavigation.getScene());
         userStage.show();
       } catch (IOException e) {
         throw new RuntimeException(e);

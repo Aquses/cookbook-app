@@ -20,10 +20,12 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
+import cookbook.controller.SendRecipeController;
 import cookbook.model.Ingredient;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
 import cookbook.model.RecipeEditor;
+import cookbook.model.User;
 
 public class DisplayRecipeScene implements Initializable {
     @FXML
@@ -56,9 +58,14 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private Button FavouriteRecipeButton;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private User user;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {}
+
+    public void setUser(User loggedUser) {
+        user = loggedUser;
+        System.out.println(user);
     }
 
     public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane){
@@ -146,11 +153,14 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     void sendRecipe(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(Cookbook.class.getResource("SendRecipe.fxml"));
-        Parent addUserSceneRoot = loader.load();
-        
-        Scene addUserScene = new Scene(addUserSceneRoot);
-        Stage addUserStage = new Stage();
-        addUserStage.setScene(addUserScene);
-        addUserStage.showAndWait();
+        Parent sendRecipeRoot = loader.load();
+        SendRecipeController sendController = loader.getController();
+
+        sendController.setRecipe(recipe);
+                
+        Scene sendRecipeScene = new Scene(sendRecipeRoot);
+        Stage sendRecipeStage = new Stage();
+        sendRecipeStage.setScene(sendRecipeScene);
+        sendRecipeStage.showAndWait();
     }
 }
