@@ -24,9 +24,6 @@ public class EditUserController implements Initializable {
     private Button addUserButton;
 
     @FXML
-    private ChoiceBox<String> admin;
-
-    @FXML
     private AnchorPane ap;
 
     @FXML
@@ -44,14 +41,10 @@ public class EditUserController implements Initializable {
     @FXML
     private TextField userName;
 
-    private String[] adminStrings = {"Admin", "User"};
-
     private User user;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-      admin.getItems().addAll(adminStrings);
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
     public void setUser(User selectedUser) {
       user = selectedUser;
@@ -64,11 +57,6 @@ public class EditUserController implements Initializable {
       lastName.setText(user.getLname());
       userName.setText(user.getUsername());
       password.setText(user.getPassword());
-      if (user.getIsAdmin()) {
-          admin.setValue("Admin");
-      } else {
-          admin.setValue("User");
-      }
     } 
     
     @FXML
@@ -77,15 +65,9 @@ public class EditUserController implements Initializable {
         String lastNameInput = lastName.getText();
         String usernameInput = userName.getText();
         String passwordInput = password.getText();
-        int adminValue;
-        if(admin.getValue().equals("Admin")){
-            adminValue = 1;
-        } else {
-            adminValue = 0;
-        }
-
+        
         DataQuery dq = new DataQuery();
-        dq.editUser(user.getUserId(), firstNameInput, lastNameInput, adminValue, usernameInput, passwordInput);
+        dq.editUser(user.getUserId(), firstNameInput, lastNameInput, usernameInput, passwordInput);
 
         Stage stage = (Stage) editUser.getScene().getWindow();
         stage.close();

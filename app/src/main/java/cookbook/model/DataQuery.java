@@ -308,8 +308,8 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
     }
   }
 
-  public void addUser(String fname, String lname, int isAdmin, String username, String password) {
-    String query = "INSERT INTO users (fname, lname, is_admin, username, password) VALUES ('" + fname + "', '" + lname + "', " + isAdmin + ", '" + username + "', '" + password + "')";
+  public void addUser(String fname, String lname, String username, String password) {
+    String query = "INSERT INTO users (fname, lname, is_admin, username, password) VALUES ('" + fname + "', '" + lname + "', " + 0 + ", '" + username + "', '" + password + "')";
     Statement statement = null;
 
     try {
@@ -321,14 +321,13 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
     }
   }
 
-  public void editUser(int userId, String fname, String lname, int isAdmin, String username, String password) {
-    String query = "UPDATE users SET fname='" + fname + "', lname='" + lname + "', is_admin=" + isAdmin + ", username='"
+  public void editUser(int userId, String fname, String lname, String username, String password) {
+    String query = "UPDATE users SET fname='" + fname + "', lname='" + lname + "', username='"
        + username + "', password='" + password + "' WHERE user_id=" + userId;
     Statement statement = null;
 
     try {
       statement = conn.createStatement();
-
       statement.executeUpdate(query);
     } catch (SQLException e) {
       e.printStackTrace();
