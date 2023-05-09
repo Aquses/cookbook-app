@@ -3,11 +3,12 @@ package cookbook.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Tags {
+public class Tags extends Recipe {
     private int tag_id;
     private String tag_name;
 
     public Tags(ResultSet rt) {
+        super(rt);
         try {
             setId(rt.getInt(1));
             setName(rt.getString(2));

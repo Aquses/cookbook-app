@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 //import java.util.List;
+import java.util.List;
 
 public class QueryMaker {
     Connection conn;
@@ -52,12 +54,27 @@ public class QueryMaker {
         return setUserToList();
     }
 
-    public ObservableList<Tags> getAllTags() throws SQLException{
-        // here we want a generic search, but the search text needs to be filtered and found based on the query.
-        query = "SELECT * FROM tags;";
-        return setTagsToList();
+    public List<String> getCustomTagsForRecipe(int recipeId) throws SQLException {
+        List<String> customTags = new ArrayList<>();
+        Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        // change to dataquery connection later
+        String query = "SELECT tags.tag_name FROM tags " +
+                       "JOIN recipe_tags ON tags.tag_id = recipe_tags.tag_id " +
+                       "WHERE recipe_tags.recipe_id = ?";
+        try (PreparedStatement statement = conn2.prepareStatement(query)) {
+            statement.setInt(1, recipeId);
+            ResultSet resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                String tagName = resultSet.getString("tag_name");
+                customTags.add(tagName);
+            }
+        } finally {
+          conn2.close();
+        }
+        return customTags;
     }
-
+    
     /*
     private List<Recipe> setToList() throws SQLException {
         List<Recipe> list = new ArrayList<>();
@@ -83,17 +100,17 @@ public class QueryMaker {
         return list;
     }
 
-    private ObservableList<Tags> setTagsToList() throws SQLException {
-        ObservableList<Tags> list = FXCollections.observableArrayList();
-        Tags tag;
-        results = statement.executeQuery(query);
+    // private ObservableList<Tags> setTagsToList() throws SQLException {
+    //     ObservableList<Tags> list = FXCollections.observableArrayList();
+    //     Tags tag;
+    //     results = statement.executeQuery(query);
 
-        while (results.next()) {
-            tag = new Tags(results);
-            list.add(tag);
-        }
-        return list;
-    }
+    //     while (results.next()) {
+    //         tag = new Tags(results);
+    //         list.add(tag);
+    //     }
+    //     return list;
+    // }
 
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
