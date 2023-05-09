@@ -40,10 +40,6 @@ public class SendRecipeController {
       QueryMaker queryMaker;
       queryMaker = new QueryMaker();
       userObservableList = queryMaker.getAllusers();
-
-      for (User user : userObservableList) {
-        System.out.println(user.getUsername());
-      }
   
       reciever.setItems(userObservableList);
       reciever.setConverter(new StringConverter<User>() {
