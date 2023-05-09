@@ -1,5 +1,6 @@
 package cookbook.view;
 
+import cookbook.controller.CommentController;
 import cookbook.controller.ItemController;
 import cookbook.controller.SampleCommentItem;
 import cookbook.model.*;
@@ -111,21 +112,22 @@ public class DisplayRecipeScene implements Initializable {
         // Responsive comment field:
         // Updates the character count in the comment writing section
         // Updates disabled buttons
-        // Changes the color of character count to red if it is using an invalid amount of characters
+        // Changes the color of character count to red if it is using an invalid amount
+        // of characters
         CommentTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             int length = CommentTextField.textProperty().length().get();
             final int limit = 1000;
             NumberCharactersLeftLabel.setText(Integer.toString(limit - length));
 
             // Make buttons visible if there are characters inside the text field
-            if (length > 0){
+            if (length > 0) {
                 if (length <= limit) {
                     SubmitCommentButton.setDisable(false);
                     CancelCommentButton.setDisable(false);
                     CharacterCountHBox.setDisable(false);
                     NumberCharactersLeftLabel.setTextFill(thereAreCharactersAvailableColor);
                     CharactersLeftTextLabel.setTextFill(thereAreCharactersAvailableColor);
-                } else{
+                } else {
                     SubmitCommentButton.setDisable(true);
                     NumberCharactersLeftLabel.setTextFill(noMoreCharactersAvailableColor);
                     CharactersLeftTextLabel.setTextFill(noMoreCharactersAvailableColor);
@@ -169,7 +171,7 @@ public class DisplayRecipeScene implements Initializable {
         });
     }
 
-    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane, Node previousScene){
+    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane, Node previousScene) {
         this.recipe = recipe;
         this.parentAnchorPane = parentAnchorPane;
         this.previousScene = previousScene;
@@ -182,7 +184,8 @@ public class DisplayRecipeScene implements Initializable {
         RecipeDetails.setText(recipe.getInstructions());
         ServingsText.setText(String.valueOf(recipe.getServings()));
 
-        // Uncomment below if recipe class prep time and cook time attributes are float type
+        // Uncomment below if recipe class prep time and cook time attributes are float
+        // type
         // TimePrepareText.setText(floatToMinutes(recipe.getPrepTime()));
         // TimeCookText.setText(floatToMinutes(recipe.getCookTime()));
 
@@ -198,7 +201,7 @@ public class DisplayRecipeScene implements Initializable {
             QueryMaker qm = new QueryMaker();
             ObservableList<Ingredient> ingredientsList = qm.retrieveIngredients(recipe.getId());
             StringBuilder sb = new StringBuilder();
-            
+
             for (Ingredient i : ingredientsList) {
                 sb.append(i.getIngredientName() + " | " + i.getQty() + " | " + i.getMeasurement() + "\n");
             }
@@ -211,11 +214,11 @@ public class DisplayRecipeScene implements Initializable {
     }
 
     // Below method is used if the prep time and cook time attributes are float
-    public String floatToMinutes(float time){
+    public String floatToMinutes(float time) {
         String t = Float.toString(time);
         float remainder = (time * 60) % 60;
 
-        if(remainder == 0){
+        if (remainder == 0) {
             int place = t.indexOf(".");
             String subT = t.substring(0, place);
             return subT + " min";
@@ -234,7 +237,6 @@ public class DisplayRecipeScene implements Initializable {
         Node n;
 
         System.out.println(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
-
 
         // load first
         try {
@@ -270,7 +272,7 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
-    private void reloadComments(){
+    private void reloadComments() {
         int row = 1, col = 0;
         QueryMaker qm = null;
 
@@ -285,18 +287,19 @@ public class DisplayRecipeScene implements Initializable {
             System.out.println("We reached this point but i dont know whats happening " + allComments.size());
 
             // For all comments found, spawn the comment with a specific fxml design
-            for(int i=0; i<allComments.size(); i++){
+            for (int i = 0; i < allComments.size(); i++) {
                 // Load the fxml design onto a new AnchorPane
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 // TODO: set correct comment fxml here
-                fxmlLoader.setLocation(getClass().getResource("/cookbook/SampleCommentItem.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/cookbook/CommentController.fxml"));
                 AnchorPane anchorPane = null;
                 anchorPane = fxmlLoader.load();
 
-                // Obtain the controller from the respective fxml design and add the details of the comments
-                SampleCommentItem commentController = fxmlLoader.getController();
+                // Obtain the controller from the respective fxml design and add the details of
+                // the comments
+                CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
-                //commentController.setData(allComments.get(i), ap);
+                // commentController.setData(allComments.get(i), ap);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);
