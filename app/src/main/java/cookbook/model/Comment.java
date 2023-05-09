@@ -27,7 +27,7 @@ public class Comment {
 
     Date result = null;
     try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       result = dateFormat.parse(s);
     }
 
