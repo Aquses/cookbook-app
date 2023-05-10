@@ -1,7 +1,11 @@
 package cookbook.controller;
 
+import java.sql.SQLException;
+
 import cookbook.model.Message;
+import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
+import cookbook.model.User;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -46,9 +50,13 @@ public class MessageController {
     @FXML
     private Label messageHeader;
 
+    @FXML
+    private Label SenderName;
+
     Recipe recipe;
     Message message;
 
+    
     @FXML
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
@@ -62,7 +70,18 @@ public class MessageController {
     public void setMessage(Message msg) {
         this.message = msg;
         messageContent.setText(message.getContent());
-        messageDate.setText(String.valueOf(message.getDateCreated()));
+        messageDate.setText(String.valueOf(message.getDateCreated()));  
+    }
+
+    public void setSenderName(Message msg) {
+        try {
+            QueryMaker qm = new QueryMaker();
+            User sender = qm.retrieveSender(msg);
+
+            SenderName.setText(sender.getFname() + " " + sender.getLname());
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 
