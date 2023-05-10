@@ -1,5 +1,7 @@
 package cookbook.view;
 
+import cookbook.controller.MainNavigation;
+import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -17,10 +20,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
-import cookbook.model.Ingredient;
-import cookbook.model.QueryMaker;
-import cookbook.model.Recipe;
-import cookbook.model.RecipeEditor;
 
 public class DisplayRecipeScene implements Initializable {
     @FXML
@@ -49,10 +48,36 @@ public class DisplayRecipeScene implements Initializable {
     private Button EditRecipeButton;
     @FXML
     private Button FavouriteRecipeButton;
+    @FXML
+    private ImageView FavButtonIcon;
 
+
+    private int recipe_id;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FavouriteRecipeButton.setOnMouseClicked(event -> {
+            int user_id = MainNavigation.getUserId();
 
+            // check weather it is a favorite recipe or not
+            DataQuery db = new DataQuery();
+            boolean fav = false;
+            try {
+                fav = db.isFavorite(user_id, recipe_id);
+            } catch (SQLException e) {}
+
+
+            // set icon
+            Image image;
+            db = new DataQuery();
+            if(!fav) {
+                db.insertFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+            }else {
+                db.removeFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+            }
+            FavButtonIcon.setImage(image);
+        });
     }
 
     public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane){
@@ -71,6 +96,25 @@ public class DisplayRecipeScene implements Initializable {
         // For int type below
         TimePrepareText.setText(String.valueOf(recipe.getPrepTime()));
         TimeCookText.setText(String.valueOf(recipe.getCookTime()));
+
+        int user_id = MainNavigation.getUserId();
+        int recipe_id = recipe.getId();
+        this.recipe_id = recipe_id;
+        // check weather it is a favorite recipe or not
+        DataQuery db = new DataQuery();
+        boolean fav = false;
+        try {
+            fav = db.isFavorite(user_id, recipe_id);
+        } catch (SQLException e) {}
+
+        // set icon
+        Image image;
+        if(fav) {
+            image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+        }else {
+            image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+        }
+        FavButtonIcon.setImage(image);
 
         return;
     }

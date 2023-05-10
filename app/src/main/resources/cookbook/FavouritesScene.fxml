@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cookbook.controller.FavoriteController">
+    <children>
+        <VBox prefHeight="650.0" prefWidth="1158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <padding>
+                <Insets bottom="10.0" left="100.0" right="30.0" top="50.0"/>
+            </padding>
+            <children>
+                <Label prefHeight="34.0" prefWidth="580.0" text="Favorite Recipes" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="18.0"/>
+                    </font>
+                </Label>
+                <HBox alignment="TOP_CENTER" prefHeight="515.0" prefWidth="1098.0"
+                      style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
+                    <children>
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="466.0" prefWidth="958.0"
+                                    style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
+                            <content>
+                                <GridPane fx:id="grid" hgap="10.0" prefHeight="204.0" prefWidth="1006.0" vgap="20.0">
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                                    </rowConstraints>
+                                </GridPane>
+                            </content>
+                            <HBox.margin>
+                                <Insets top="50.0"/>
+                            </HBox.margin>
+                        </ScrollPane>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
