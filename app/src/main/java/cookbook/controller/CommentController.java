@@ -1,11 +1,7 @@
 package cookbook.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
