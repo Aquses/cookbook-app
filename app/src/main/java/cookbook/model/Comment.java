@@ -56,7 +56,9 @@ public class Comment {
    * @return the date
    */
   public Date getDate() {
+
     return date;
+
   }
 
   /**
