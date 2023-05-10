@@ -16,7 +16,7 @@ public class QueryMaker {
     String query;
 
     public QueryMaker() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
         statement = conn.createStatement();
     }
 
@@ -208,52 +208,112 @@ public class QueryMaker {
     }
 
     
-    /**
-     * Inserts new messages into message table.
+    // /**
+    //  * Inserts new messages into message table.
      
-     * @param message message. 
-     * @throws SQLException
-     */
-    public void saveMessage(Message message) throws SQLException {
-        String sqlQuery = "INSERT INTO messages(message_id, sender_id, receiver_id, recipe_id, content, date_created) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement  statement = conn.prepareStatement(sqlQuery)) {
+    //  * @param message message. 
+    //  * @throws SQLException
+    //  */
+    // public void saveMessage(Message message) throws SQLException {
+    //     String sqlQuery = "INSERT INTO messages(message_id, sender_id, receiver_id, recipe_id, content, date_created) VALUES (?, ?, ?, ?, ?, ?)";
+    //     try (PreparedStatement  statement = conn.prepareStatement(sqlQuery)) {
     
-            statement.setInt(1, message.getSenderId());
-            statement.setInt(2, message.getReceiverId());
-            statement.setString(3, message.getContent());
-            statement.setInt(4, message.getRecipeId());
-            statement.setInt(5, message.getMessageId());
-            statement.setDate(6, message.getDateCreated());
-            statement.executeUpdate();
+    //         statement.setInt(1, message.getSenderId());
+    //         statement.setInt(2, message.getReceiverId());
+    //         statement.setString(3, message.getContent());
+    //         statement.setInt(4, message.getRecipeId());
+    //         statement.setInt(5, message.getMessageId());
+    //         statement.setDate(6, message.getDateCreated());
+    //         statement.executeUpdate();
+    //     } catch (SQLException e) {
+    //         System.out.println("Error: " + e.getMessage());
+    //     }
+   
+    // }
+
+
+    // /**
+    //  * gets the messages.
+    
+    //  * @param loggedInUser loggedInUser.
+    //  * @return messages.
+    //  * @throws SQLException
+    //  */
+    // public ObservableList<Message> getMessagesForUser(String loggedInUser) throws SQLException {
+    //     String sqlQuery = "SELECT * FROM messages WHERE sender_id = ? OR receiver_id = ?";
+    //     try (PreparedStatement statement = conn.prepareStatement(sqlQuery)) {
+    //         statement.setString(1, loggedInUser);
+    //         statement.setString(2, loggedInUser);
+    //         ResultSet rs = statement.executeQuery();
+    //         ObservableList<Message> messages = FXCollections.observableArrayList();
+    //         while (rs.next()) {
+    //             Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    //             Message message = new Message(rs.getInt("message_id"), rs.getInt("sender_id"), rs.getInt("receiver_id"), rs.getString("content"), rs.getInt("recipe_id"),   rs.getDate("date_created", utcCalendar));
+    //             messages.add(message);
+    //         }
+    //         return messages;
+    //     }
+    // }
+    
+    public ObservableList<Message> retrieveMessages(int userId) {
+        //Change parameter to user object
+        ObservableList<Message> messageList = FXCollections.observableArrayList();
+        String query = "SELECT * FROM messages WHERE receiver_id = ? ORDER BY date_created DESC";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            // statement.setInt(1, user.getUserId());
+            statement.setInt(1, userId);
+            
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Message msg = new Message(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+                                          rs.getInt(4), rs.getString(5), rs.getTimestamp(6));
+
+                // Maybe convert rs.getTimestamp to localDateTime object
+                messageList.add(msg);
+            }
+
+            rs.close();
+            statement.close();
+            
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-   
+
+        return messageList;
     }
 
+    public ObservableList<Recipe> retrieveMessageRecipes(int userId) {
+        ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+        String query = "SELECT * "
+                     + "FROM recipes as r "
+                     + "JOIN messages as m on m.recipe_id = r.recipe_id "
+                     + "WHERE m.receiver_id = ? "
+                     + "ORDER BY m.date_created DESC";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            // statement.setInt(1, user.getUserId());
+            statement.setInt(1, userId);
 
-    /**
-     * gets the messages.
-    
-     * @param loggedInUser loggedInUser.
-     * @return messages.
-     * @throws SQLException
-     */
-    public ObservableList<Message> getMessagesForUser(String loggedInUser) throws SQLException {
-        String sqlQuery = "SELECT * FROM messages WHERE sender_id = ? OR receiver_id = ?";
-        try (PreparedStatement statement = conn.prepareStatement(sqlQuery)) {
-            statement.setString(1, loggedInUser);
-            statement.setString(2, loggedInUser);
             ResultSet rs = statement.executeQuery();
-            ObservableList<Message> messages = FXCollections.observableArrayList();
-            while (rs.next()) {
-                Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-                Message message = new Message(rs.getInt("message_id"), rs.getInt("sender_id"), rs.getInt("receiver_id"), rs.getString("content"), rs.getInt("recipe_id"),   rs.getDate("date_created", utcCalendar));
-                messages.add(message);
-            }
-            return messages;
-        }
-    }
-    
 
+            while (rs.next()) {
+                Recipe recipe = new Recipe(rs);
+                recipeList.add(recipe);
+            }
+
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return recipeList;
+    }
+
+    
 }
