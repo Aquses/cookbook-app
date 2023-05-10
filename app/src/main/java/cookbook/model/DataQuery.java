@@ -11,7 +11,7 @@ import java.util.List;
 import java.sql.PreparedStatement;
 
 public class DataQuery {
-  private String database = "jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false";
+  private String database = "jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false";
   private Connection conn;
 
   // this method closes database objects and helps reduce code repetition
