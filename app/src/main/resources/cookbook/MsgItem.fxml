@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.MessageController">
+   <children>
+      <HBox prefHeight="221.0" prefWidth="460.0">
+         <children>
+            <AnchorPane prefHeight="221.0" prefWidth="240.0" style="-fx-background-radius: 10;">
+               <children>
+                  <Pane layoutY="144.0" prefHeight="66.0" prefWidth="202.0" style="-fx-background-color: #FEFD9F;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="FoodImage" fitHeight="192.0" fitWidth="198.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane layoutY="144.0" opacity="0.4" prefHeight="66.0" prefWidth="202.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Pane fx:id="RecipePane" layoutY="-1.0" opacity="0.0" prefHeight="210.0" prefWidth="202.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox fx:id="NumberLabels" prefHeight="62.0" prefWidth="198.0" AnchorPane.bottomAnchor="129.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="14.0" prefWidth="130.0" spacing="5.0">
+                           <children>
+                              <Label fx:id="ServingsCount" style="-fx-text-fill: black;" text="0">
+                                 <font>
+                                    <Font name="Segoe UI" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../menuIcons/icons8-users-32.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="14.0" prefWidth="130.0" spacing="5.0">
+                           <children>
+                              <Label fx:id="TimeTakenCount" style="-fx-text-fill: black;" text="0">
+                                 <font>
+                                    <Font name="Segoe UI" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../menuIcons/icons8-clock-48.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="BOTTOM_LEFT" layoutY="144.0" prefHeight="66.0" prefWidth="202.0">
+                     <children>
+                        <Label fx:id="FoodItemNameWhite" alignment="BOTTOM_LEFT" minHeight="-Infinity" prefHeight="66.0" prefWidth="202.0" text="Recipe Name" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Segoe UI Light" size="15.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Label fx:id="FoodItemDescription" alignment="TOP_LEFT" layoutY="-10.0" minHeight="-Infinity" opacity="0.0" prefHeight="126.0" prefWidth="198.0" text="Description here" textFill="WHITE" wrapText="true" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Segoe UI" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Pane fx:id="RecipeButton" layoutX="10.0" layoutY="164.0" onMouseEntered="#mouseHover" onMouseExited="#mouseHoverExit" opacity="0.3" prefHeight="221.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </AnchorPane>
+            <AnchorPane prefHeight="239.0" prefWidth="256.0">
+               <children>
+                  <Pane prefHeight="221.0" prefWidth="405.0" style="-fx-background-color: #FDF9C9;">
+                     <children>
+                        <Label fx:id="messageHeader" layoutX="14.0" layoutY="6.0" style="-fx-text-fill: black;" text="Message from:" />
+                        <Label fx:id="messageContent" alignment="TOP_LEFT" layoutX="14.0" layoutY="37.0" prefHeight="173.0" prefWidth="364.0" style="-fx-text-fill: black;" text="Fake message right here!! Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shit" wrapText="true" />
+                        <Line endY="167.0" layoutY="13.0" opacity="0.4" startY="-13.000015258789062" stroke="#e8a849" />
+                        <Label fx:id="messageDate" layoutX="256.0" layoutY="6.0" prefWidth="138.0" style="-fx-text-fill: black;" text="10/5/23" />
+                        <Label fx:id="SenderName" layoutX="121.0" layoutY="6.0" text="User" />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
