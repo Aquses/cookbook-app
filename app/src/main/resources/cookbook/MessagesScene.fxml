@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.MessagesScene">
 <children>
-    <VBox prefHeight="650.0" prefWidth="1158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <VBox layoutX="8.0" prefHeight="650.0" prefWidth="932.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <padding>
             <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
         </padding>
@@ -36,7 +36,7 @@
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="466.0" prefWidth="958.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
-                        <GridPane fx:id="grid" hgap="10.0" prefHeight="204.0" prefWidth="1006.0" vgap="20.0">
+                        <GridPane fx:id="grid" hgap="20.0" prefHeight="503.0" prefWidth="808.0" vgap="20.0">
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                            </rowConstraints>
