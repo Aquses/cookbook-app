@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,10 +20,12 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
+import cookbook.controller.SendRecipeController;
 import cookbook.model.Ingredient;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
 import cookbook.model.RecipeEditor;
+import cookbook.model.User;
 
 public class DisplayRecipeScene implements Initializable {
     @FXML
@@ -44,15 +49,23 @@ public class DisplayRecipeScene implements Initializable {
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
 
+    @FXML
+    private Button sendRecipe;
+
     // for vic
     @FXML
     private Button EditRecipeButton;
     @FXML
     private Button FavouriteRecipeButton;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private User user;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {}
+
+    public void setUser(User loggedUser) {
+        user = loggedUser;
+        System.out.println(user);
     }
 
     public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane){
@@ -136,5 +149,18 @@ public class DisplayRecipeScene implements Initializable {
         parentAnchorPane.getChildren().clear();
         parentAnchorPane.getChildren().add(n);
 
+    }
+    @FXML
+    void sendRecipe(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(Cookbook.class.getResource("SendRecipe.fxml"));
+        Parent sendRecipeRoot = loader.load();
+        SendRecipeController sendController = loader.getController();
+
+        sendController.setRecipe(recipe);
+                
+        Scene sendRecipeScene = new Scene(sendRecipeRoot);
+        Stage sendRecipeStage = new Stage();
+        sendRecipeStage.setScene(sendRecipeScene);
+        sendRecipeStage.showAndWait();
     }
 }

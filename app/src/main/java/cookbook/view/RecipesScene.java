@@ -33,7 +33,9 @@ public class RecipesScene implements Initializable {
     @FXML
     private AnchorPane ap;
 
-    public static Scene getScene() throws IOException {
+    public void RecipeScene() {}
+
+    public Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
         Scene recipesScene = new Scene(fxmlLoader.load(), 1280, 720);
 
@@ -129,5 +131,4 @@ public class RecipesScene implements Initializable {
             //GridPane.setMargin(anchorPane, new Insets(0,10,0,10));
         }
     }
-
 }

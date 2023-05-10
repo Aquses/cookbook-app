@@ -70,6 +70,7 @@
                                     </Button>
                                  </children>
                               </HBox>
+                              <Button fx:id="sendRecipe" layoutX="584.0" layoutY="21.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
                            </children>
                         </AnchorPane>
                      </children>

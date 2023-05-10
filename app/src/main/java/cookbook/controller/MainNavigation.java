@@ -1,6 +1,8 @@
 package cookbook.controller;
 
 import cookbook.Cookbook;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -37,10 +39,8 @@ public class MainNavigation implements Initializable {
 
     @FXML
     private AnchorPane ContentAnchor;
-    private static boolean admin;
  
-    public static Scene getScene(boolean isAdmin) throws IOException {
-        admin = isAdmin;
+    public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
         Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
@@ -49,14 +49,14 @@ public class MainNavigation implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        AdminButton.setVisible(admin);
+				User currentUser = Session.getCurrentUser();
+        AdminButton.setVisible(currentUser.getIsAdmin());
         try {
             loadScene(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        menuControls();
+			menuControls();
     }
 
     private void menuControls() {
@@ -142,6 +142,7 @@ public class MainNavigation implements Initializable {
                 break;
             // Load recipes scene
             case 1:
+                // set logged in user on recipe scene
                 fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
                 break;
             // Load admin scene
