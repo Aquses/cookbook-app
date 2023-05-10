@@ -55,7 +55,7 @@ public class QueryMaker {
     }
 
     // user story 8, Eldaras, query loads tags and custom_tags. 
-    // I'm afraid of optimization. at some point it was lagging due to overload.
+    // I'm afraid of optimization. at some point it was lagging due to overload of recipes.
     public List<String> getCustomTagsForRecipe(int recipeId) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");

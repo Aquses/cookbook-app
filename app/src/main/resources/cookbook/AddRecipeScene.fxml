@@ -51,7 +51,7 @@
                <children>
                   <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
-                        <GridPane fx:id="grid" hgap="10.0" prefHeight="308.0" prefWidth="795.0" vgap="20.0">
+                        <GridPane fx:id="grid" hgap="10.0" prefHeight="497.0" prefWidth="795.0" vgap="20.0">
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -106,14 +106,18 @@
             </HBox>
             <HBox prefHeight="299.0" prefWidth="810.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="170.0" prefWidth="226.0">
+                  <TableView fx:id="tableView" prefHeight="170.0" prefWidth="235.0">
                     <columns>
                       <TableColumn fx:id="ingColumn" prefWidth="75.0" text="Ingredient" />
                       <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="Quantity" />
-                        <TableColumn fx:id="measurementColumn" prefWidth="75.0" text="Measurement" />
+                        <TableColumn fx:id="measurementColumn" prefWidth="85.0" text="Measurement" />
                     </columns>
                   </TableView>
-                  <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="REMOVE" />
+                  <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="REMOVE">
+                     <HBox.margin>
+                        <Insets left="40.0" top="30.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
          </children>

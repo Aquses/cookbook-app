@@ -7,6 +7,7 @@ import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
+
 public class RecipesScene implements Initializable {
     @FXML
     private Button AddRecipeButton;
@@ -35,8 +37,9 @@ public class RecipesScene implements Initializable {
     private GridPane grid;
     @FXML
     private AnchorPane ap;
-    private AnchorPane parentAnchorPane;
-    private Recipe recipe;
+
+    AddRecipeController addrecipe;
+
 
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
@@ -81,7 +84,7 @@ public class RecipesScene implements Initializable {
                             }
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException("Error retrieving custom tags for recipe: " + e.getMessage());
+                      throw new RuntimeException("Error retrieving custom tags for recipe: " + e.getMessage());
                     }
                 
                     return false; // no matches found
@@ -101,44 +104,28 @@ public class RecipesScene implements Initializable {
     }
 
     private void specificControls() {
-        // AddRecipeButton.setOnMouseClicked(e2 -> {
-        //     FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));
-        //     DisplayRecipeScene drs;
-        //     Node n;
-
-        //     // load first
-        //     try {
-        //         n = fxmlLoader.load();
-        //     } catch (IOException e) {
-        //         throw new RuntimeException(e);
-        //     }
-        //     // then get controller
-        //     drs = fxmlLoader.getController();
-        //     drs.addRecipeObject(recipe, parentAnchorPane);
-        //     drs.addIngredients();
-
-        //     AnchorPane.setTopAnchor(n, 0.0);
-        //     AnchorPane.setRightAnchor(n, 0.0);
-        //     AnchorPane.setBottomAnchor(n, 0.0);
-        //     AnchorPane.setLeftAnchor(n, 0.0);
-
-        //     parentAnchorPane.getChildren().clear();
-        //     parentAnchorPane.getChildren().add(n);
-        // });
-        
-        AddRecipeButton.setOnAction(e2 -> {
+        AddRecipeButton.setOnMouseClicked(e2 -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddRecipeScene.fxml"));
+            Node n;    
+    
+            // load first
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
-                Parent addRecipeRoot = fxmlLoader.load();
-                Scene addRecipeScene = new Scene(addRecipeRoot);
-                Stage currentStage = (Stage) AddRecipeButton.getScene().getWindow();
-                currentStage.setScene(addRecipeScene);
+                n = fxmlLoader.load();
             } catch (IOException e) {
-              e.printStackTrace();
+              throw new RuntimeException(e);
             }
+            // then get controller
+            addrecipe = fxmlLoader.getController();
+    
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+    
+            ap.getChildren().clear();
+            ap.getChildren().add(n);
         });
     }
-    
 
     private void loadRecipes(ObservableList<Recipe> allRecipes){
         int row = 1, col = 0;

@@ -38,8 +38,6 @@ public class AddRecipeController implements Initializable {
 
     @FXML private Label createLabel;
 
-    @FXML private TextField portionSize;
-
     @FXML private Label portionLabel;
 
     @FXML private Label descLabel;
@@ -176,7 +174,6 @@ public class AddRecipeController implements Initializable {
         ingField.clear();
         tagsField.clear();
         servingsField.clear();
-        portionSize.clear();
         prepField.clear();
         cookField.clear();
         quantityField.clear();
