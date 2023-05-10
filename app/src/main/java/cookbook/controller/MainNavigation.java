@@ -3,11 +3,9 @@ package cookbook.controller;
 import cookbook.Cookbook;
 import cookbook.model.Session;
 import cookbook.model.User;
-import cookbook.view.RecipesScene;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.fxml.Initializable;

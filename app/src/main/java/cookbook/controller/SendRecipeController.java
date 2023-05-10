@@ -2,6 +2,7 @@ package cookbook.controller;
 
 import java.sql.SQLException;
 
+import cookbook.model.DataQuery;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
 import cookbook.model.Session;
@@ -34,7 +35,7 @@ public class SendRecipeController {
     private Button sendButton;
 
     private Recipe recipe;
-    private User sender;
+   
     private ObservableList<User> userObservableList;
 
     public void initialize() throws SQLException {
@@ -61,12 +62,6 @@ public class SendRecipeController {
       System.out.println(recipe.getName());
     }
 
-    public void setSender() {
-      User currentUser = Session.getCurrentUser();
-      sender = currentUser;
-      System.out.println(sender.getUsername());
-    }
-
     @FXML
     void cancel(ActionEvent event) {
       Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -75,9 +70,18 @@ public class SendRecipeController {
 
     @FXML
     void send(ActionEvent event) {
+      User sender = Session.getCurrentUser();
+      User receiver = reciever.getValue();
+      if (receiver != null) {
+        int receiverId = receiver.getUserId();
+        int recipeId = recipe.getId();
+        String message = textArea.getText();
+    
+        DataQuery sendQuery = new DataQuery();
+        sendQuery.addMessage(sender.getUserId(), receiverId, recipeId, message);
 
-    }
-
-
-
+        Stage stage = (Stage) sendButton.getScene().getWindow();
+        stage.close();
+        }
+      }
 }

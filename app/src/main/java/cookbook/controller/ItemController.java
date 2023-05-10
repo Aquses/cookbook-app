@@ -2,7 +2,6 @@ package cookbook.controller;
 
 import cookbook.Cookbook;
 import cookbook.model.Recipe;
-import cookbook.model.User;
 import cookbook.view.DisplayRecipeScene;
 import javafx.animation.FadeTransition;
 //import javafx.animation.FillTransition;
