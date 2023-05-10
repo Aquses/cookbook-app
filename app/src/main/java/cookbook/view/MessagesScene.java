@@ -91,7 +91,8 @@ public class MessagesScene {
             }
 
             MessageController mc = fxmlLoader.getController();
-            mc.setMessage(messageList.get(i));
+            
+            mc.setMessage(messageList.get(i), ap);
             // mc.setData(allRecipes.get(i), ap);
             mc.setRecipe(recipeList.get(i));
             mc.setSenderName(messageList.get(i));

@@ -1,16 +1,22 @@
 package cookbook.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
+import cookbook.Cookbook;
 import cookbook.model.Message;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
 import cookbook.model.User;
+import cookbook.view.DisplayRecipeScene;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -55,6 +61,7 @@ public class MessageController {
 
     Recipe recipe;
     Message message;
+    private AnchorPane parentAnchorPane;
 
     
     @FXML
@@ -67,7 +74,8 @@ public class MessageController {
 
     }
 
-    public void setMessage(Message msg) {
+    public void setMessage(Message msg, AnchorPane parent) {
+        this.parentAnchorPane = parent;
         this.message = msg;
         messageContent.setText(message.getContent());
         messageDate.setText(String.valueOf(message.getDateCreated()));  
@@ -120,6 +128,33 @@ public class MessageController {
         desc.setFromValue(1);
         desc.setToValue(0);
         desc.play();
+
+    }
+
+    @FXML
+    void transitionDisplayRecipe(MouseEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
+        DisplayRecipeScene drs;
+        Node n;
+
+        // load first
+        try {
+            n = fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // then get controller
+        drs = fxmlLoader.getController();
+        drs.addRecipeObject(recipe, parentAnchorPane);
+        drs.addIngredients();
+
+        AnchorPane.setTopAnchor(n, 0.0);
+        AnchorPane.setRightAnchor(n, 0.0);
+        AnchorPane.setBottomAnchor(n, 0.0);
+        AnchorPane.setLeftAnchor(n, 0.0);
+
+        parentAnchorPane.getChildren().clear();
+        parentAnchorPane.getChildren().add(n);
 
     }
 
