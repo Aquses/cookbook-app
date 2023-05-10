@@ -52,24 +52,24 @@ public class DataQuery {
     }
   }
 
-  public boolean checkCredentials(String username, String password) {
-    boolean credentials = false;
+  public int checkCredentials(String username, String password) {
+    int user_id = -1;
     Statement statement = null;
     ResultSet rs = null;
-    String query = "SELECT * FROM users WHERE username = '"+ username+"' AND password = '"+ password+"';";  
+    String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
     try {
       statement = conn.createStatement();
       rs = statement.executeQuery(query);
-      
+
       if (rs.next()) {
-        credentials = true;
-      } 
-      } catch (SQLException e) {
-        e.printStackTrace();
-      } finally {
-        closeDatabaseObjects(rs, statement, conn);
+        user_id = rs.getInt("user_id");
       }
-      return credentials;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeDatabaseObjects(rs, statement, conn);
+    }
+    return user_id;
   }
 
   // method to get a list of all recipes by name in the database
@@ -332,6 +332,55 @@ public VBox getFormattedRecipe(String recipe) throws SQLException {
       statement.executeUpdate(query);
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  public boolean isFavorite(int user_id, int recipe_id) throws SQLException {
+    String query = "SELECT * FROM favorites WHERE user_id = " + user_id + " AND recipe_id = " + recipe_id + ";";
+    Statement statement = null;
+    ResultSet rs = null;
+    List<String> recipeList = new ArrayList<>();
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
+
+      if (rs.next()) {
+        return true;
+      }
+
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    } finally {
+      closeDatabaseObjects(rs, statement, conn);
+    }
+    return false;
+  }
+
+  public void insertFavorite(int user_id, int recipe_id) {
+    String query = "INSERT INTO favorites (user_id, recipe_id) VALUES (" + user_id + ", " + recipe_id + ");";
+    Statement statement = null;
+    ResultSet rs = null;
+    try {
+      statement = conn.createStatement();
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeDatabaseObjects(rs, statement, conn);
+    }
+  }
+
+  public void removeFavorite(int user_id, int recipe_id) {
+    String query = "DELETE FROM favorites WHERE user_id = " + user_id + " AND recipe_id = " + recipe_id + ";";
+    Statement statement = null;
+    ResultSet rs = null;
+    try {
+      statement = conn.createStatement();
+      statement.executeUpdate(query);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeDatabaseObjects(rs, statement, conn);
     }
   }
 }

@@ -1,15 +1,13 @@
 package cookbook.view;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import cookbook.Cookbook;
-import cookbook.controller.AddRecipeController;
+import cookbook.model.AddRecipeStage;
 import cookbook.model.DataQuery;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 //import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -59,16 +57,8 @@ public class UserPageScene {
         button2.setLayoutX(50);
         button2.setLayoutY(50);
         button2.setOnAction(e2 -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(AddRecipeController.class.getResource("/cookbook/AddRecipeScene.fxml"));                
-                Parent addRecipeRoot = fxmlLoader.load();
-                Scene addRecipeScene = new Scene(addRecipeRoot);
-                Stage currentStage = (Stage) button2.getScene().getWindow();
-                currentStage.setScene(addRecipeScene);
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-        });       
+        AddRecipeStage.addRecipeStage();
+        });        
         root.getChildren().add(button2);
 
         //add list of all recipes
