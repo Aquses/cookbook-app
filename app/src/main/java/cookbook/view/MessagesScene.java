@@ -7,6 +7,8 @@ import cookbook.controller.MessageController;
 import cookbook.model.Message;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,8 +25,14 @@ public class MessagesScene {
     @FXML
     private GridPane grid;
 
+    User user;
+
     @FXML
     public void initialize() {
+        User currentUser = Session.getCurrentUser();
+        this.user = currentUser;
+        
+
         retrieveMessages();
         retrieveRecipes();
         loadMessages();
@@ -37,7 +45,8 @@ public class MessagesScene {
 
         try {
             QueryMaker qm = new QueryMaker();
-            ObservableList<Recipe> databaseRecipes = qm.retrieveMessageRecipes(2);
+            // ObservableList<Recipe> databaseRecipes = qm.retrieveMessageRecipes(2);
+            ObservableList<Recipe> databaseRecipes = qm.retrieveMessageRecipes(user);
             this.recipeList = databaseRecipes;
             
         } catch (SQLException e) {
@@ -46,10 +55,14 @@ public class MessagesScene {
     }
 
     public void retrieveMessages() {
+        // User currentUser = Session.getCurrentUser();
+        // System.out.println(currentUser.getFname());
+        // System.out.println(currentUser.getUserId());
         
         try {
             QueryMaker qm = new QueryMaker();
-            ObservableList<Message> databaseMessages = qm.retrieveMessages(2);
+            // ObservableList<Message> databaseMessages = qm.retrieveMessages(2);
+            ObservableList<Message> databaseMessages = qm.retrieveMessages(user);
             this.messageList = databaseMessages;
 
             // for (Message msg : databaseMessages) {
@@ -61,6 +74,8 @@ public class MessagesScene {
         }
 
     }
+
+    
 
     private void loadMessages(){
         int row = 1, col = 0;
@@ -79,6 +94,7 @@ public class MessagesScene {
             mc.setMessage(messageList.get(i));
             // mc.setData(allRecipes.get(i), ap);
             mc.setRecipe(recipeList.get(i));
+            mc.setSenderName(messageList.get(i));
 
             if(col == 1){
                 col = 0;

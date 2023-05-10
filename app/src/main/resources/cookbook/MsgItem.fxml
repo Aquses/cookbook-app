@@ -92,11 +92,23 @@
                <children>
                   <Pane prefHeight="221.0" prefWidth="405.0" style="-fx-background-color: #FDF9C9;">
                      <children>
-                        <Label fx:id="messageHeader" layoutX="14.0" layoutY="6.0" style="-fx-text-fill: black;" text="Message from:" />
-                        <Label fx:id="messageContent" alignment="TOP_LEFT" layoutX="14.0" layoutY="37.0" prefHeight="173.0" prefWidth="364.0" style="-fx-text-fill: black;" text="Fake message right here!! Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shit" wrapText="true" />
+                        <Label fx:id="messageHeader" layoutX="14.0" layoutY="6.0" style="-fx-text-fill: black;" text="Message from:">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="messageContent" alignment="TOP_LEFT" layoutX="14.0" layoutY="48.0" prefHeight="154.0" prefWidth="364.0" style="-fx-text-fill: black;" text="Fake message right here!! Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shit Random shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shitRandom shit" wrapText="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
                         <Line endY="167.0" layoutY="13.0" opacity="0.4" startY="-13.000015258789062" stroke="#e8a849" />
-                        <Label fx:id="messageDate" layoutX="256.0" layoutY="6.0" prefWidth="138.0" style="-fx-text-fill: black;" text="10/5/23" />
-                        <Label fx:id="SenderName" layoutX="121.0" layoutY="6.0" text="User" />
+                        <Label fx:id="messageDate" layoutX="256.0" layoutY="6.0" prefWidth="138.0" style="-fx-text-fill: black;" text="10/5/23">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="SenderName" layoutX="121.0" layoutY="6.0" style="-fx-text-fill: black;" text="User">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
                      </children>
                   </Pane>
                </children>
