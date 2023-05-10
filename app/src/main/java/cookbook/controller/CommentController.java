@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cookbook.model.Comment;
+import cookbook.model.QueryMaker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,7 +52,12 @@ public class CommentController {
 
   @FXML
   void removeComment(ActionEvent event) {
-
+    try {
+      QueryMaker qm = new QueryMaker();
+      qm.deleteComment(comment);
+    } catch (SQLException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
   }
 
 }
