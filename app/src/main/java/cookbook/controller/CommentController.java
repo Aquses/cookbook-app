@@ -47,6 +47,15 @@ public class CommentController {
 
   @FXML
   void editComment(ActionEvent event) throws SQLException {
+    Comment editedComment = comment;
+    String originaltext = editedComment.getComment_text();
+    editedComment.setComment_text(mycomment.getText());
+    try {
+      QueryMaker qm = new QueryMaker();
+      qm.editComment(originaltext, mycomment.getText());
+    } catch (SQLException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
 
   }
 
