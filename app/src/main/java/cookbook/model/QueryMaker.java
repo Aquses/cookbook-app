@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 //import java.util.List;
+import java.util.List;
 
 public class QueryMaker {
     Connection conn;
@@ -51,6 +53,50 @@ public class QueryMaker {
         return setUserToList();
     }
 
+    // user story 8, Eldaras, query loads tags and custom_tags. 
+    // I'm afraid of optimization. at some point it was lagging due to overload of recipes.
+    public List<String> getCustomTagsForRecipe(int recipeId) throws SQLException {
+        List<String> customTags = new ArrayList<>();
+        Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+    
+        // Retrieve tags from the recipe_tags table
+        String tagsQuery = "SELECT tags.tag_name " +
+                           "FROM tags " +
+                           "JOIN recipe_tags ON tags.tag_id = recipe_tags.tag_id " +
+                           "WHERE recipe_tags.recipe_id = ?";
+    
+        // Retrieve custom tags from the custom_tags table
+        String customTagsQuery = "SELECT custom_tags.ctag_name " +
+                                 "FROM custom_tags " +
+                                 "JOIN recipe_ctags ON custom_tags.ctag_id = recipe_ctags.ctag_id " +
+                                 "WHERE recipe_ctags.recipe_id = ?";
+    
+        try (PreparedStatement tagsStatement = conn2.prepareStatement(tagsQuery);
+             PreparedStatement customTagsStatement = conn2.prepareStatement(customTagsQuery)) {
+            tagsStatement.setInt(1, recipeId);
+            customTagsStatement.setInt(1, recipeId);
+    
+            ResultSet tagsResultSet = tagsStatement.executeQuery();
+            ResultSet customTagsResultSet = customTagsStatement.executeQuery();
+    
+            while (tagsResultSet.next()) {
+                String tagName = tagsResultSet.getString("tag_name");
+                customTags.add(tagName);
+            }
+    
+            while (customTagsResultSet.next()) {
+                String ctagName = customTagsResultSet.getString("ctag_name");
+                customTags.add(ctagName);
+            }
+        } finally {
+          conn2.close();
+        }
+    
+        return customTags;
+    }
+    
+    
+    
     /*
     private List<Recipe> setToList() throws SQLException {
         List<Recipe> list = new ArrayList<>();
@@ -75,6 +121,18 @@ public class QueryMaker {
         }
         return list;
     }
+
+    // private ObservableList<Tags> setTagsToList() throws SQLException {
+    //     ObservableList<Tags> list = FXCollections.observableArrayList();
+    //     Tags tag;
+    //     results = statement.executeQuery(query);
+
+    //     while (results.next()) {
+    //         tag = new Tags(results);
+    //         list.add(tag);
+    //     }
+    //     return list;
+    // }
 
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
