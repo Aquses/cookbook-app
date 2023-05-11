@@ -68,25 +68,25 @@ public class DataQuery {
 
   
 
-  public int checkCredentials(String username, String password) {
-    int user_id = -1;
-    Statement statement = null;
-    ResultSet rs = null;
-    String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
-    try {
-      statement = conn.createStatement();
-      rs = statement.executeQuery(query);
+  // public int checkCredentials(String username, String password) {
+  //   int user_id = -1;
+  //   Statement statement = null;
+  //   ResultSet rs = null;
+  //   String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
+  //   try {
+  //     statement = conn.createStatement();
+  //     rs = statement.executeQuery(query);
 
-      if (rs.next()) {
-        user_id = rs.getInt("user_id");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } finally {
-      closeDatabaseObjects(rs, statement, conn);
-    }
-    return user_id;
-  }
+  //     if (rs.next()) {
+  //       user_id = rs.getInt("user_id");
+  //     }
+  //   } catch (SQLException e) {
+  //     e.printStackTrace();
+  //   } finally {
+  //     closeDatabaseObjects(rs, statement, conn);
+  //   }
+  //   return user_id;
+  // }
 
   public boolean checkCredentials(String username, String password) {
     boolean credentials = false;

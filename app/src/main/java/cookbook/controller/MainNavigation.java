@@ -131,9 +131,18 @@ public class MainNavigation implements Initializable {
             }
 
         });
+
         favouritesButton.setOnMouseClicked(event -> {
             try {
                 loadScene(3);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        
+        MessagesButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(4);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -162,7 +171,7 @@ public class MainNavigation implements Initializable {
                 fxmlLoader.setLocation(Cookbook.class.getResource("FavouritesScene.fxml"));
                 break;// Load favourites scene
             // Load hub when given an invalid number
-            case 3:
+            case 4:
                 fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
                 break;
             default:

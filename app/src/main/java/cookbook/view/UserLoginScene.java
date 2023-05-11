@@ -82,29 +82,31 @@ public class UserLoginScene {
         String username = usernameField.getText();
         String password = passwordField.getText();
         DataQuery dq = new DataQuery();
-        int user_id = dq.checkCredentials(username, password);
-
-        if (user_id != -1) {
-            Stage userStage = new Stage();
-            DataQuery usernameQuery = new DataQuery();
-            userStage.setTitle("Welcome " + usernameQuery.getUsername(username) + "!");
-
-            try {
-                MainNavigation mainNavigation = new MainNavigation();
-                mainNavigation.setUser_id(user_id);
-                userStage.setScene(mainNavigation.getScene(true));
-                userStage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        boolean result = dq.checkCredentials(username, password);
+        
+        if (result) {
+          Stage userStage = new Stage();
+          DataQuery userQuery = new DataQuery();
+          // set logged in user object to pass to the hub scene
+          User loggedUser = new User(userQuery.getUser(username, password));
+          Session.setCurrentUser(loggedUser);
+          userStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
+    
+          try {
+            userStage.setScene(MainNavigation.getScene());
             userStage.show();
-
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          userStage.show();
+         
         } else {
             System.out.println("Invalid username or password.");
             clearFields();
-            errorLabel.setText("Invalid username or password.");
+            errorLabel.setText("Invalid username or password.") ;
         }
-    }
+      }
+    
 
     private static void clearFields() {
         usernameField.clear();

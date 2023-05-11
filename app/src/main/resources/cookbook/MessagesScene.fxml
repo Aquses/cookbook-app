@@ -25,7 +25,7 @@
                     <Insets />
                 </VBox.margin>
                <children>
-                  <Label text="Messages (WORK IN PROGRESS)" textFill="WHITE">
+                  <Label text="Messages" textFill="WHITE">
                      <font>
                         <Font size="32.0" />
                      </font>
