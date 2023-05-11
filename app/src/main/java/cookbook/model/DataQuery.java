@@ -47,6 +47,27 @@ public class DataQuery {
     }
   }
 
+  public ResultSet getUser(String username, String password) {
+    Statement statement = null;
+    ResultSet rs = null;
+
+    String query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'";
+
+    try {
+      statement = conn.createStatement();
+      rs = statement.executeQuery(query);
+      if(rs.next()) {
+        return rs;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return rs;
+  }
+
+
+  
+
   public int checkCredentials(String username, String password) {
     int user_id = -1;
     Statement statement = null;
@@ -170,6 +191,19 @@ public class DataQuery {
       statement.executeUpdate(query);
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+    public void addMessage(int senderId, int receiverId, int recipeId, String content) {
+    String query = "INSERT INTO messages (sender_id, receiver_id, recipe_id, content, date_created) VALUES (" +
+                   senderId + ", " + receiverId + ", " + recipeId + ", '" + content + "', CURRENT_TIMESTAMP)";
+    Statement statement = null;
+
+    try {
+        statement = conn.createStatement();
+        statement.executeUpdate(query);
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
   }
 

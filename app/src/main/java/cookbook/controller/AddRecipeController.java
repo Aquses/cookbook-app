@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
+import cookbook.model.Ingredient;
 
 public class AddRecipeController implements Initializable {
 
@@ -37,6 +38,8 @@ public class AddRecipeController implements Initializable {
     @FXML private Label nameLabel;
 
     @FXML private Label createLabel;
+
+    @FXML private TextField portionSize;
 
     @FXML private Label portionLabel;
 
@@ -76,6 +79,7 @@ public class AddRecipeController implements Initializable {
 
     @FXML private Label measurementLabel;
 
+
     @FXML private ChoiceBox<String> measurementField;
     // load from database or custom array?
     private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
@@ -87,6 +91,8 @@ public class AddRecipeController implements Initializable {
     @FXML private TableView<IngredientsAddRecipe> tableView;
 
     @FXML private TableColumn<IngredientsAddRecipe, String> ingColumn;
+
+    @FXML private TableView<Ingredient> tableView1;
 
     @FXML private TableColumn<IngredientsAddRecipe, Integer> quantityColumn;
 
