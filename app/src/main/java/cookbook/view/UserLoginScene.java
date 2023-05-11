@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import cookbook.controller.MainNavigation;
 import cookbook.model.DataQuery;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

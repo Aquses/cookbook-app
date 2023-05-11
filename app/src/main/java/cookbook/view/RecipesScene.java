@@ -127,6 +127,7 @@ public class RecipesScene implements Initializable {
         });
     }
 
+
     private void loadRecipes(ObservableList<Recipe> allRecipes){
         int row = 1, col = 0;
 
@@ -160,5 +161,4 @@ public class RecipesScene implements Initializable {
             //GridPane.setMargin(anchorPane, new Insets(0,10,0,10));
         }
     }
-
 }

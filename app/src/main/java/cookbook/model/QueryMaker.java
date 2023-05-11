@@ -261,4 +261,98 @@ public class QueryMaker {
         }
         return list;
     }
+
+    
+    // public ObservableList<Message> retrieveMessages(int userId) {
+    public ObservableList<Message> retrieveMessages(User user) {       
+        //Change parameter to user object
+        ObservableList<Message> messageList = FXCollections.observableArrayList();
+        String query = "SELECT * FROM messages WHERE receiver_id = ? ORDER BY date_created DESC";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user.getUserId());
+            // statement.setInt(1, userId);
+            
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Message msg = new Message(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+                                          rs.getInt(4), rs.getString(5), rs.getTimestamp(6));
+
+                // Maybe convert rs.getTimestamp to localDateTime object
+                messageList.add(msg);
+            }
+
+            rs.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return messageList;
+    }
+
+    public ObservableList<Recipe> retrieveMessageRecipes(User user) {
+        ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+        String query = "SELECT * "
+                     + "FROM recipes as r "
+                     + "JOIN messages as m on m.recipe_id = r.recipe_id "
+                     + "WHERE m.receiver_id = ? "
+                     + "ORDER BY m.date_created DESC";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            // statement.setInt(1, user.getUserId());
+            // statement.setInt(1, userId);
+            statement.setInt(1, user.getUserId());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Recipe recipe = new Recipe(rs);
+                recipeList.add(recipe);
+            }
+
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return recipeList;
+    }
+
+    public User retrieveSender(Message msg) {
+        String query = "SELECT u.* "
+                     + "FROM users as u "
+                     + "JOIN messages as m on m.sender_id = u.user_id "
+                     + "WHERE m.message_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, msg.getMessageId());
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(rs);
+                rs.close();
+                statement.close();
+                return user;
+            }
+
+            
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return null;
+
+    }
+
+    
 }

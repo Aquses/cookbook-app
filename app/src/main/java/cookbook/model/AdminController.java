@@ -112,7 +112,6 @@ void editUser(ActionEvent event) throws IOException, SQLException {
     EditUserController editUserController = loader.getController();
 
     editUserController.setUser(selectedUser);
-    System.out.println(selectedUser);
 
     Scene editUserScene = new Scene(editUserSceneRoot);
     Stage editUserStage = new Stage();
