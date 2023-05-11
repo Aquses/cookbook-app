@@ -50,7 +50,7 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <Button alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #BBDD2C;" text="Bookmarks">
+                                        <Button fx:id="favouritesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #BBDD2C;" text="Favorites">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
