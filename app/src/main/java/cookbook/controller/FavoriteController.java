@@ -2,6 +2,8 @@ package cookbook.controller;
 
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -27,7 +29,8 @@ public class FavoriteController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            int user_id = MainNavigation.getUserId();
+            User user = Session.getCurrentUser();
+            int user_id = user.getUserId();
             QueryMaker qm = new QueryMaker();
             ObservableList<Recipe> recipes = qm.getFavoriteRecipes(user_id);
             FilteredList<Recipe> filteredRecipes = new FilteredList<>(recipes, b -> true);

@@ -81,23 +81,24 @@ public class UserLoginScene {
     private void login() throws SQLException {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        Stage userStage = new Stage();
         DataQuery dq = new DataQuery();
-        int user_id = dq.checkCredentials(username, password);
+        boolean result = dq.checkCredentials(username, password);
 
-        if (user_id != -1) {
-            Stage userStage = new Stage();
-            DataQuery usernameQuery = new DataQuery();
-            userStage.setTitle("Welcome " + usernameQuery.getUsername(username) + "!");
-
+        if (result) {
+            DataQuery userQuery = new DataQuery();
+            // set logged in user object to pass to the hub scene
+            User loggedUser = new User(userQuery.getUser(username, password));
+            Session.setCurrentUser(loggedUser);
+            userStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
+      
             try {
-                MainNavigation mainNavigation = new MainNavigation();
-                mainNavigation.setUser_id(user_id);
-                userStage.setScene(mainNavigation.getScene(true));
+                userStage.setScene(MainNavigation.getScene());
                 userStage.show();
-            } catch (IOException e) {
+              } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
-            userStage.show();
+              }
+              userStage.show();
 
         } else {
             System.out.println("Invalid username or password.");

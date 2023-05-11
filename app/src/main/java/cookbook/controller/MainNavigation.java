@@ -41,21 +41,12 @@ public class MainNavigation implements Initializable {
     private AnchorPane ContentAnchor;
     @FXML
     private Button favouritesButton;
-    private static boolean admin;
-    private static int user_id;
- 
+    
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
         Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
         return hub;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-    public static int getUserId() {
-        return user_id;
     }
 
     @Override
@@ -138,6 +129,13 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        MessagesButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(4);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -162,7 +160,7 @@ public class MainNavigation implements Initializable {
                 fxmlLoader.setLocation(Cookbook.class.getResource("FavouritesScene.fxml"));
                 break;// Load favourites scene
             // Load hub when given an invalid number
-            case 3:
+            case 4:
                 fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
                 break;
             default:

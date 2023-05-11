@@ -1,6 +1,7 @@
 package cookbook.view;
 
 import cookbook.controller.MainNavigation;
+import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,7 +63,8 @@ public class DisplayRecipeScene implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FavouriteRecipeButton.setOnMouseClicked(event -> {
-            int user_id = MainNavigation.getUserId();
+            User user = Session.getCurrentUser();
+            int user_id = user.getUserId();
 
             // check weather it is a favorite recipe or not
             DataQuery db = new DataQuery();
@@ -103,7 +105,8 @@ public class DisplayRecipeScene implements Initializable {
         TimePrepareText.setText(String.valueOf(recipe.getPrepTime()));
         TimeCookText.setText(String.valueOf(recipe.getCookTime()));
 
-        int user_id = MainNavigation.getUserId();
+        User user = Session.getCurrentUser();
+        int user_id = user.getUserId();
         int recipe_id = recipe.getId();
         this.recipe_id = recipe_id;
         // check weather it is a favorite recipe or not
