@@ -4,7 +4,6 @@ package cookbook.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-// import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
-import cookbook.model.Ingredient;
 
 public class AddRecipeController implements Initializable {
 
@@ -78,8 +76,7 @@ public class AddRecipeController implements Initializable {
     @FXML private TextField ingField;
 
     @FXML private Label measurementLabel;
-
-
+    
     @FXML private ChoiceBox<String> measurementField;
     // load from database or custom array?
     private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
@@ -92,7 +89,6 @@ public class AddRecipeController implements Initializable {
 
     @FXML private TableColumn<IngredientsAddRecipe, String> ingColumn;
 
-    @FXML private TableView<Ingredient> tableView1;
 
     @FXML private TableColumn<IngredientsAddRecipe, Integer> quantityColumn;
 
@@ -200,6 +196,8 @@ public class AddRecipeController implements Initializable {
         ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
         ingredients.add(ingredient);
         tableView.setItems(ingredients);
+        ingField.clear();
+        quantityField.clear();
       });
 
       removeButton.setOnAction(event -> {
