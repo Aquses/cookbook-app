@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
+import cookbook.model.User;
+import cookbook.model.Session;
+import cookbook.model.Tags;
 
 public class AddRecipeController implements Initializable {
 
@@ -89,24 +93,38 @@ public class AddRecipeController implements Initializable {
 
     @FXML private TableColumn<IngredientsAddRecipe, String> ingColumn;
 
-
     @FXML private TableColumn<IngredientsAddRecipe, Integer> quantityColumn;
 
     @FXML private TableColumn<IngredientsAddRecipe, String> measurementColumn;
+
+    @FXML private Button addTagButton;
 
     @FXML private Button submitButton;
 
     @FXML private Button removeButton;
 
+    @FXML private TableView<Tags> tagsView;
+
+    @FXML private TableColumn<Tags, String> tagNameColumn;
+
+    @FXML private CheckBox checkBox1;
+    @FXML private CheckBox checkBox2;
+    @FXML private CheckBox checkBox3;
+    @FXML private CheckBox checkBox4;
+    @FXML private CheckBox checkBox5;
+    @FXML private CheckBox checkBox6;
+    @FXML private CheckBox checkBox7;
+    @FXML private CheckBox checkBox8;
+
     @FXML private GridPane grid;
 
-    @FXML private ListView<String> tagList;
+    // @FXML private ListView<String> tagList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       loadData();
-      String[] tags = loadListView();
-      tagList.setItems(FXCollections.observableArrayList(tags));
+      // String[] tags = loadListView();
+      // tagList.setItems(FXCollections.observableArrayList(tags));
       measurementField.getItems().addAll(measurements);
 
       addRecipeButton.setOnAction(event -> {
@@ -114,12 +132,12 @@ public class AddRecipeController implements Initializable {
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
         String recipeInstructions = insField.getText();
-        String recipeTags = tagsField.getText();
         int servings = Integer.parseInt(servingsField.getText());
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
-        int user_id = 2; // we do not have transfering user_id implemented, so far like this <<<<< FIX THIS LATER, DO NOT FORGET!!!
-    
+        User user = Session.getCurrentUser();
+        int user_id = user.getUserId();    
+        
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
           Statement stmt = conn2.createStatement();
@@ -132,9 +150,10 @@ public class AddRecipeController implements Initializable {
           ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
           rs.next();
           int recipeId = rs.getInt(1);
-          String[] tagList = recipeTags.split(",");
+          ObservableList<Tags> tags = tagsView.getItems();
 
-          for (String tagName : tagList) {
+          for (Tags tag : tags) {
+            String tagName = tag.getName();
             tagName = tagName.trim();
             if (tagName.length() > 0) {
               ResultSet rsTag = stmt.executeQuery("SELECT tag_id FROM tags WHERE tag_name = '" + tagName + "'");
@@ -142,8 +161,7 @@ public class AddRecipeController implements Initializable {
                 int tagId = rsTag.getInt(1);
                 stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
                                    "VALUES ('" + recipeId + "', " + tagId + ")");
-              } 
-              else {
+              } else {
                 stmt.executeUpdate("INSERT INTO custom_tags (user_id, ctag_name) " +
                                    "VALUES (" + user_id + ", '" + tagName + "')");
                 ResultSet rsCtag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
@@ -154,6 +172,7 @@ public class AddRecipeController implements Initializable {
               }
             }
           }
+          
 
           ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
           for (IngredientsAddRecipe ingredient : ingredients) {
@@ -181,12 +200,20 @@ public class AddRecipeController implements Initializable {
         quantityField.clear();
       });
 
-      tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-      tagList.setOnMouseClicked(event -> {
-        ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
-        if (!selectedItems.isEmpty()) {
-          tagsField.setText(String.join(", ", selectedItems));
-        }
+      // tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+      // tagList.setOnMouseClicked(event -> {
+      //   ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
+      //   if (!selectedItems.isEmpty()) {
+      //     tagsField.setText(String.join(", ", selectedItems));
+      //   }
+      // });
+
+      addTagButton.setOnAction(event -> {
+        Tags tag = new Tags(tagsField.getText());
+        ObservableList<Tags> tags = tagsView.getItems();
+        tags.add(tag);
+        tagsView.setItems(tags);
+        tagsField.clear();
       });
 
       submitButton.setOnAction(event -> {
@@ -202,7 +229,9 @@ public class AddRecipeController implements Initializable {
 
       removeButton.setOnAction(event -> {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
+        int selectedTag = tagsView.getSelectionModel().getSelectedIndex();
         tableView.getItems().remove(selectedID);
+        tagsView.getItems().remove(selectedTag);
       });
     }
 
@@ -210,47 +239,48 @@ public class AddRecipeController implements Initializable {
       ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
       quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
       measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
+      tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
     }
 
-    public String[] loadListView() {
-      Connection conn = null;
-      Statement stmt = null;
+  //   public String[] loadListView() {
+  //     Connection conn = null;
+  //     Statement stmt = null;
 
-      try {
-        Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-        stmt = conn2.createStatement();
-        String query = "SELECT * FROM tags";
-        ResultSet rs = stmt.executeQuery(query);
+  //     try {
+  //       Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+  //       stmt = conn2.createStatement();
+  //       String query = "SELECT * FROM tags";
+  //       ResultSet rs = stmt.executeQuery(query);
 
-        ArrayList<String> resultList = new ArrayList<>();
-        while (rs.next()) {
-          String resultString = rs.getString("tag_name");
-          resultList.add(resultString);
-        }
+  //       ArrayList<String> resultList = new ArrayList<>();
+  //       while (rs.next()) {
+  //         String resultString = rs.getString("tag_name");
+  //         resultList.add(resultString);
+  //       }
 
-        String[] resultArray = resultList.toArray(new String[resultList.size()]);
+  //       String[] resultArray = resultList.toArray(new String[resultList.size()]);
 
-        rs.close();
-        stmt.close();
-        conn2.close();
+  //       rs.close();
+  //       stmt.close();
+  //       conn2.close();
 
-        return resultArray;
+  //       return resultArray;
 
-    } catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    } 
-    finally {
-      try {
-        if (stmt != null) stmt.close();
-      } catch (SQLException se) {
-        se.printStackTrace();
-      }
-      try {
-        if (conn != null) conn.close();
-      } catch (SQLException se) {
-        se.printStackTrace();
-      }
-    }
-  }
+  //   } catch (SQLException e) {
+  //     e.printStackTrace();
+  //     return null;
+  //   } 
+  //   finally {
+  //     try {
+  //       if (stmt != null) stmt.close();
+  //     } catch (SQLException se) {
+  //       se.printStackTrace();
+  //     }
+  //     try {
+  //       if (conn != null) conn.close();
+  //     } catch (SQLException se) {
+  //       se.printStackTrace();
+  //     }
+  //   }
+  // }
 }
