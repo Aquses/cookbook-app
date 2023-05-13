@@ -4,6 +4,8 @@ package cookbook.model;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class WeeklyDinnerList {
   private int week_id;
@@ -18,6 +20,22 @@ public class WeeklyDinnerList {
     setStart_Date(rt.getDate(3));
     setEnd_date(rt.getDate(4));
 
+  }
+
+  // a method to set the date format for the date of WeeklyDinnerList
+  public Date StringToDate(String s) {
+
+    java.util.Date result = null;
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+      result = dateFormat.parse(s);
+    }
+
+    catch (ParseException e) {
+      e.printStackTrace();
+
+    }
+    return (Date) result;
   }
 
   /**
@@ -52,6 +70,7 @@ public class WeeklyDinnerList {
    * @return the start_Date
    */
   public Date getStart_Date() {
+
     return start_Date;
   }
 
@@ -59,6 +78,7 @@ public class WeeklyDinnerList {
    * @param start_Date the start_Date to set
    */
   public void setStart_Date(Date start_Date) {
+
     this.start_Date = start_Date;
   }
 
