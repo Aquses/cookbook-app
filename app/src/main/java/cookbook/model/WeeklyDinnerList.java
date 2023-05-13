@@ -40,4 +40,11 @@ public class WeeklyDinnerList {
     this.user_id = user_id;
   }
 
+  /**
+   * @return the start_Date
+   */
+  public Date getStart_Date() {
+    return start_Date;
+  }
+
 }
