@@ -12,4 +12,11 @@ public class WeeklyDinnerList {
   private Date start_Date;
   private Date end_date;
 
+  /**
+   * @return the week_id
+   */
+  public int getWeek_id() {
+    return week_id;
+  }
+
 }
