@@ -19,4 +19,11 @@ public class WeeklyDinnerList {
     return week_id;
   }
 
+  /**
+   * @param week_id the week_id to set
+   */
+  public void setWeek_id(int week_id) {
+    this.week_id = week_id;
+  }
+
 }
