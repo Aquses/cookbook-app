@@ -5,8 +5,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.cj.protocol.Resultset;
-
 public class WeeklyDinnerList {
   private int week_id;
   private int user_id;
