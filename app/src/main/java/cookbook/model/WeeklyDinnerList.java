@@ -47,4 +47,11 @@ public class WeeklyDinnerList {
     return start_Date;
   }
 
+  /**
+   * @param start_Date the start_Date to set
+   */
+  public void setStart_Date(Date start_Date) {
+    this.start_Date = start_Date;
+  }
+
 }
