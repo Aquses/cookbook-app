@@ -26,4 +26,11 @@ public class WeeklyDinnerList {
     this.week_id = week_id;
   }
 
+  /**
+   * @return the user_id
+   */
+  public int getUser_id() {
+    return user_id;
+  }
+
 }
