@@ -2,6 +2,7 @@ package cookbook.model;
 // this is the object class for weekly dinner list feature
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mysql.cj.protocol.Resultset;
@@ -11,6 +12,15 @@ public class WeeklyDinnerList {
   private int user_id;
   private Date start_Date;
   private Date end_date;
+
+  public WeeklyDinnerList(ResultSet rt) throws SQLException {
+    setWeek_id(rt.getInt(1));
+    setUser_id(rt.getInt(2));
+
+    setStart_Date(rt.getDate(3));
+    setEnd_date(rt.getDate(4));
+
+  }
 
   /**
    * @return the week_id
