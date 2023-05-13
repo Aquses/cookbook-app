@@ -54,4 +54,11 @@ public class WeeklyDinnerList {
     this.start_Date = start_Date;
   }
 
+  /**
+   * @return the end_date
+   */
+  public Date getEnd_date() {
+    return end_date;
+  }
+
 }
