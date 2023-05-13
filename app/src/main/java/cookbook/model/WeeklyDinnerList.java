@@ -61,4 +61,11 @@ public class WeeklyDinnerList {
     return end_date;
   }
 
+  /**
+   * @param end_date the end_date to set
+   */
+  public void setEnd_date(Date end_date) {
+    this.end_date = end_date;
+  }
+
 }
