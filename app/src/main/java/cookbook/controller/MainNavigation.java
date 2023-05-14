@@ -41,6 +41,8 @@ public class MainNavigation implements Initializable {
     private AnchorPane ContentAnchor;
     @FXML
     private Button favouritesButton;
+
+
     
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
@@ -136,6 +138,7 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
     }
 
     private void loadScene(int sceneID) throws IOException {
