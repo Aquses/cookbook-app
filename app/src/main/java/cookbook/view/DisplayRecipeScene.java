@@ -46,12 +46,17 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private Text RecipeTags;
     @FXML
+    private Button addTagButton;
+    @FXML
+    private ImageView addTagIcon;
+    @FXML
     private AnchorPane ap;
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
 
     @FXML
     private Button sendRecipe;
+    
 
     // for vic
     @FXML
@@ -92,6 +97,25 @@ public class DisplayRecipeScene implements Initializable {
                 image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
             }
             FavButtonIcon.setImage(image);
+        });
+
+        addTagButton.setOnAction(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddCustomTag.fxml"));
+            Node n;    
+
+            try {
+                n = fxmlLoader.load();
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+    
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+    
+            parentAnchorPane.getChildren().clear();
+            parentAnchorPane.getChildren().add(n);
         });
     }
 
@@ -136,7 +160,7 @@ public class DisplayRecipeScene implements Initializable {
 
         // Eldaras, this is for tags, uses the method from QueryMaker that I made.
         try {
-            List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId());
+            List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
             String tagsText = String.join(", ", customTags);
             RecipeTags.setText(tagsText);
         } catch (SQLException e) {

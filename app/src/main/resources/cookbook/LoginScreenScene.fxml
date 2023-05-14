@@ -24,8 +24,8 @@
                </font>
             </Label>
             <Label fx:id="errorLabel" layoutX="59.0" layoutY="327.0" prefHeight="17.0" prefWidth="300.0" textFill="WHITE" />
-            <PasswordField fx:id="passwordField" layoutX="192.0" layoutY="215.0" />
             <TextField fx:id="usernameField" layoutX="192.0" layoutY="161.0" />
+            <PasswordField fx:id="passwordField" layoutX="192.0" layoutY="215.0" />
             <Button fx:id="loginButton" layoutX="218.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Login">
                <font>
                   <Font name="System Bold" size="15.0" />

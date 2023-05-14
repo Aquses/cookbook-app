@@ -40,6 +40,9 @@ public class RecipesScene implements Initializable {
 
     AddRecipeController addrecipe;
 
+    User user = Session.getCurrentUser();
+    int user_id = user.getUserId();
+
 
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
@@ -77,7 +80,7 @@ public class RecipesScene implements Initializable {
                     }
         
                     try {
-                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId());
+                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
                         for (String tag : customTags) {
                             if (tag.toLowerCase().contains(searchKeyword)) {
                                 return true; // found matches
