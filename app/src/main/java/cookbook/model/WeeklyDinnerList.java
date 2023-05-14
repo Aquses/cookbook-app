@@ -1,0 +1,99 @@
+package cookbook.model;
+// this is the object class for weekly dinner list feature
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+public class WeeklyDinnerList {
+  private int week_id;
+  private int user_id;
+  private Date start_Date;
+  private Date end_date;
+
+  public WeeklyDinnerList(ResultSet rt) throws SQLException {
+    setWeek_id(rt.getInt(1));
+    setUser_id(rt.getInt(2));
+
+    setStart_Date(rt.getDate(3));
+    setEnd_date(rt.getDate(4));
+
+  }
+
+  // a method to set the date format for the date of WeeklyDinnerList
+  public Date StringToDate(String s) {
+
+    java.util.Date result = null;
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+      result = dateFormat.parse(s);
+    }
+
+    catch (ParseException e) {
+      e.printStackTrace();
+
+    }
+    return (Date) result;
+  }
+
+  /**
+   * @return the week_id
+   */
+  public int getWeek_id() {
+    return week_id;
+  }
+
+  /**
+   * @param week_id the week_id to set
+   */
+  public void setWeek_id(int week_id) {
+    this.week_id = week_id;
+  }
+
+  /**
+   * @return the user_id
+   */
+  public int getUser_id() {
+    return user_id;
+  }
+
+  /**
+   * @param user_id the user_id to set
+   */
+  public void setUser_id(int user_id) {
+    this.user_id = user_id;
+  }
+
+  /**
+   * @return the start_Date
+   */
+  public Date getStart_Date() {
+
+    return start_Date;
+  }
+
+  /**
+   * @param start_Date the start_Date to set
+   */
+  public void setStart_Date(Date start_Date) {
+
+    this.start_Date = start_Date;
+  }
+
+  /**
+   * @return the end_date
+   */
+  public Date getEnd_date() {
+    return end_date;
+  }
+
+  /**
+   * @param end_date the end_date to set
+   */
+  public void setEnd_date(Date end_date) {
+    this.end_date = end_date;
+  }
+
+}
