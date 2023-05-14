@@ -2,7 +2,6 @@ package cookbook.controller;
 
 // AddRecipe Controller made by Eldaras
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -26,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
@@ -107,24 +105,20 @@ public class AddRecipeController implements Initializable {
 
     @FXML private TableColumn<Tags, String> tagNameColumn;
 
-    @FXML private CheckBox checkBox1;
-    @FXML private CheckBox checkBox2;
-    @FXML private CheckBox checkBox3;
-    @FXML private CheckBox checkBox4;
-    @FXML private CheckBox checkBox5;
-    @FXML private CheckBox checkBox6;
-    @FXML private CheckBox checkBox7;
-    @FXML private CheckBox checkBox8;
+    @FXML private CheckBox checkbox1;
+    @FXML private CheckBox checkbox2;
+    @FXML private CheckBox checkbox3;
+    @FXML private CheckBox checkbox4;
+    @FXML private CheckBox checkbox5;
+    @FXML private CheckBox checkbox6;
+    @FXML private CheckBox checkbox7;
+    @FXML private CheckBox checkbox8;
 
     @FXML private GridPane grid;
-
-    // @FXML private ListView<String> tagList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       loadData();
-      // String[] tags = loadListView();
-      // tagList.setItems(FXCollections.observableArrayList(tags));
       measurementField.getItems().addAll(measurements);
 
       addRecipeButton.setOnAction(event -> {
@@ -136,7 +130,47 @@ public class AddRecipeController implements Initializable {
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
         User user = Session.getCurrentUser();
-        int user_id = user.getUserId();    
+        int user_id = user.getUserId();
+
+        // LOOKS VERY UGLY, WILL FIX IT. SO FAR SOLUTION WITH CHECKBOXES, YOUTUBE!!!
+        List<String> selectedCheckboxValues = new ArrayList<>();
+        if (checkbox1.isSelected()) {
+          selectedCheckboxValues.add(checkbox1.getText());
+        }
+  
+        if (checkbox2.isSelected()) {
+          selectedCheckboxValues.add(checkbox2.getText());
+        }
+  
+        if (checkbox3.isSelected()) {
+          selectedCheckboxValues.add(checkbox3.getText());
+        }
+  
+        if (checkbox4.isSelected()) {
+          selectedCheckboxValues.add(checkbox4.getText());
+        }
+  
+        if (checkbox5.isSelected()) {
+          selectedCheckboxValues.add(checkbox5.getText());
+        }
+  
+        if (checkbox6.isSelected()) {
+          selectedCheckboxValues.add(checkbox6.getText());
+        }
+  
+        if (checkbox7.isSelected()) {
+          selectedCheckboxValues.add(checkbox7.getText());
+        }
+  
+        if (checkbox8.isSelected()) {
+          selectedCheckboxValues.add(checkbox8.getText());
+        }
+    
+        for (String checkboxValue : selectedCheckboxValues) {
+          Tags tag = new Tags(checkboxValue); 
+          tagsView.getItems().add(tag);
+        }
+        tagsView.getItems().clear();
         
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -173,7 +207,6 @@ public class AddRecipeController implements Initializable {
             }
           }
           
-
           ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
           for (IngredientsAddRecipe ingredient : ingredients) {
             String ingName = ingredient.getName();
@@ -193,20 +226,12 @@ public class AddRecipeController implements Initializable {
         descField.clear();
         insField.clear();
         ingField.clear();
-        tagsField.clear();
         servingsField.clear();
         prepField.clear();
         cookField.clear();
         quantityField.clear();
       });
 
-      // tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-      // tagList.setOnMouseClicked(event -> {
-      //   ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
-      //   if (!selectedItems.isEmpty()) {
-      //     tagsField.setText(String.join(", ", selectedItems));
-      //   }
-      // });
 
       addTagButton.setOnAction(event -> {
         Tags tag = new Tags(tagsField.getText());
@@ -229,9 +254,7 @@ public class AddRecipeController implements Initializable {
 
       removeButton.setOnAction(event -> {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
-        int selectedTag = tagsView.getSelectionModel().getSelectedIndex();
         tableView.getItems().remove(selectedID);
-        tagsView.getItems().remove(selectedTag);
       });
     }
 
@@ -241,46 +264,4 @@ public class AddRecipeController implements Initializable {
       measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
       tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
     }
-
-  //   public String[] loadListView() {
-  //     Connection conn = null;
-  //     Statement stmt = null;
-
-  //     try {
-  //       Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-  //       stmt = conn2.createStatement();
-  //       String query = "SELECT * FROM tags";
-  //       ResultSet rs = stmt.executeQuery(query);
-
-  //       ArrayList<String> resultList = new ArrayList<>();
-  //       while (rs.next()) {
-  //         String resultString = rs.getString("tag_name");
-  //         resultList.add(resultString);
-  //       }
-
-  //       String[] resultArray = resultList.toArray(new String[resultList.size()]);
-
-  //       rs.close();
-  //       stmt.close();
-  //       conn2.close();
-
-  //       return resultArray;
-
-  //   } catch (SQLException e) {
-  //     e.printStackTrace();
-  //     return null;
-  //   } 
-  //   finally {
-  //     try {
-  //       if (stmt != null) stmt.close();
-  //     } catch (SQLException se) {
-  //       se.printStackTrace();
-  //     }
-  //     try {
-  //       if (conn != null) conn.close();
-  //     } catch (SQLException se) {
-  //       se.printStackTrace();
-  //     }
-  //   }
-  // }
 }
