@@ -16,7 +16,7 @@ public class QueryMaker {
     String query;
 
     public QueryMaker() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
         statement = conn.createStatement();
     }
 
@@ -352,6 +352,82 @@ public class QueryMaker {
 
         return null;
 
+    }
+
+    public ObservableList<WeeklyDinnerList> retrieveWeeklyListObjects(User user) {
+
+        ObservableList<WeeklyDinnerList> weeklyPlansList = FXCollections.observableArrayList();
+        
+        String query = "SELECT * "
+                     + "FROM week_plan "
+                     + "WHERE user_id = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user.getUserId());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                int weekId = rs.getInt(1);
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList weeklyList = new WeeklyDinnerList(rs, weeklyListRecipes);
+                weeklyPlansList.add(weeklyList);
+
+                rs.close();
+                statement.close();
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return weeklyPlansList;
+
+    }
+
+    
+    public ObservableList<Recipe> retrieveDailyRecipes(User user, String day, int weekId) {
+        ObservableList<Recipe> dayRecipeList = FXCollections.observableArrayList();
+
+        String query = "SELECT r.* "
+                     + "FROM daily_recipes as dr "
+                     + "JOIN week_plan as wp on wp.week_id = dr.week_id "
+                     + "JOIN recipes as r on r.recipe_id = dr.recipe_id "
+                     + "JOIN users as u on u.user_id = wp.user_id "
+                     + "WHERE u.user_id = ? and dr.day_of_week = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user.getUserId());
+            statement.setString(2, day);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Recipe recipe = new Recipe(rs);
+                dayRecipeList.add(recipe);
+            }
+
+            rs.close();
+            statement.close();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+
+        return dayRecipeList;
+        
     }
 
     
