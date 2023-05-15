@@ -7,17 +7,21 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javafx.collections.ObservableList;
+
 public class WeeklyDinnerList {
   private int week_id;
   private int user_id;
   private String week_name;
   private int week_number;
 
+  private ObservableList<Recipe> dinnerList;
+
   public WeeklyDinnerList(ResultSet rt) throws SQLException {
     setWeek_id(rt.getInt(1));
     setUser_id(rt.getInt(3));
 
-    setWeek_name(rt.getString(3));
+    setWeek_name(rt.getString(2));
     setWeek_number(rt.getInt(4));
 
   }
