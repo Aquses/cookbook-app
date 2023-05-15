@@ -7,85 +7,89 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javafx.beans.binding.ObjectExpression;
 import javafx.collections.ObservableList;
 
 public class WeeklyDinnerList {
-  private int week_id;
-  private int user_id;
-  private String week_name;
-  private int week_number;
+  private int weekId;
+  private int userId;
+  private String weekName;
+  private int weekNumber;
+  private ObservableList<ObservableList<Recipe>> weeklyMeals;
 
-  private ObservableList<Recipe> mondayRecipes;
-  private ObservableList<Recipe> tuesdayRecipes;
-  private ObservableList<Recipe> wednesdayRecipes;
-  private ObservableList<Recipe> thursdayRecipes;
-  private ObservableList<Recipe> fridayRecipes;
-  private ObservableList<Recipe> saturdayRecipes;
-  private ObservableList<Recipe> sundayRecipes;
-
-  public WeeklyDinnerList(ResultSet rt, ObservableList list) throws SQLException {
-    setWeek_id(rt.getInt(1));
-    setUser_id(rt.getInt(3));
-    setWeek_name(rt.getString(2));
-    setWeek_number(rt.getInt(4));
-
+  public WeeklyDinnerList(ResultSet rt, ObservableList<ObservableList<Recipe>> mealList) throws SQLException {
+    setWeekId(rt.getInt(1));
+    setWeekName(rt.getString(2));
+    setUserId(rt.getInt(3));
+    setWeekNumber(rt.getInt(4));
+    setWeeklyMeals(mealList);
   }
 
   /**
    * @return the week_id
    */
-  public int getWeek_id() {
-    return week_id;
+  public int getWeekId() {
+    return weekId;
   }
 
   /**
    * @param week_id the week_id to set
    */
-  public void setWeek_id(int week_id) {
-    this.week_id = week_id;
+  public void setWeekId(int weekId) {
+    this.weekId = weekId;
   }
 
   /**
    * @return the user_id
    */
-  public int getUser_id() {
-    return user_id;
+  public int getUserId() {
+    return userId;
   }
 
   /**
-   * @param user_id the user_id to set
+   * @param userId the user_id to set
    */
-  public void setUser_id(int user_id) {
-    this.user_id = user_id;
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
   /**
    * @return the week_name
    */
-  public String getWeek_name() {
-    return week_name;
+  public String getWeekName() {
+    return weekName;
   }
 
   /**
    * @param week_name the week_name to set
    */
-  public void setWeek_name(String week_name) {
-    this.week_name = week_name;
+  public void setWeekName(String weekName) {
+    this.weekName = weekName;
   }
 
   /**
    * @return the week_number
    */
-  public int getWeek_number() {
-    return week_number;
+  public int getWeekNumber() {
+    return weekNumber;
   }
 
   /**
    * @param week_number the week_number to set
    */
-  public void setWeek_number(int week_number) {
-    this.week_number = week_number;
+  public void setWeekNumber(int weekNumber) {
+    this.weekNumber = weekNumber;
+  }
+
+  public void setWeeklyMeals(ObservableList<ObservableList<Recipe>> mealList) {
+    this.weeklyMeals = mealList;
+  }
+
+  // public ObservableList<Recipe> getWeeklyMeals() {
+  //   return weeklyMeals;
+  // }
+
+  public ObservableList<ObservableList<Recipe>> getWeeklyPlan() {
+    return weeklyMeals;
   }
 
 }
