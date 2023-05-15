@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
+import cookbook.model.Session;
 import cookbook.model.Ingredient;
 
 public class AddRecipeController implements Initializable {
@@ -122,17 +124,28 @@ public class AddRecipeController implements Initializable {
         int servings = Integer.parseInt(servingsField.getText());
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
-        int user_id = 2; // we do not have transfering user_id implemented, so far like this <<<<< FIX THIS LATER, DO NOT FORGET!!!
-    
+        int user_id = Session.getCurrentUser().getUserId();
+      
+        if (recipeName.trim().isEmpty() != true) {
+
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-          Statement stmt = conn2.createStatement();
-                
+
           String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes, user_id) " +
-                         "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
-                          servings + ", " + prepTime + ", " + cookTime + ", " + user_id + ")";
-          stmt.executeUpdate(query);
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+          PreparedStatement pstmt = conn2.prepareStatement(query);
+          pstmt.setString(1, recipeName);
+          pstmt.setString(2, recipeDesc);
+          pstmt.setString(3, recipeInstructions);
+          pstmt.setInt(4, servings);
+          pstmt.setInt(5, prepTime);
+          pstmt.setInt(6, cookTime);
+          pstmt.setInt(7, user_id);
+          
+          pstmt.executeUpdate();
                 
+          Statement stmt = conn2.createStatement();
           ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
           rs.next();
           int recipeId = rs.getInt(1);
@@ -158,7 +171,7 @@ public class AddRecipeController implements Initializable {
               }
             }
           }
-
+          
           ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
           for (IngredientsAddRecipe ingredient : ingredients) {
             String ingName = ingredient.getName();
@@ -172,6 +185,7 @@ public class AddRecipeController implements Initializable {
         } catch (SQLException e) {
           e.printStackTrace();
         }
+
     
         // Clear text fields
         nameField.clear();
@@ -183,7 +197,8 @@ public class AddRecipeController implements Initializable {
         prepField.clear();
         cookField.clear();
         quantityField.clear();
-      });
+      }});
+      
 
       tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       tagList.setOnMouseClicked(event -> {
