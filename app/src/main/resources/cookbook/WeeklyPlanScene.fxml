@@ -2,7 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -28,6 +31,19 @@
                   </Label>
                </children>
             </VBox>
+            <HBox prefHeight="457.0" prefWidth="802.0">
+               <children>
+                  <TableView fx:id="weeklyPlanTable" prefHeight="417.0" prefWidth="379.0">
+                    <columns>
+                      <TableColumn fx:id="weekNumberCol" editable="false" prefWidth="102.1903305053711" style="-fx-alignment: center;" text="Week No." />
+                      <TableColumn fx:id="weekNameCol" editable="false" prefWidth="276.8096923828125" style="-fx-alignment: center;" text="List/Plan Name" />
+                    </columns>
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
         </children>
     </VBox>
 </children>
