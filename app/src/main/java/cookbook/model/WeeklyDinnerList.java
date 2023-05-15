@@ -10,32 +10,16 @@ import java.text.SimpleDateFormat;
 public class WeeklyDinnerList {
   private int week_id;
   private int user_id;
-  private Date start_Date;
-  private Date end_date;
+  private String week_name;
+  private int week_number;
 
   public WeeklyDinnerList(ResultSet rt) throws SQLException {
     setWeek_id(rt.getInt(1));
-    setUser_id(rt.getInt(2));
+    setUser_id(rt.getInt(3));
 
-    setStart_Date(rt.getDate(3));
-    setEnd_date(rt.getDate(4));
+    setWeek_name(rt.getString(3));
+    setWeek_number(rt.getInt(4));
 
-  }
-
-  // a method to set the date format for the date of WeeklyDinnerList
-  public Date StringToDate(String s) {
-
-    java.util.Date result = null;
-    try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      result = dateFormat.parse(s);
-    }
-
-    catch (ParseException e) {
-      e.printStackTrace();
-
-    }
-    return (Date) result;
   }
 
   /**
@@ -67,33 +51,31 @@ public class WeeklyDinnerList {
   }
 
   /**
-   * @return the start_Date
+   * @return the week_name
    */
-  public Date getStart_Date() {
-
-    return start_Date;
+  public String getWeek_name() {
+    return week_name;
   }
 
   /**
-   * @param start_Date the start_Date to set
+   * @param week_name the week_name to set
    */
-  public void setStart_Date(Date start_Date) {
-
-    this.start_Date = start_Date;
+  public void setWeek_name(String week_name) {
+    this.week_name = week_name;
   }
 
   /**
-   * @return the end_date
+   * @return the week_number
    */
-  public Date getEnd_date() {
-    return end_date;
+  public int getWeek_number() {
+    return week_number;
   }
 
   /**
-   * @param end_date the end_date to set
+   * @param week_number the week_number to set
    */
-  public void setEnd_date(Date end_date) {
-    this.end_date = end_date;
+  public void setWeek_number(int week_number) {
+    this.week_number = week_number;
   }
 
 }
