@@ -100,8 +100,8 @@ public class Cookbook extends Application {
                 start.getChildren().addAll(header, button);
 
                 primaryStage.setTitle("Dish IT");
-                primaryStage.setWidth(600);
-                primaryStage.setHeight(400);
+                primaryStage.setWidth(660);
+                primaryStage.setHeight(540);
                 primaryStage.setScene(startScene);
                 primaryStage.show();
             });

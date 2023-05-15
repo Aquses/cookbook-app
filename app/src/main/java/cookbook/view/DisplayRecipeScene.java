@@ -1,6 +1,5 @@
 package cookbook.view;
 
-import cookbook.controller.MainNavigation;
 import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;

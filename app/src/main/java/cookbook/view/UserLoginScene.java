@@ -2,6 +2,7 @@ package cookbook.view;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -15,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
@@ -32,6 +35,8 @@ public class UserLoginScene implements Initializable {
     @FXML private PasswordField passwordField;
 
     @FXML private Button loginButton;
+
+    @FXML private ImageView logo;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
