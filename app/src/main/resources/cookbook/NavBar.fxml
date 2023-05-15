@@ -64,7 +64,7 @@
                                         </Button>
                                     </children>
                                 </VBox>
-                                <VBox prefHeight="143.0" prefWidth="141.0" style="-fx-background-color: #247927;">
+                                <VBox prefHeight="192.0" prefWidth="141.0" style="-fx-background-color: #247927;">
                                     <children>
                                         <Button alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Planner">
                                             <font>
@@ -110,6 +110,18 @@
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
+                              </Button>
+                              <Button fx:id="WeeklyPlanButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Weekly Plan" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../menuIcons/icons8-plan-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </Button>
                                     </children>
                            <VBox.margin>
