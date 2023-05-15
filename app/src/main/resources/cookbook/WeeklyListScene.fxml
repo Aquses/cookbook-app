@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox alignment="CENTER">
+            <Label text="Weekly List" />
+        </VBox>
+    </top>
+    <center>
+        <GridPane hgap="10" vgap="10">
+            <Label text="Monday" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Tuesday" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Wednesday" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label text="Thursday" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <Label text="Friday" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Label text="Saturday" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+            <Label text="Sunday" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+            <Label text="Recipe 1" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="Recipe 2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Recipe 3" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Recipe 4" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label text="Recipe 5" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label text="Recipe 6" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Label text="Recipe 7" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+        </GridPane>
+    </center>
+</BorderPane>
