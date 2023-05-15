@@ -125,7 +125,9 @@ public class AddRecipeController implements Initializable {
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
         int user_id = Session.getCurrentUser().getUserId();
-    
+      
+        if (recipeName.trim().isEmpty() != true) {
+
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
 
@@ -169,7 +171,7 @@ public class AddRecipeController implements Initializable {
               }
             }
           }
-
+          
           ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
           for (IngredientsAddRecipe ingredient : ingredients) {
             String ingName = ingredient.getName();
@@ -183,6 +185,7 @@ public class AddRecipeController implements Initializable {
         } catch (SQLException e) {
           e.printStackTrace();
         }
+
     
         // Clear text fields
         nameField.clear();
@@ -194,7 +197,8 @@ public class AddRecipeController implements Initializable {
         prepField.clear();
         cookField.clear();
         quantityField.clear();
-      });
+      }});
+      
 
       tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       tagList.setOnMouseClicked(event -> {
