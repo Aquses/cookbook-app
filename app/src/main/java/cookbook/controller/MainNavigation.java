@@ -39,8 +39,12 @@ public class MainNavigation implements Initializable {
 
     @FXML
     private AnchorPane ContentAnchor;
+    
     @FXML
     private Button favouritesButton;
+
+    @FXML
+    private Button WeeklyPlanButton;
 
 
     
@@ -113,7 +117,6 @@ public class MainNavigation implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         });
         
         AdminButton.setOnMouseClicked(event -> {
@@ -122,8 +125,8 @@ public class MainNavigation implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         });
+
         favouritesButton.setOnMouseClicked(event -> {
             try {
                 loadScene(3);
@@ -131,6 +134,7 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        
         MessagesButton.setOnMouseClicked(event -> {
             try {
                 loadScene(4);
@@ -138,6 +142,16 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
+        WeeklyPlanButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(5);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        
 
     }
 
@@ -165,6 +179,9 @@ public class MainNavigation implements Initializable {
             // Load hub when given an invalid number
             case 4:
                 fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
+                break;
+            case 5:
+                fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
                 break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
