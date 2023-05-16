@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -37,19 +38,20 @@
                       </Label>
                </children>
             </HBox>
-                <VBox prefHeight="84.0" prefWidth="886.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
+                <VBox prefHeight="123.0" prefWidth="810.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
                     <children>
                   <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <AnchorPane prefHeight="50.0" prefWidth="741.0" HBox.hgrow="ALWAYS">
+                        <AnchorPane prefHeight="6.0" prefWidth="785.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fx:id="RecipeName" fill="#ff845f" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Title Name" wrappingWidth="666.9368553161621" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Text fx:id="RecipeName" fill="#ff845f" layoutX="-1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Title Name" wrappingWidth="668.5368606448174" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Black" size="36.0" />
                                  </font>
                               </Text>
-                              <HBox alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="160.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="77.0" prefWidth="202.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Button fx:id="sendRecipe" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
                                     <Button fx:id="FavouriteRecipeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
                                        <graphic>
                                           <ImageView fx:id="FavButtonIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -70,12 +72,12 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <Button fx:id="sendRecipe" layoutX="584.0" layoutY="21.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
+                              <Region layoutX="342.0" layoutY="14.0" prefHeight="18.0" prefWidth="210.0" />
                            </children>
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox prefHeight="49.0" prefWidth="810.0" spacing="10.0">
                      <children>
                         <Label text="Servings" textFill="#ffbe00">
                            <font>
@@ -119,7 +121,7 @@
                   <Insets />
                </VBox.margin>
                <content>
-                  <VBox prefHeight="401.0" prefWidth="808.0">
+                  <VBox prefHeight="367.0" prefWidth="798.0">
                      <children>
                         <HBox prefHeight="149.0" prefWidth="787.0">
                            <children>
@@ -153,7 +155,7 @@
                                     </Text>
                                  </children>
                               </VBox>
-                              <ImageView fitHeight="164.0" fitWidth="304.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="142.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
                         <Label text="How to cook" textFill="WHITE">
