@@ -36,21 +36,21 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Create Weekly Plan" translateX="190.0" translateY="-35.0" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="41.0" translateX="340.0" translateY="-60.0" />
-                  <Label text="Week Number:" textFill="WHITE" translateX="320.0" translateY="-103.0">
+                  <Button fx:id="createPlan" mnemonicParsing="false" onAction="#createPlan" prefHeight="25.0" prefWidth="118.0" text="Create Weekly Plan" translateX="190.0" translateY="-35.0" />
+                  <TextField fx:id="weekNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="41.0" translateX="340.0" translateY="-60.0" />
+                  <Label fx:id="numberLabel" text="Week Number:" textFill="WHITE" translateX="320.0" translateY="-103.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="23.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="112.0" translateX="430.0" translateY="-103.0" />
-                  <Label layoutX="23.0" layoutY="121.0" text="Week Name:" textFill="WHITE" translateX="445.0" translateY="-147.0">
+                  <TextField fx:id="weekName" layoutX="23.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="112.0" translateX="430.0" translateY="-103.0" />
+                  <Label fx:id="nameLabel" layoutX="23.0" layoutY="121.0" text="Week Name:" textFill="WHITE" translateX="445.0" translateY="-147.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Button layoutX="23.0" layoutY="71.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Create IT!" translateX="590.0" translateY="-164.0" />
-                  <Button layoutX="23.0" layoutY="181.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Cancel" translateX="590.0" translateY="-156.0" />
+                  <Button fx:id="create" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#create" prefHeight="25.0" prefWidth="118.0" text="Create IT!" translateX="590.0" translateY="-164.0" />
+                  <Button fx:id="cancel" layoutX="23.0" layoutY="181.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="118.0" text="Cancel" translateX="590.0" translateY="-156.0" />
                </children>
             </VBox>
             <HBox prefHeight="612.0" prefWidth="802.0">

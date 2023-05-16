@@ -11,9 +11,13 @@ import cookbook.model.User;
 import cookbook.model.WeeklyDinnerList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
@@ -27,6 +31,27 @@ public class WeeklyPlanScene {
 
     @FXML
     private AnchorPane ap;
+
+    @FXML
+    private Button cancel;
+
+    @FXML
+    private Button create;
+
+    @FXML
+    private Button createPlan;
+
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Label numberLabel;
+
+    @FXML
+    private TextField weekName;
+
+    @FXML
+    private TextField weekNumber;
 
     @FXML
     private TableView<WeeklyDinnerList> weeklyPlanTable;
@@ -44,8 +69,7 @@ public class WeeklyPlanScene {
 
     @FXML
     public void initialize() {
-        User currentUser = Session.getCurrentUser();
-        this.user = currentUser;
+        this.user = Session.getCurrentUser();
 
         loadTable();
         loadWeeklyPlans();
@@ -84,4 +108,18 @@ public class WeeklyPlanScene {
         weeklyPlanTable.setItems(weeklyList);
     }
 
+    @FXML
+    void create(ActionEvent event) {
+
+    }
+
+    @FXML
+    void createPlan(ActionEvent event) {
+
+    }
+
+    @FXML
+    void cancel(ActionEvent event) {
+
+    }
 }
