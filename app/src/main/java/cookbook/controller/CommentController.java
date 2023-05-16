@@ -3,6 +3,8 @@ package cookbook.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import com.mysql.cj.xdevapi.Session;
+
 import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
 import javafx.event.ActionEvent;
@@ -11,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class CommentController {
 
@@ -35,6 +36,7 @@ public class CommentController {
   private AnchorPane parentAnchorPane;
 
   public void setData(Comment comment, AnchorPane parent) {
+    String username = myusername.getText();
     this.comment = comment;
     parentAnchorPane = parent;
     this.mycomment.setText(comment.getComment_text());
@@ -44,12 +46,11 @@ public class CommentController {
 
   @FXML
   void editComment(ActionEvent event) throws SQLException {
-    String commentInput = mycomment.getText();
+    int userid = comment.getUser_id();
 
     QueryMaker qm = new QueryMaker();
     qm.editComment(comment);
-    Stage stage = (Stage) mycomment.getScene().getWindow();
-    stage.close();
+
   }
 
   @FXML
@@ -60,8 +61,7 @@ public class CommentController {
     } catch (SQLException e) {
       System.out.println("Error: " + e.getMessage());
     }
-    Stage stage = (Stage) mycomment.getScene().getWindow();
-    stage.close();
+
   }
 
 }
