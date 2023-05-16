@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class CommentController {
 
@@ -43,7 +44,12 @@ public class CommentController {
 
   @FXML
   void editComment(ActionEvent event) throws SQLException {
+    String commentInput = mycomment.getText();
 
+    QueryMaker qm = new QueryMaker();
+    qm.editComment(comment);
+    Stage stage = (Stage) mycomment.getScene().getWindow();
+    stage.close();
   }
 
   @FXML
@@ -54,6 +60,8 @@ public class CommentController {
     } catch (SQLException e) {
       System.out.println("Error: " + e.getMessage());
     }
+    Stage stage = (Stage) mycomment.getScene().getWindow();
+    stage.close();
   }
 
 }
