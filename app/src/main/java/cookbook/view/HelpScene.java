@@ -85,3 +85,39 @@ public class HelpScene implements Initializable {
         });
 
     }
+
+
+    private void loadRecipes(ObservableList<Help> allTutorials){
+        int row = 1, col = 0;
+
+        for(int i=0; i<allTutorials.size(); i++){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/cookbook/HelpItem.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            HelpItemController helpItemController = fxmlLoader.getController();
+            helpItemController.setData(allTutorials.get(i), ap);
+
+            if(col == 1){
+                col = 0;
+                row++;
+            }
+
+            grid.add(anchorPane, col++, row++);
+            grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+            grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+            //GridPane.setMargin(anchorPane, new Insets(0,10,0,10));
+        }
+    }
+}
