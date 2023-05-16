@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -155,6 +156,33 @@
                                     </Text>
                                  </children>
                               </VBox>
+                              <Label fx:id="weekLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="79.0" text="Weekly List:" translateX="40.0" translateY="50.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="addButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="74.0" text="Add IT!" translateX="-45.0" translateY="110.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="dayLabel" layoutX="489.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="79.0" text="Day of Week:" translateX="10.0" translateY="50.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="cancelButton" layoutX="489.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="74.0" text="Cancel" translateX="-65.0" translateY="110.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <ChoiceBox fx:id="weekBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="128.0" translateX="-300.0" translateY="70.0" />
+                              <ChoiceBox fx:id="dayBox" layoutX="489.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="128.0" translateX="-290.0" translateY="70.0" />
+                              <Button fx:id="addPlan" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addPlan" prefHeight="25.0" prefWidth="247.0" text="Add This Recipe to a Weekly Plan" translateX="-550.0" translateY="20.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                               <ImageView fitHeight="142.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>

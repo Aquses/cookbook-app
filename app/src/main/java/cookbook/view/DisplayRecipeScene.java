@@ -1,6 +1,5 @@
 package cookbook.view;
 
-import cookbook.controller.MainNavigation;
 import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
@@ -12,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -48,6 +49,27 @@ public class DisplayRecipeScene implements Initializable {
     private AnchorPane parentAnchorPane;
 
     @FXML
+    private Button addButton;
+
+    @FXML
+    private Button addPlan;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private ChoiceBox<?> dayBox;
+
+    @FXML
+    private Label dayLabel;
+
+    @FXML
+    private ChoiceBox<?> weekBox;
+
+    @FXML
+    private Label weekLabel;
+
+    @FXML
     private Button sendRecipe;
 
     // for vic
@@ -62,6 +84,13 @@ public class DisplayRecipeScene implements Initializable {
     private int recipe_id;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        weekLabel.setVisible(false);
+        dayLabel.setVisible(false);
+        weekBox.setVisible(false);
+        dayBox.setVisible(false);
+        addButton.setVisible(false);
+        cancelButton.setVisible(false);
+
         FavouriteRecipeButton.setOnMouseClicked(event -> {
             User user = Session.getCurrentUser();
             int user_id = user.getUserId();
@@ -202,5 +231,25 @@ public class DisplayRecipeScene implements Initializable {
         Stage sendRecipeStage = new Stage();
         sendRecipeStage.setScene(sendRecipeScene);
         sendRecipeStage.showAndWait();
+    }
+
+    @FXML
+    void add(ActionEvent event) {
+
+    }
+
+    @FXML
+    void addPlan(ActionEvent event) {
+    	weekLabel.setVisible(true);
+    	dayLabel.setVisible(true);
+    	weekBox.setVisible(true);
+    	dayBox.setVisible(true);
+    	addButton.setVisible(true);
+    	cancelButton.setVisible(true);
+    }
+
+    @FXML
+    void cancel(ActionEvent event) {
+
     }
 }
