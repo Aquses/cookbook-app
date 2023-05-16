@@ -110,7 +110,6 @@ public class WeeklyPlanScene {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
         weeklyPlanTable.setItems(weeklyList);
     }
 
@@ -128,12 +127,16 @@ public class WeeklyPlanScene {
     void create(ActionEvent event) {
 			int weekNum = Integer.parseInt(weekNumber.getText());
 			QueryMaker queryMaker;
+
 			try {
 				queryMaker = new QueryMaker();
 				queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			loadTable();
+			loadWeeklyPlans();
+			cancel(event);
     }
 
     @FXML

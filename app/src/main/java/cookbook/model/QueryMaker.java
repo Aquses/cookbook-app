@@ -341,15 +341,10 @@ public class QueryMaker {
                 statement.close();
                 return user;
             }
-
-            
-
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
         return null;
-
     }
 
     public ObservableList<WeeklyDinnerList> retrieveWeeklyListObjects(User user) {
@@ -379,21 +374,14 @@ public class QueryMaker {
                 
                 WeeklyDinnerList weeklyList = new WeeklyDinnerList(rs, weeklyListRecipes);
                 weeklyPlansList.add(weeklyList);
-
-                rs.close();
-                statement.close();
             }
-
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
         return weeklyPlansList;
-
     }
 
-    
     public ObservableList<Recipe> retrieveDailyRecipes(User user, String day, int weekId) {
         ObservableList<Recipe> dayRecipeList = FXCollections.observableArrayList();
 
