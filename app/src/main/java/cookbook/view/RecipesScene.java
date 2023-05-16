@@ -7,18 +7,15 @@ import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 //import javafx.stage.Stage;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +36,9 @@ public class RecipesScene implements Initializable {
     private AnchorPane ap;
 
     AddRecipeController addrecipe;
+
+    User user = Session.getCurrentUser();
+    int user_id = user.getUserId();
 
 
     public static Scene getScene() throws IOException {
@@ -77,7 +77,7 @@ public class RecipesScene implements Initializable {
                     }
         
                     try {
-                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId());
+                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
                         for (String tag : customTags) {
                             if (tag.toLowerCase().contains(searchKeyword)) {
                                 return true; // found matches
