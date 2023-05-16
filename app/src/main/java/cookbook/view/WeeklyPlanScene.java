@@ -33,10 +33,10 @@ public class WeeklyPlanScene {
     private AnchorPane ap;
 
     @FXML
-    private Button cancel;
+    private Button cancelButton;
 
     @FXML
-    private Button create;
+    private Button createButton;
 
     @FXML
     private Button createPlan;
@@ -70,6 +70,12 @@ public class WeeklyPlanScene {
     @FXML
     public void initialize() {
         this.user = Session.getCurrentUser();
+        nameLabel.setVisible(false);
+        numberLabel.setVisible(false);
+        weekNumber.setVisible(false);   
+        weekName.setVisible(false);
+        cancelButton.setVisible(false);
+        createButton.setVisible(false);
 
         loadTable();
         loadWeeklyPlans();
@@ -109,17 +115,29 @@ public class WeeklyPlanScene {
     }
 
     @FXML
+    void createPlan(ActionEvent event) {
+			nameLabel.setVisible(true);
+			numberLabel.setVisible(true);
+			weekNumber.setVisible(true);   
+			weekName.setVisible(true);
+			cancelButton.setVisible(true);
+			createButton.setVisible(true);
+    }
+
+    @FXML
     void create(ActionEvent event) {
 
     }
 
     @FXML
-    void createPlan(ActionEvent event) {
-
-    }
-
-    @FXML
     void cancel(ActionEvent event) {
-
+			weekNumber.clear();
+			weekName.clear();
+			nameLabel.setVisible(false);
+			numberLabel.setVisible(false);
+			weekNumber.setVisible(false);   
+			weekName.setVisible(false);
+			cancelButton.setVisible(false);
+			createButton.setVisible(false);
     }
 }
