@@ -90,6 +90,7 @@ public class DisplayRecipeScene implements Initializable {
 			"Thursday", "Friday", "Saturday", "Sunday"};
 
     private int recipe_id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
 			user = Session.getCurrentUser();
@@ -99,7 +100,6 @@ public class DisplayRecipeScene implements Initializable {
 				QueryMaker queryMaker = new QueryMaker();
 				weeklyList = queryMaker.retrieveWeeklyListObjects(user);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
   
@@ -268,8 +268,19 @@ public class DisplayRecipeScene implements Initializable {
 
     @FXML
     void add(ActionEvent event) {
-
-    }
+			String day = dayBox.getValue();
+			WeeklyDinnerList week = weekBox.getValue();
+			if (day != null && week != null) {
+					try {
+						QueryMaker queryMaker = new QueryMaker();
+						queryMaker.insertDailyRecipe(week.getWeekId(), day, recipe_id);
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+			cancel(event);	
+			}
+    
 
     @FXML
     void addPlan(ActionEvent event) {

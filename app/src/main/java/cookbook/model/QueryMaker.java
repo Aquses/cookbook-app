@@ -436,4 +436,16 @@ public class QueryMaker {
             statement.executeUpdate();
         }
     }
+
+    public void insertDailyRecipe(int weekId, String dayOfWeek, int recipeId) throws SQLException {
+        String query = "INSERT INTO daily_recipes (week_id, day_of_week, recipe_id) VALUES (?, ?, ?)";
+    
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, weekId);
+            statement.setString(2, dayOfWeek);
+            statement.setInt(3, recipeId);
+    
+            statement.executeUpdate();
+        }
+    }
 }
