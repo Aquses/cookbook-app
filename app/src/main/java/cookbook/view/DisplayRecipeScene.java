@@ -1,5 +1,6 @@
 package cookbook.view;
 
+import cookbook.controller.MainNavigation;
 import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
@@ -20,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
@@ -43,19 +43,12 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private Text TimePrepareText;
     @FXML
-    private Text RecipeTags;
-    @FXML
-    private Button addTagButton;
-    @FXML
-    private ImageView addTagIcon;
-    @FXML
     private AnchorPane ap;
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
 
     @FXML
     private Button sendRecipe;
-    
 
     // for vic
     @FXML
@@ -65,7 +58,6 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private ImageView FavButtonIcon;
 
-    
 
     private int recipe_id;
     @Override
@@ -79,47 +71,24 @@ public class DisplayRecipeScene implements Initializable {
             boolean fav = false;
             try {
                 fav = db.isFavorite(user_id, recipe_id);
-            } catch (SQLException e) {
-
-            }
+            } catch (SQLException e) {}
 
 
             // set icon
             Image image;
             db = new DataQuery();
-            if (!fav) {
+            if(!fav) {
                 db.insertFavorite(user_id, recipe_id);
                 image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-            }
-            else {
+            }else {
                 db.removeFavorite(user_id, recipe_id);
                 image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
             }
             FavButtonIcon.setImage(image);
         });
-
-        addTagButton.setOnAction(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddCustomTag.fxml"));
-            Node n;    
-
-            try {
-                n = fxmlLoader.load();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-    
-            AnchorPane.setTopAnchor(n, 0.0);
-            AnchorPane.setRightAnchor(n, 0.0);
-            AnchorPane.setBottomAnchor(n, 0.0);
-            AnchorPane.setLeftAnchor(n, 0.0);
-    
-            parentAnchorPane.getChildren().clear();
-            parentAnchorPane.getChildren().add(n);
-        });
     }
 
-    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane) throws SQLException {
-        QueryMaker qm = new QueryMaker();
+    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane){
         this.recipe = recipe;
         this.parentAnchorPane = parentAnchorPane;
 
@@ -149,22 +118,12 @@ public class DisplayRecipeScene implements Initializable {
 
         // set icon
         Image image;
-        if (fav) {
+        if(fav) {
             image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-        }
-        else {
+        }else {
             image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
         }
         FavButtonIcon.setImage(image);
-
-        // Eldaras, this is for tags, uses the method from QueryMaker that I made.
-        try {
-            List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
-            String tagsText = String.join(", ", customTags);
-            RecipeTags.setText(tagsText);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         return;
     }

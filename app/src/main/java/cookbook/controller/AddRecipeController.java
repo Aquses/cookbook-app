@@ -2,13 +2,16 @@ package cookbook.controller;
 
 // AddRecipe Controller made by Eldaras
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+// import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -23,13 +26,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import cookbook.model.IngredientsAddRecipe;
-import cookbook.model.User;
-import cookbook.model.Session;
-import cookbook.model.Tags;
+import cookbook.model.Ingredient;
 
 public class AddRecipeController implements Initializable {
 
@@ -78,7 +78,8 @@ public class AddRecipeController implements Initializable {
     @FXML private TextField ingField;
 
     @FXML private Label measurementLabel;
-    
+
+
     @FXML private ChoiceBox<String> measurementField;
     // load from database or custom array?
     private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
@@ -91,34 +92,25 @@ public class AddRecipeController implements Initializable {
 
     @FXML private TableColumn<IngredientsAddRecipe, String> ingColumn;
 
+    @FXML private TableView<Ingredient> tableView1;
+
     @FXML private TableColumn<IngredientsAddRecipe, Integer> quantityColumn;
 
     @FXML private TableColumn<IngredientsAddRecipe, String> measurementColumn;
-
-    @FXML private Button addTagButton;
 
     @FXML private Button submitButton;
 
     @FXML private Button removeButton;
 
-    @FXML private TableView<Tags> tagsView;
-
-    @FXML private TableColumn<Tags, String> tagNameColumn;
-
-    @FXML private CheckBox checkbox1;
-    @FXML private CheckBox checkbox2;
-    @FXML private CheckBox checkbox3;
-    @FXML private CheckBox checkbox4;
-    @FXML private CheckBox checkbox5;
-    @FXML private CheckBox checkbox6;
-    @FXML private CheckBox checkbox7;
-    @FXML private CheckBox checkbox8;
-
     @FXML private GridPane grid;
+
+    @FXML private ListView<String> tagList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       loadData();
+      String[] tags = loadListView();
+      tagList.setItems(FXCollections.observableArrayList(tags));
       measurementField.getItems().addAll(measurements);
 
       addRecipeButton.setOnAction(event -> {
@@ -126,52 +118,12 @@ public class AddRecipeController implements Initializable {
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
         String recipeInstructions = insField.getText();
+        String recipeTags = tagsField.getText();
         int servings = Integer.parseInt(servingsField.getText());
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
-        User user = Session.getCurrentUser();
-        int user_id = user.getUserId();
-
-        // LOOKS VERY UGLY, WILL FIX IT. SO FAR SOLUTION WITH CHECKBOXES, YOUTUBE!!!
-        List<String> selectedCheckboxValues = new ArrayList<>();
-        if (checkbox1.isSelected()) {
-          selectedCheckboxValues.add(checkbox1.getText());
-        }
-  
-        if (checkbox2.isSelected()) {
-          selectedCheckboxValues.add(checkbox2.getText());
-        }
-  
-        if (checkbox3.isSelected()) {
-          selectedCheckboxValues.add(checkbox3.getText());
-        }
-  
-        if (checkbox4.isSelected()) {
-          selectedCheckboxValues.add(checkbox4.getText());
-        }
-  
-        if (checkbox5.isSelected()) {
-          selectedCheckboxValues.add(checkbox5.getText());
-        }
-  
-        if (checkbox6.isSelected()) {
-          selectedCheckboxValues.add(checkbox6.getText());
-        }
-  
-        if (checkbox7.isSelected()) {
-          selectedCheckboxValues.add(checkbox7.getText());
-        }
-  
-        if (checkbox8.isSelected()) {
-          selectedCheckboxValues.add(checkbox8.getText());
-        }
+        int user_id = 2; // we do not have transfering user_id implemented, so far like this <<<<< FIX THIS LATER, DO NOT FORGET!!!
     
-        for (String checkboxValue : selectedCheckboxValues) {
-          Tags tag = new Tags(checkboxValue); 
-          tagsView.getItems().add(tag);
-        }
-        tagsView.getItems().clear();
-        
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
           Statement stmt = conn2.createStatement();
@@ -184,10 +136,9 @@ public class AddRecipeController implements Initializable {
           ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
           rs.next();
           int recipeId = rs.getInt(1);
-          ObservableList<Tags> tags = tagsView.getItems();
+          String[] tagList = recipeTags.split(",");
 
-          for (Tags tag : tags) {
-            String tagName = tag.getName();
+          for (String tagName : tagList) {
             tagName = tagName.trim();
             if (tagName.length() > 0) {
               ResultSet rsTag = stmt.executeQuery("SELECT tag_id FROM tags WHERE tag_name = '" + tagName + "'");
@@ -195,7 +146,8 @@ public class AddRecipeController implements Initializable {
                 int tagId = rsTag.getInt(1);
                 stmt.executeUpdate("INSERT INTO recipe_tags (recipe_id, tag_id) " +
                                    "VALUES ('" + recipeId + "', " + tagId + ")");
-              } else {
+              } 
+              else {
                 stmt.executeUpdate("INSERT INTO custom_tags (user_id, ctag_name) " +
                                    "VALUES (" + user_id + ", '" + tagName + "')");
                 ResultSet rsCtag = stmt.executeQuery("SELECT LAST_INSERT_ID()");
@@ -206,7 +158,7 @@ public class AddRecipeController implements Initializable {
               }
             }
           }
-          
+
           ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
           for (IngredientsAddRecipe ingredient : ingredients) {
             String ingName = ingredient.getName();
@@ -226,19 +178,19 @@ public class AddRecipeController implements Initializable {
         descField.clear();
         insField.clear();
         ingField.clear();
+        tagsField.clear();
         servingsField.clear();
         prepField.clear();
         cookField.clear();
         quantityField.clear();
       });
 
-
-      addTagButton.setOnAction(event -> {
-        Tags tag = new Tags(tagsField.getText());
-        ObservableList<Tags> tags = tagsView.getItems();
-        tags.add(tag);
-        tagsView.setItems(tags);
-        tagsField.clear();
+      tagList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+      tagList.setOnMouseClicked(event -> {
+        ObservableList<String> selectedItems = tagList.getSelectionModel().getSelectedItems();
+        if (!selectedItems.isEmpty()) {
+          tagsField.setText(String.join(", ", selectedItems));
+        }
       });
 
       submitButton.setOnAction(event -> {
@@ -248,8 +200,6 @@ public class AddRecipeController implements Initializable {
         ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
         ingredients.add(ingredient);
         tableView.setItems(ingredients);
-        ingField.clear();
-        quantityField.clear();
       });
 
       removeButton.setOnAction(event -> {
@@ -262,6 +212,47 @@ public class AddRecipeController implements Initializable {
       ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
       quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
       measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
-      tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
     }
+
+    public String[] loadListView() {
+      Connection conn = null;
+      Statement stmt = null;
+
+      try {
+        Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        stmt = conn2.createStatement();
+        String query = "SELECT * FROM tags";
+        ResultSet rs = stmt.executeQuery(query);
+
+        ArrayList<String> resultList = new ArrayList<>();
+        while (rs.next()) {
+          String resultString = rs.getString("tag_name");
+          resultList.add(resultString);
+        }
+
+        String[] resultArray = resultList.toArray(new String[resultList.size()]);
+
+        rs.close();
+        stmt.close();
+        conn2.close();
+
+        return resultArray;
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    } 
+    finally {
+      try {
+        if (stmt != null) stmt.close();
+      } catch (SQLException se) {
+        se.printStackTrace();
+      }
+      try {
+        if (conn != null) conn.close();
+      } catch (SQLException se) {
+        se.printStackTrace();
+      }
+    }
+  }
 }

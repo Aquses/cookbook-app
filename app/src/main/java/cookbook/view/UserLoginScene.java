@@ -2,43 +2,37 @@ package cookbook.view;
 
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 import cookbook.controller.MainNavigation;
 import cookbook.model.DataQuery;
 import cookbook.model.Session;
 import cookbook.model.User;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 
+public class UserLoginScene {
+    private static TextField usernameField;
+    private static PasswordField passwordField;
+    private static Label errorLabel;
 
-public class UserLoginScene implements Initializable {
+    public Scene getScene() {
+        // Create UI elements
+        Label usernameLabel = new Label("Username:");
+        Label passwordLabel = new Label("Password:");
+        usernameField = new TextField();
+        passwordField = new PasswordField();
+        Button loginButton = new Button("Login");
+        errorLabel = new Label("");
+        errorLabel.setStyle("-fx-text-fill: red;");
 
-    @FXML private Label usernameLabel;
-
-    @FXML private Label passwordLabel;
-
-    @FXML private Label errorLabel; // errorlabel doesn't show fix later 
-
-    @FXML private TextField usernameField;
-
-    @FXML private PasswordField passwordField;
-
-    @FXML private Button loginButton;
-
-    @FXML private ImageView logo;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Add event handlers for username and password fields
         usernameField.setOnAction(e -> {
             try {
                 login();
@@ -58,24 +52,38 @@ public class UserLoginScene implements Initializable {
         loginButton.setOnAction(e -> {
             try {
                 login();
-                usernameField.clear();
-                passwordField.clear();
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
         });
 
+        // Create layout and add elements
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.add(usernameLabel, 0, 0);
+        gridPane.add(usernameField, 1, 0);
+        gridPane.add(passwordLabel, 0, 1);
+        gridPane.add(passwordField, 1, 1);
+        gridPane.add(loginButton, 1, 2);
+        gridPane.add(errorLabel, 1, 3);
+
+        gridPane.setPrefWidth(5);
+        gridPane.setPrefHeight(5);
+
+
+        // Create scene and add layout
+        Scene scene = new Scene(gridPane, 40, 40);
+        return scene;
     }
 
     private void login() throws SQLException {
-
         String username = usernameField.getText();
         String password = passwordField.getText();
         Stage userStage = new Stage();
         DataQuery dq = new DataQuery();
         boolean result = dq.checkCredentials(username, password);
-        errorLabel = new Label("");
-        errorLabel.setStyle("-fx-text-fill: red;");
 
         if (result) {
             DataQuery userQuery = new DataQuery();
@@ -94,10 +102,15 @@ public class UserLoginScene implements Initializable {
 
         } else {
             System.out.println("Invalid username or password.");
+            clearFields();
             errorLabel.setText("Invalid username or password.");
         }
     }
 
+    private static void clearFields() {
+        usernameField.clear();
+        passwordField.clear();
+    }
 }
 
 

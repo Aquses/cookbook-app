@@ -22,7 +22,6 @@ import javafx.scene.paint.Color;
 //import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ItemController implements Initializable {
@@ -123,12 +122,7 @@ public class ItemController implements Initializable {
             }
             // then get controller
             drs = fxmlLoader.getController();
-            try {
-                drs.addRecipeObject(recipe, parentAnchorPane);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            drs.addRecipeObject(recipe, parentAnchorPane);
             drs.addIngredients();
 
             AnchorPane.setTopAnchor(n, 0.0);

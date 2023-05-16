@@ -132,7 +132,7 @@ public class MessageController {
     }
 
     @FXML
-    void transitionDisplayRecipe(MouseEvent event) throws SQLException {
+    void transitionDisplayRecipe(MouseEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
         DisplayRecipeScene drs;
         Node n;
