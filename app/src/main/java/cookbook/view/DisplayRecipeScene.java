@@ -301,7 +301,7 @@ public class DisplayRecipeScene implements Initializable {
                 // Load the fxml design onto a new AnchorPane
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 // TODO: set correct comment fxml here
-                fxmlLoader.setLocation(getClass().getResource("/cookbook.controller/CommentController.fxml"));
+                fxmlLoader.setLocation(Cookbook.class.getResource("viewComment.fxml"));
                 AnchorPane anchorPane = null;
                 anchorPane = fxmlLoader.load();
 
