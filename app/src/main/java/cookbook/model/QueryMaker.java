@@ -211,7 +211,7 @@ public class QueryMaker {
     }
 
     public void editComment(Comment comment) {
-        String query = "UPDATE comment SET body = ? WHERE id = ?";
+        String query = "UPDATE comments SET content = ? WHERE comment_id = ?";
         try {
 
             PreparedStatement statement = conn.prepareStatement(query);
@@ -229,7 +229,7 @@ public class QueryMaker {
     }
 
     public void deleteComment(Comment comment) {
-        String query = "DELETE FROM comments WHERE id = ?";
+        String query = "DELETE FROM comments WHERE comment_id = ?";
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, comment.getId());
             int rowsDeleted = preparedStatement.executeUpdate();
