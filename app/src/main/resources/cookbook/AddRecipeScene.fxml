@@ -2,20 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.AddRecipeController">
    <children>
@@ -33,10 +32,16 @@
                               <Insets left="10.0" />
                            </padding>
                            <children>
-                              <Label fx:id="createLabel" text="Create your own recipe" textFill="#fff9f9" />
+                              <Label fx:id="createLabel" text="Create your own recipe" textFill="#ffae0c">
+                                 <font>
+                                    <Font name="Arial Bold" size="22.0" />
+                                 </font></Label>
                            </children>
                         </HBox>
-                        <Button fx:id="addRecipeButton" layoutX="638.0" layoutY="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="132.0" text="ADD" />
+                        <Button fx:id="addRecipeButton" layoutX="687.0" layoutY="4.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #559d36;" text="ADD" textOverrun="CLIP">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font></Button>
                      </children>
                   </AnchorPane>
                </children>
@@ -47,77 +52,109 @@
                   <Insets />
                </VBox.margin>
             </VBox>
-            <HBox alignment="TOP_CENTER" prefHeight="515.0" prefWidth="1098.0" style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
+            <HBox alignment="TOP_CENTER" prefHeight="563.0" prefWidth="814.0" style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="533.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
-                        <GridPane fx:id="grid" hgap="10.0" prefHeight="497.0" prefWidth="795.0" vgap="20.0">
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                           </rowConstraints>
-                           <columnConstraints>
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                           </columnConstraints>
+                        <AnchorPane prefHeight="505.0" prefWidth="822.0">
                            <children>
-                              <Label fx:id="nameLabel" text="Name" GridPane.columnIndex="1" />
-                              <TextField fx:id="nameField" GridPane.columnIndex="2" />
-                              <TextField fx:id="servingsField" prefHeight="21.0" prefWidth="149.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <Label fx:id="servingsLabel" text="Servings" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="cookLabel" text="Cooking time" GridPane.columnIndex="3" />
-                              <TextField fx:id="cookField" GridPane.columnIndex="5" />
-                              <Label fx:id="prepLabel" prefHeight="17.0" prefWidth="124.0" text="Preperation time" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                              <TextField fx:id="prepField" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                              <Label fx:id="descLabel" prefHeight="17.0" prefWidth="65.0" text="Description" textFill="#fff9f9" GridPane.columnIndex="6" />
-                              <TextArea fx:id="descField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-                              <Label fx:id="insLabel" prefHeight="17.0" prefWidth="87.0" text="Instructions" textFill="#fff9f9" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                              <TextField fx:id="tagsField" prefHeight="19.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-                              <ListView fx:id="tagList" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="190.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-                              <Label fx:id="ingLabel" text="Ingredients" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="ingField" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                              <Label fx:id="quantityLabel" text="Quantity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label fx:id="measurementLabel" prefHeight="17.0" prefWidth="103.0" text="Measurement" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <TextField fx:id="quantityField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <Button fx:id="submitButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="ADD INGREDIENT" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                              <Label fx:id="tagsLabel" text="Tags" textFill="#fff9f9" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                              <TextArea fx:id="insField" minHeight="-Infinity" prefHeight="113.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                              <ChoiceBox fx:id="measurementField" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label fx:id="nameLabel" layoutX="32.0" layoutY="19.0" text="Name">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="nameField" layoutX="95.0" layoutY="17.0" prefHeight="25.0" prefWidth="150.0" />
+                              <TextField fx:id="servingsField" layoutX="95.0" layoutY="58.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Label fx:id="servingsLabel" layoutX="24.0" layoutY="60.0" text="Servings">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="cookLabel" layoutX="260.0" layoutY="60.0" text="Cooking time">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="cookField" layoutX="369.0" layoutY="58.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Label fx:id="prepLabel" layoutX="248.0" layoutY="19.0" prefHeight="21.0" prefWidth="119.0" text="Preperation time" textFill="#fff9f9">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="prepField" layoutX="369.0" layoutY="17.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Label fx:id="descLabel" layoutX="524.0" layoutY="19.0" prefHeight="21.0" prefWidth="83.0" text="Description" textFill="#fff9f9">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="descField" layoutX="605.0" layoutY="15.0" minHeight="-Infinity" prefHeight="214.0" prefWidth="215.0" />
+                              <Label fx:id="insLabel" layoutX="263.0" layoutY="99.0" prefHeight="21.0" prefWidth="83.0" text="Instructions" textFill="#fff9f9">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tagsField" layoutX="369.0" layoutY="265.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Label fx:id="ingLabel" layoutX="16.0" layoutY="99.0" text="Ingredients">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="ingField" layoutX="95.0" layoutY="97.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Label fx:id="quantityLabel" layoutX="24.0" layoutY="138.0" text="Quantity">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="measurementLabel" layoutX="-1.0" layoutY="179.0" prefHeight="21.0" prefWidth="106.0" text="Measurement">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="quantityField" layoutX="95.0" layoutY="136.0" prefHeight="25.0" prefWidth="150.0" />
+                              <Button fx:id="submitButton" layoutX="95.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="ADD INGREDIENT" />
+                              <Label fx:id="tagsLabel" layoutX="318.0" layoutY="267.0" text="Tags" textFill="#fff9f9">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="insField" layoutX="364.0" layoutY="99.0" minHeight="-Infinity" prefHeight="120.0" prefWidth="160.0" />
+                              <ChoiceBox fx:id="measurementField" layoutX="95.0" layoutY="177.0" prefHeight="25.0" prefWidth="150.0" />
+                              <TableView fx:id="tableView" layoutX="53.0" layoutY="311.0" prefHeight="170.0" prefWidth="235.0">
+                                <columns>
+                                  <TableColumn fx:id="ingColumn" prefWidth="75.0" text="Ingredient" />
+                                  <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="Quantity" />
+                                    <TableColumn fx:id="measurementColumn" prefWidth="85.0" text="Measurement" />
+                                </columns>
+                              </TableView>
+                              <Button fx:id="removeButton" layoutX="128.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="REMOVE" />
+                              <Button fx:id="addTagButton" layoutX="524.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0" text="+" />
+                              <AnchorPane layoutX="524.0" layoutY="311.0" prefHeight="200.0" prefWidth="266.0">
+                                 <children>
+                                    <CheckBox fx:id="checkbox1" layoutX="7.0" layoutY="6.0" mnemonicParsing="false" text="Vegan" />
+                                    <CheckBox fx:id="checkbox2" layoutX="7.0" layoutY="33.0" mnemonicParsing="false" text="Vegeterian" />
+                                    <CheckBox fx:id="checkbox3" layoutX="7.0" layoutY="60.0" mnemonicParsing="false" text="Lactose free" />
+                                    <CheckBox fx:id="checkbox4" layoutX="6.0" layoutY="92.0" mnemonicParsing="false" text="Gluten Free" />
+                                    <CheckBox fx:id="checkbox5" layoutX="6.0" layoutY="115.0" mnemonicParsing="false" text="Starter" />
+                                    <CheckBox fx:id="checkbox6" layoutX="7.0" layoutY="141.0" mnemonicParsing="false" text="Main course" />
+                                    <CheckBox fx:id="checkbox7" layoutX="7.0" layoutY="169.0" mnemonicParsing="false" text="Dessert" />
+                                    <CheckBox fx:id="checkbox8" layoutX="88.0" layoutY="6.0" mnemonicParsing="false" text="Sweets" />
+                                 </children>
+                                 <effect>
+                                    <Blend />
+                                 </effect>
+                              </AnchorPane>
+                              <TableView fx:id="tagsView" layoutX="406.0" layoutY="311.0" prefHeight="170.0" prefWidth="77.0">
+                                 <columns>
+                                    <TableColumn fx:id="tagNameColumn" prefWidth="75.0" text="Tag" />
+                                 </columns>
+                              </TableView>
                            </children>
-                        </GridPane>
+                        </AnchorPane>
                      </content>
                      <HBox.margin>
                         <Insets top="50.0" />
                      </HBox.margin>
                   </ScrollPane>
-               </children>
-            </HBox>
-            <HBox prefHeight="299.0" prefWidth="810.0">
-               <children>
-                  <TableView fx:id="tableView" prefHeight="170.0" prefWidth="235.0">
-                    <columns>
-                      <TableColumn fx:id="ingColumn" prefWidth="75.0" text="Ingredient" />
-                      <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="Quantity" />
-                        <TableColumn fx:id="measurementColumn" prefWidth="85.0" text="Measurement" />
-                    </columns>
-                  </TableView>
-                  <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="REMOVE">
-                     <HBox.margin>
-                        <Insets left="40.0" top="30.0" />
-                     </HBox.margin>
-                  </Button>
                </children>
             </HBox>
          </children>

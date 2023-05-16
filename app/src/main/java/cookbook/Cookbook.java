@@ -3,6 +3,8 @@
  */
 package cookbook;
 
+import java.io.IOException;
+
 //import cookbook.model.QueryMaker;
 import cookbook.view.Splash;
 import cookbook.view.UserLoginScene;
@@ -10,7 +12,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -83,16 +87,21 @@ public class Cookbook extends Application {
                 button.setText("Login");
 
                 button.setOnAction(e2 -> {
-                    UserLoginScene login = new UserLoginScene();
-                    primaryStage.setScene(login.getScene());
-                    primaryStage.setWidth(300);
-                    primaryStage.setHeight(180);
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
+                        Scene scene = new Scene(root);
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
+                
                 start.getChildren().addAll(header, button);
 
                 primaryStage.setTitle("Dish IT");
-                primaryStage.setWidth(400);
-                primaryStage.setHeight(400);
+                primaryStage.setWidth(660);
+                primaryStage.setHeight(540);
                 primaryStage.setScene(startScene);
                 primaryStage.show();
             });

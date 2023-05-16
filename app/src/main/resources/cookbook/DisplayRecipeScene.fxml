@@ -50,6 +50,15 @@
                               </Text>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="160.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Button fx:id="addTagButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
+                                       <graphic>
+                                          <ImageView fx:id="addTagIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../java/cookbook/controller/menuIcons/icons8-plus-48.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
                                     <Button fx:id="FavouriteRecipeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
                                        <graphic>
                                           <ImageView fx:id="FavButtonIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -70,7 +79,7 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <Button fx:id="sendRecipe" layoutX="584.0" layoutY="21.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
+                              <Button fx:id="sendRecipe" layoutX="542.0" layoutY="23.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -165,6 +174,19 @@
                            </VBox.margin>
                         </Label>
                         <Text fx:id="RecipeDetails" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Detailed Description here" wrappingWidth="767.7367820739746">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </Text>
+                        <Label text="Tags" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Black" size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Text fx:id="RecipeTags" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags here" wrappingWidth="767.7367820739746">
                            <font>
                               <Font name="Segoe UI Light" size="16.0" />
                            </font>
