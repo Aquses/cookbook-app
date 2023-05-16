@@ -1,6 +1,8 @@
 package cookbook.view;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
@@ -16,6 +18,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 public class WeeklyPlanScene {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 
     @FXML
     private AnchorPane ap;

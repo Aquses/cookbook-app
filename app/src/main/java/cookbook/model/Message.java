@@ -11,7 +11,6 @@ public class Message {
     private int receiver_id;
     private String content;
     private int recipe_id;
-    // private Date date_created; 
     private Timestamp date_created; 
 
     public Message(int message_id, int sender_id, int receiver_id, int recipe_id, String content, Timestamp date_created) {

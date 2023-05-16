@@ -1,11 +1,9 @@
 package cookbook.model;
 // this is the object class for weekly dinner list feature
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 
 import javafx.collections.ObservableList;
 
