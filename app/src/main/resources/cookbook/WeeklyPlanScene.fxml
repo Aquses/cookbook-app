@@ -33,10 +33,10 @@
                <children>
                   <Label text="Weekly Plan" textFill="WHITE">
                      <font>
-                        <Font size="32.0" />
+                        <Font name="System Bold" size="32.0" />
                      </font>
                   </Label>
-                  <Button fx:id="createPlan" mnemonicParsing="false" onAction="#createPlan" prefHeight="25.0" prefWidth="118.0" text="Create Weekly Plan" translateX="190.0" translateY="-35.0" />
+                  <Button fx:id="createPlan" mnemonicParsing="false" onAction="#createPlan" prefHeight="25.0" prefWidth="118.0" text="Create Weekly Plan" translateX="193.0" translateY="-35.0" />
                   <TextField fx:id="weekNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="41.0" translateX="340.0" translateY="-60.0" />
                   <Label fx:id="numberLabel" text="Week Number:" textFill="WHITE" translateX="320.0" translateY="-103.0">
                      <font>

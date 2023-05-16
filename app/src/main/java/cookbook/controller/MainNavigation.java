@@ -57,7 +57,7 @@ public class MainNavigation implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-				User currentUser = Session.getCurrentUser();
+		User currentUser = Session.getCurrentUser();
         AdminButton.setVisible(currentUser.getIsAdmin());
         try {
             loadScene(0);

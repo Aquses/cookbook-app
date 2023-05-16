@@ -95,8 +95,6 @@ public class QueryMaker {
         return customTags;
     }
     
-    
-    
     /*
     private List<Recipe> setToList() throws SQLException {
         List<Recipe> list = new ArrayList<>();
@@ -430,5 +428,16 @@ public class QueryMaker {
         
     }
 
-    
+    public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
+        String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setString(1, weekName);
+            statement.setInt(2, weekNumber);
+            statement.setInt(3, userId);
+
+            statement.executeUpdate();
+        }
+    }
 }

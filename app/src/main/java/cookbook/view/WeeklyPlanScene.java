@@ -126,7 +126,14 @@ public class WeeklyPlanScene {
 
     @FXML
     void create(ActionEvent event) {
-
+			int weekNum = Integer.parseInt(weekNumber.getText());
+			QueryMaker queryMaker;
+			try {
+				queryMaker = new QueryMaker();
+				queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
     }
 
     @FXML
