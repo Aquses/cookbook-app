@@ -4,7 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.List;
@@ -448,4 +453,25 @@ public class QueryMaker {
             statement.executeUpdate();
         }
     }
+    
+
+    /**
+     * 
+     * @param numberOfWeeks numberOfWeeks.
+     * @return dateList.
+     */
+    public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
+        List<LocalDate> dateList = new ArrayList<>();
+        final ZonedDateTime input = ZonedDateTime.now();
+    
+        for (int i = 0; i < numberOfWeeks; i++) {
+            final ZonedDateTime startOfLastWeek = input.plusWeeks(i).with(DayOfWeek.MONDAY);
+            dateList.add(startOfLastWeek.toLocalDate());
+        }
+    
+        return dateList;
+    }
+    
+
+
 }
