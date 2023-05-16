@@ -36,6 +36,16 @@ import javax.management.Query;
 public class DisplayRecipeScene implements Initializable {
 
     @FXML
+    private Button deleteButton;
+    @FXML
+    private Button editButton;
+    @FXML
+    private TextArea mycomment;
+    @FXML
+    private Label myDate;
+    @FXML
+    private Label myusername;
+    @FXML
     private Button CancelCommentButton;
     @FXML
     private Label CharactersLeftTextLabel;
@@ -291,7 +301,7 @@ public class DisplayRecipeScene implements Initializable {
                 // Load the fxml design onto a new AnchorPane
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 // TODO: set correct comment fxml here
-                fxmlLoader.setLocation(getClass().getResource("/cookbook/CommentController.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/cookbook.controller/CommentController.fxml"));
                 AnchorPane anchorPane = null;
                 anchorPane = fxmlLoader.load();
 
@@ -300,6 +310,7 @@ public class DisplayRecipeScene implements Initializable {
                 CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
                 // commentController.setData(allComments.get(i), ap);
+                comController.setData(allComments.get(i), anchorPane);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);
