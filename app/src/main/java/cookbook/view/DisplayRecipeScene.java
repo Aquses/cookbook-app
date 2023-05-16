@@ -2,6 +2,7 @@ package cookbook.view;
 
 import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,13 +60,13 @@ public class DisplayRecipeScene implements Initializable {
     private Button cancelButton;
 
     @FXML
-    private ChoiceBox<?> dayBox;
+    private ChoiceBox<String> dayBox;
 
     @FXML
     private Label dayLabel;
 
     @FXML
-    private ChoiceBox<?> weekBox;
+    private ChoiceBox<WeeklyDinnerList> weekBox;
 
     @FXML
     private Label weekLabel;
@@ -80,40 +82,71 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private ImageView FavButtonIcon;
 
+		private User user;
+
+		private ObservableList<WeeklyDinnerList> weeklyList;
+
+		private String[] days = {"Monday", "Tuesday", "Wednesday", 
+			"Thursday", "Friday", "Saturday", "Sunday"};
 
     private int recipe_id;
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        weekLabel.setVisible(false);
-        dayLabel.setVisible(false);
-        weekBox.setVisible(false);
-        dayBox.setVisible(false);
-        addButton.setVisible(false);
-        cancelButton.setVisible(false);
+    public void initialize(URL location, ResourceBundle resources){
+			user = Session.getCurrentUser();
+			dayBox.setItems(FXCollections.observableArrayList(days));
 
-        FavouriteRecipeButton.setOnMouseClicked(event -> {
-            User user = Session.getCurrentUser();
-            int user_id = user.getUserId();
+			try {
+				QueryMaker queryMaker = new QueryMaker();
+				weeklyList = queryMaker.retrieveWeeklyListObjects(user);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+  
+      weekBox.setItems(weeklyList);
+      weekBox.setConverter(new StringConverter<WeeklyDinnerList>() {
+          @Override
+          public String toString(WeeklyDinnerList week) {
+            return week != null && week.getWeekName() != null ? week.getWeekName() : "";
+          }
+  
+          @Override
+          public WeeklyDinnerList fromString(String string) {
+              return null; 
+          }
+      }); 
 
-            // check weather it is a favorite recipe or not
-            DataQuery db = new DataQuery();
-            boolean fav = false;
-            try {
-                fav = db.isFavorite(user_id, recipe_id);
-            } catch (SQLException e) {}
+	
+      weekLabel.setVisible(false);
+      dayLabel.setVisible(false);
+      weekBox.setVisible(false);
+      dayBox.setVisible(false);
+      addButton.setVisible(false);
+      cancelButton.setVisible(false);
+
+      FavouriteRecipeButton.setOnMouseClicked(event -> {
+        User user = Session.getCurrentUser();
+        int user_id = user.getUserId();
+
+          // check weather it is a favorite recipe or not
+        DataQuery db = new DataQuery();
+        boolean fav = false;
+        try {
+          fav = db.isFavorite(user_id, recipe_id);
+        } catch (SQLException e) {}
 
 
-            // set icon
-            Image image;
-            db = new DataQuery();
-            if(!fav) {
-                db.insertFavorite(user_id, recipe_id);
-                image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-            }else {
-                db.removeFavorite(user_id, recipe_id);
-                image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
-            }
-            FavButtonIcon.setImage(image);
+        // set icon
+        Image image;
+        db = new DataQuery();
+        if(!fav) {
+          db.insertFavorite(user_id, recipe_id);
+          image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+        }else {
+          db.removeFavorite(user_id, recipe_id);
+          image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+        }
+          FavButtonIcon.setImage(image);
         });
     }
 
@@ -250,6 +283,14 @@ public class DisplayRecipeScene implements Initializable {
 
     @FXML
     void cancel(ActionEvent event) {
+    	weekLabel.setVisible(false);
+    	dayLabel.setVisible(false);
+    	weekBox.setVisible(false);
+    	dayBox.setVisible(false);
+    	addButton.setVisible(false);
+    	cancelButton.setVisible(false);
 
+			dayBox.setValue(null);
+			weekBox.setValue(null);
     }
 }
