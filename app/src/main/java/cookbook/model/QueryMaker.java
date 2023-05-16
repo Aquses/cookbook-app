@@ -210,31 +210,21 @@ public class QueryMaker {
         return list;
     }
 
-    public void editComment(String body, String comment_id) throws SQLException {
+    public void editComment(Comment comment) {
         String query = "UPDATE comment SET body = ? WHERE id = ?";
-        Connection conn = null;
-        PreparedStatement preparedStmnt = null;
         try {
-            conn = DriverManager
-                    .getConnection("jdbc:mysql://localhost/cookbook?user=root&password=Ghostnova514&useSSL=false");
-            preparedStmnt = conn.prepareStatement(query);
-            preparedStmnt.setString(1, body);
-            preparedStmnt.setString(2, comment_id);
-            int rowsUpdated = preparedStmnt.executeUpdate();
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, comment.getComment_text());
+            statement.setInt(2, comment.getId());
+            int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Comment updated successfully!");
             } else {
                 System.out.println("No comment found with the specified ID.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStmnt != null) {
-                preparedStmnt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
