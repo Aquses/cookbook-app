@@ -47,6 +47,9 @@ public class WeeklyPlanScene {
     @FXML
     private Label numberLabel;
 
+		@FXML
+    private Label error;
+
     @FXML
     private TextField weekName;
 
@@ -76,6 +79,7 @@ public class WeeklyPlanScene {
         weekName.setVisible(false);
         cancelButton.setVisible(false);
         createButton.setVisible(false);
+				error.setVisible(false);
 
         loadTable();
         loadWeeklyPlans();
@@ -127,17 +131,20 @@ public class WeeklyPlanScene {
     void create(ActionEvent event) {
 			int weekNum = Integer.parseInt(weekNumber.getText());
 			QueryMaker queryMaker;
-
-			try {
-				queryMaker = new QueryMaker();
-				queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			loadTable();
-			loadWeeklyPlans();
-			cancel(event);
-    }
+			if (weekNum >= 1 && weekNum <= 52) {
+				try {
+					queryMaker = new QueryMaker();
+					queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				loadTable();
+				loadWeeklyPlans();
+				cancel(event);
+    } else {
+			error.setVisible(true);
+		}
+	}
 
     @FXML
     void cancel(ActionEvent event) {
@@ -149,5 +156,6 @@ public class WeeklyPlanScene {
 			weekName.setVisible(false);
 			cancelButton.setVisible(false);
 			createButton.setVisible(false);
+			error.setVisible(false);
     }
 }
