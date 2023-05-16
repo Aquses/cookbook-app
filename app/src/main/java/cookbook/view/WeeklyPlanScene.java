@@ -69,6 +69,17 @@ public class WeeklyPlanScene {
 
     private User user;
     
+		@FXML
+    private Label youSure;
+
+		@FXML
+    private Button deleteSelection;
+
+		@FXML
+    private Button noDelete;
+
+		@FXML
+    private Button yesDelete;
 
     @FXML
     public void initialize() {
@@ -80,6 +91,9 @@ public class WeeklyPlanScene {
         cancelButton.setVisible(false);
         createButton.setVisible(false);
 				error.setVisible(false);
+				youSure.setVisible(false);
+				yesDelete.setVisible(false);
+				noDelete.setVisible(false);
 
         loadTable();
         loadWeeklyPlans();
@@ -158,4 +172,23 @@ public class WeeklyPlanScene {
 			createButton.setVisible(false);
 			error.setVisible(false);
     }
+
+    @FXML
+    void openDelete(ActionEvent event) {
+			youSure.setVisible(true);
+			yesDelete.setVisible(true);
+			noDelete.setVisible(true);
+    }
+		
+    @FXML
+    void delete(ActionEvent event) {
+
+    }
+
+    @FXML
+    void deleteCancel(ActionEvent event) {
+
+    }
+
+
 }

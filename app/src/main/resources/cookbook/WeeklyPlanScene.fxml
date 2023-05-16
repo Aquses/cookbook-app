@@ -51,16 +51,16 @@
                   </Label>
                   <Button fx:id="createButton" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#create" prefHeight="25.0" prefWidth="118.0" text="Create IT!" translateX="590.0" translateY="-164.0" />
                   <Button fx:id="cancelButton" layoutX="23.0" layoutY="181.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="118.0" text="Cancel" translateX="590.0" translateY="-156.0" />
-                  <Label fx:id="error" layoutX="23.0" layoutY="121.0" text="Must be 1-52" textFill="RED" translateX="320.0" translateY="-170.0">
+                  <Label fx:id="error" layoutX="23.0" layoutY="121.0" text="Must be 1-52" textFill="RED" translateX="320.0" translateY="-172.0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <HBox prefHeight="612.0" prefWidth="802.0">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="802.0">
                <children>
-                  <TableView fx:id="weeklyPlanTable" prefHeight="417.0" prefWidth="379.0">
+                  <TableView fx:id="weeklyPlanTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="379.0">
                     <columns>
                       <TableColumn fx:id="weekNumberCol" editable="false" prefWidth="102.1903305053711" style="-fx-alignment: center;" text="Week No." />
                       <TableColumn fx:id="weekNameCol" editable="false" prefWidth="276.8096923828125" style="-fx-alignment: center;" text="List/Plan Name" />
@@ -200,8 +200,21 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="40.0" />
                      </HBox.margin>
                   </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
                </children>
             </HBox>
+            <Button fx:id="deleteSelection" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openDelete" prefHeight="31.0" prefWidth="192.0" text="Delete Selected Weekly Plan" translateY="-10.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="youSure" prefHeight="27.0" prefWidth="91.0" text="You Sure?" textFill="WHITE" translateX="20.0" translateY="-10.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="noDelete" mnemonicParsing="false" onAction="#deleteCancel" prefHeight="25.0" prefWidth="63.0" text="No" translateX="70.0" translateY="-10.0" />
+            <Button fx:id="yesDelete" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="63.0" text="Yes" translateY="-35.0" />
         </children>
     </VBox>
 </children>
