@@ -144,10 +144,10 @@ public class WeeklyPlanScene {
     @FXML
     void create(ActionEvent event) {
 			int weekNum = Integer.parseInt(weekNumber.getText());
-			QueryMaker queryMaker;
+		
 			if (weekNum >= 1 && weekNum <= 52) {
 				try {
-					queryMaker = new QueryMaker();
+					QueryMaker queryMaker = new QueryMaker();
 					queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -175,20 +175,40 @@ public class WeeklyPlanScene {
 
     @FXML
     void openDelete(ActionEvent event) {
-			youSure.setVisible(true);
-			yesDelete.setVisible(true);
-			noDelete.setVisible(true);
+			WeeklyDinnerList selectedWeeklyList = weeklyPlanTable.getSelectionModel().getSelectedItem();
+
+			if (selectedWeeklyList != null) {
+				youSure.setVisible(true);
+				yesDelete.setVisible(true);
+				noDelete.setVisible(true);
+			}
     }
 		
     @FXML
     void delete(ActionEvent event) {
+			WeeklyDinnerList selectedWeeklyList = weeklyPlanTable.getSelectionModel().getSelectedItem();
+			if (selectedWeeklyList != null) {
+					int weekId = selectedWeeklyList.getWeekId();
+					
+					try {
+						QueryMaker queryMaker = new QueryMaker();
+						queryMaker.deleteWeeklyPlan(weekId);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} 
+	
+					// Refresh the table of weekly lists
+					weeklyPlanTable.getItems().remove(selectedWeeklyList);
+					weeklyPlanTable.refresh();
 
-    }
-
+					deleteCancel(event);
+			}
+	}
+  
     @FXML
     void deleteCancel(ActionEvent event) {
-
+			youSure.setVisible(false);
+			yesDelete.setVisible(false);
+			noDelete.setVisible(false);
     }
-
-
 }

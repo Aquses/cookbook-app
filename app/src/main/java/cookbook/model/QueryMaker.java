@@ -428,4 +428,12 @@ public class QueryMaker {
             statement.executeUpdate();
         }
     }
+
+    public void deleteWeeklyPlan(int weekId) throws SQLException {
+        String query = "DELETE FROM week_plan WHERE week_id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, weekId);
+            statement.executeUpdate();
+        }
+    }
 }
