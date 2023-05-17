@@ -1,9 +1,11 @@
 package cookbook.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import cookbook.controller.DailyRecipeController;
 import cookbook.model.QueryMaker;
 import cookbook.model.Recipe;
 import cookbook.model.Session;
@@ -13,13 +15,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 
 public class WeeklyPlanScene {
 
@@ -81,6 +89,30 @@ public class WeeklyPlanScene {
 		@FXML
     private Button yesDelete;
 
+
+    @FXML
+    private GridPane mondayGrid;
+
+    @FXML
+    private GridPane tuesdayGrid;
+
+    @FXML
+    private GridPane wednesdayGrid;
+
+    @FXML
+    private GridPane thursdayGrid;
+
+    @FXML
+    private GridPane fridayGrid;
+
+    @FXML
+    private GridPane saturdayGrid;
+
+    @FXML
+    private GridPane sundayGrid;
+
+
+
     @FXML
     public void initialize() {
         this.user = Session.getCurrentUser();
@@ -95,6 +127,8 @@ public class WeeklyPlanScene {
 				yesDelete.setVisible(false);
 				noDelete.setVisible(false);
 
+        
+        
         loadTable();
         loadWeeklyPlans();
 
@@ -210,5 +244,19 @@ public class WeeklyPlanScene {
 			youSure.setVisible(false);
 			yesDelete.setVisible(false);
 			noDelete.setVisible(false);
+    }
+
+    @FXML
+    private void weeklyPlanClicked(MouseEvent event) {
+        WeeklyDinnerList selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
+        ObservableList<ObservableList<Recipe>> weeklyRecipes = selectedPlan.getWeeklyPlan();
+        ObservableList<Recipe> mondayRecipes = weeklyRecipes.get(0);
+        ObservableList<Recipe> tuesdayRecipes = weeklyRecipes.get(1);
+        ObservableList<Recipe> wednesdayRecipes = weeklyRecipes.get(2);
+        ObservableList<Recipe> thursdayRecipes = weeklyRecipes.get(3);
+        ObservableList<Recipe> fridayRecipes = weeklyRecipes.get(4);
+        ObservableList<Recipe> saturadayRecipes = weeklyRecipes.get(5);
+        ObservableList<Recipe> sundayRecipes = weeklyRecipes.get(6);
+        
     }
 }
