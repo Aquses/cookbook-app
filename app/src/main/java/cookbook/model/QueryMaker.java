@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -491,11 +493,20 @@ public class QueryMaker {
         return commentsToList();
     }
 
+
     private ObservableList<Comment> commentsToList() throws SQLException {
         ObservableList<Comment> list = FXCollections.observableArrayList();
         Comment comment;
 
         results = statement.executeQuery(query);
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
+    }
+
     public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
         String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
 
@@ -527,15 +538,15 @@ public class QueryMaker {
     
             statement.executeUpdate();
         }
-    }
-    
+        }
+    }      
 
     /**
      * 
      * @param numberOfWeeks numberOfWeeks.
      * @return dateList.
      */
-    public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
+    /*public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
         List<LocalDate> dateList = new ArrayList<>();
         final ZonedDateTime input = ZonedDateTime.now();
     
@@ -552,7 +563,4 @@ public class QueryMaker {
     }
         return dateList;
     }
-    
-
-
-}
+}*/

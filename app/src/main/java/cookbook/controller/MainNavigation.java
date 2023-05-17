@@ -61,7 +61,6 @@ public class MainNavigation implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 		User currentUser = Session.getCurrentUser();
-		User currentUser = Session.getCurrentUser();
         AdminButton.setVisible(currentUser.getIsAdmin());
         try {
             loadScene(0);
@@ -156,7 +155,7 @@ public class MainNavigation implements Initializable {
 
         WeeklyPlanButton.setOnMouseClicked(event -> {
             try {
-                loadScene(5);
+                loadScene(6);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -194,7 +193,7 @@ public class MainNavigation implements Initializable {
             case 5:
                 fxmlLoader.setLocation(Cookbook.class.getResource("HelpScene.fxml"));
                 break;
-            case 5:
+            case 6:
                 fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
                 break;
             default:

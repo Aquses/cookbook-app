@@ -242,10 +242,10 @@ public class AddRecipeController implements Initializable {
         prepField.clear();
         cookField.clear();
         quantityField.clear();
-      });
+      };
 
 
-      addTagButton.setOnAction(event -> {
+      addTagButton.setOnAction(e -> {
         Tags tag = new Tags(tagsField.getText());
         ObservableList<Tags> tags = tagsView.getItems();
         tags.add(tag);
@@ -253,7 +253,7 @@ public class AddRecipeController implements Initializable {
         tagsField.clear();
       });
 
-      submitButton.setOnAction(event -> {
+      submitButton.setOnAction(e -> {
         IngredientsAddRecipe ingredient = new IngredientsAddRecipe(ingField.getText(),
                                               Integer.parseInt(quantityField.getText()),
                                               measurementField.getValue());
@@ -264,12 +264,12 @@ public class AddRecipeController implements Initializable {
         quantityField.clear();
       });
 
-      removeButton.setOnAction(event -> {
+      removeButton.setOnAction(e -> {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
         tableView.getItems().remove(selectedID);
       });
-    }
-
+    });
+  }
     public void loadData() {
       ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
       quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
