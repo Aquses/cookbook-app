@@ -32,7 +32,7 @@
                </font></Button>
             <ImageView fx:id="logo" fitHeight="216.0" fitWidth="224.0" layoutX="223.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../java/cookbook/controller/menuIcons/logo.png" />
+                  <Image url="@../menuIcons/logo.png" />
                </image></ImageView>
          </children>
       </AnchorPane>
