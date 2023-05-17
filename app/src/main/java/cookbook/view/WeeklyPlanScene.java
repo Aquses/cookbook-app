@@ -255,11 +255,22 @@ public class WeeklyPlanScene {
         loadDailyRecipes(mondayRecipes, mondayGrid);
 
         ObservableList<Recipe> tuesdayRecipes = weeklyRecipes.get(1);
+        loadDailyRecipes(tuesdayRecipes, tuesdayGrid);
+
         ObservableList<Recipe> wednesdayRecipes = weeklyRecipes.get(2);
+        loadDailyRecipes(wednesdayRecipes, wednesdayGrid);
+
         ObservableList<Recipe> thursdayRecipes = weeklyRecipes.get(3);
+        loadDailyRecipes(thursdayRecipes, thursdayGrid);
+
         ObservableList<Recipe> fridayRecipes = weeklyRecipes.get(4);
+        loadDailyRecipes(fridayRecipes, fridayGrid);
+
         ObservableList<Recipe> saturadayRecipes = weeklyRecipes.get(5);
+        loadDailyRecipes(saturadayRecipes, saturdayGrid);
+
         ObservableList<Recipe> sundayRecipes = weeklyRecipes.get(6);
+        loadDailyRecipes(sundayRecipes, sundayGrid);
         
     }
 
@@ -291,5 +302,5 @@ public class WeeklyPlanScene {
             grid.setMaxHeight(Region.USE_PREF_SIZE);
         }
     }
-    
+
 }
