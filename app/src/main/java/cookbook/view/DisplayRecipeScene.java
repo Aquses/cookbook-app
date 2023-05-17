@@ -274,11 +274,11 @@ public class DisplayRecipeScene implements Initializable {
 					try {
 						QueryMaker queryMaker = new QueryMaker();
 						queryMaker.insertDailyRecipe(week.getWeekId(), day, recipe_id);
+						cancel(event);	
 					} catch (SQLException e) {
 						System.out.println(e.getMessage());
 					}
 				}
-			cancel(event);	
 			}
     
 
