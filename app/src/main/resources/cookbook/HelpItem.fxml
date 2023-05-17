@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="50.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.HelpItemController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #FEFD9F;">
+            <Button fx:id="MoreButton" layoutY="1.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #FEFD9F;" text="Button">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+      </Pane>
+   </children>
+</AnchorPane>
