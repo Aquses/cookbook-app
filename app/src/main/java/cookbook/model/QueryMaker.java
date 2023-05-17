@@ -395,12 +395,13 @@ public class QueryMaker {
                      + "JOIN week_plan as wp on wp.week_id = dr.week_id "
                      + "JOIN recipes as r on r.recipe_id = dr.recipe_id "
                      + "JOIN users as u on u.user_id = wp.user_id "
-                     + "WHERE u.user_id = ? and dr.day_of_week = ?";
+                     + "WHERE u.user_id = ? and dr.day_of_week = ? and wp.week_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, user.getUserId());
             statement.setString(2, day);
+            statement.setInt(3, weekId);
 
             ResultSet rs = statement.executeQuery();
 

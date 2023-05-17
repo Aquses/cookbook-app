@@ -132,16 +132,16 @@ public class WeeklyPlanScene {
         loadTable();
         loadWeeklyPlans();
 
-        // Below is testing to see that the weekly plan contains the recipes for each day
+        // // Below is testing to see that the weekly plan contains the recipes for each day
 
-        for (WeeklyDinnerList wdl : weeklyList) {
-            System.out.println("Week Id: " + wdl.getWeekId() + "WeekName: " + wdl.getWeekName() + "User id: " + wdl.getUserId() + "Week number: " + wdl.getWeekNumber());
-            for (ObservableList<Recipe> recipeList : wdl.getWeeklyPlan()) {
-                for (Recipe recipe : recipeList) {
-                    System.out.println(recipe.getName());
-                }
-            }
-        }
+        // for (WeeklyDinnerList wdl : weeklyList) {
+        //     System.out.println("Week Id: " + wdl.getWeekId() + "WeekName: " + wdl.getWeekName() + "User id: " + wdl.getUserId() + "Week number: " + wdl.getWeekNumber());
+        //     for (ObservableList<Recipe> recipeList : wdl.getWeeklyPlan()) {
+        //         for (Recipe recipe : recipeList) {
+        //             System.out.println(recipe.getName());
+        //         }
+        //     }
+        // }
     }
 
     public void loadTable() {
@@ -248,6 +248,15 @@ public class WeeklyPlanScene {
 
     @FXML
     private void weeklyPlanClicked(MouseEvent event) {
+        mondayGrid.getChildren().clear();
+        tuesdayGrid.getChildren().clear();
+        wednesdayGrid.getChildren().clear();
+        thursdayGrid.getChildren().clear();
+        fridayGrid.getChildren().clear();
+        saturdayGrid.getChildren().clear();
+        sundayGrid.getChildren().clear();
+
+
         WeeklyDinnerList selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
         ObservableList<ObservableList<Recipe>> weeklyRecipes = selectedPlan.getWeeklyPlan();
         ObservableList<Recipe> mondayRecipes = weeklyRecipes.get(0);
