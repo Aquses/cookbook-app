@@ -281,7 +281,6 @@ public class DisplayRecipeScene implements Initializable {
 				}
 			}
     
-
     @FXML
     void addPlan(ActionEvent event) {
     	weekLabel.setVisible(true);
