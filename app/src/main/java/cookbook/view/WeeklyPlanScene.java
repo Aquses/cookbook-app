@@ -251,6 +251,9 @@ public class WeeklyPlanScene {
         WeeklyDinnerList selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
         ObservableList<ObservableList<Recipe>> weeklyRecipes = selectedPlan.getWeeklyPlan();
         ObservableList<Recipe> mondayRecipes = weeklyRecipes.get(0);
+
+        loadDailyRecipes(mondayRecipes, mondayGrid);
+
         ObservableList<Recipe> tuesdayRecipes = weeklyRecipes.get(1);
         ObservableList<Recipe> wednesdayRecipes = weeklyRecipes.get(2);
         ObservableList<Recipe> thursdayRecipes = weeklyRecipes.get(3);
@@ -259,4 +262,34 @@ public class WeeklyPlanScene {
         ObservableList<Recipe> sundayRecipes = weeklyRecipes.get(6);
         
     }
+
+    public void loadDailyRecipes(ObservableList<Recipe> dailyRecipeList, GridPane grid) {
+
+
+        int row = 0, col = 0;
+
+        for(int i=0; i < dailyRecipeList.size(); i++){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/cookbook/DailyRecipeItem.fxml"));
+            AnchorPane anchorPane = null;
+            try {
+                anchorPane = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            DailyRecipeController drc = fxmlLoader.getController();
+            drc.setRecipeName(dailyRecipeList.get(i));
+
+            grid.add(anchorPane, col++, row);            
+            grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+            grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            grid.setMaxHeight(Region.USE_PREF_SIZE);
+        }
+    }
+    
 }
