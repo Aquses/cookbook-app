@@ -558,8 +558,8 @@ public class DisplayRecipeScene implements Initializable {
     	addButton.setVisible(false);
     	cancelButton.setVisible(false);
 
-			dayBox.setValue(null);
-			weekBox.setValue(null);
+		dayBox.setValue(null);
+		weekBox.setValue(null);
     }
 }
 
