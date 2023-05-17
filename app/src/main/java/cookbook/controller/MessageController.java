@@ -155,7 +155,5 @@ public class MessageController {
 
         parentAnchorPane.getChildren().clear();
         parentAnchorPane.getChildren().add(n);
-
     }
-
 }

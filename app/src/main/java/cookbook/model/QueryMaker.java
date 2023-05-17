@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.List;
@@ -101,8 +105,6 @@ public class QueryMaker {
         return customTags;
     }
     
-    
-    
     /*
     private List<Recipe> setToList() throws SQLException {
         List<Recipe> list = new ArrayList<>();
@@ -171,6 +173,7 @@ public class QueryMaker {
         String newName = updatedIngredient.getIngredientName();
         int newQty = updatedIngredient.getQty();
         String newMeasurement = updatedIngredient.getMeasurement();
+
 
         String query = "UPDATE ingredients "
                 + "SET i_name = ?, qty = ?, measurement = ? "
@@ -344,15 +347,80 @@ public class QueryMaker {
                 statement.close();
                 return user;
             }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
 
-            
+    public ObservableList<WeeklyDinnerList> retrieveWeeklyListObjects(User user) {
+
+        ObservableList<WeeklyDinnerList> weeklyPlansList = FXCollections.observableArrayList();
+        
+        String query = "SELECT * "
+                     + "FROM week_plan "
+                     + "WHERE user_id = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user.getUserId());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                int weekId = rs.getInt(1);
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList weeklyList = new WeeklyDinnerList(rs, weeklyListRecipes);
+                weeklyPlansList.add(weeklyList);
+            }
 
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+        return weeklyPlansList;
+    }
 
-        return null;
+    public ObservableList<Recipe> retrieveDailyRecipes(User user, String day, int weekId) {
+        ObservableList<Recipe> dayRecipeList = FXCollections.observableArrayList();
 
+        String query = "SELECT r.* "
+                     + "FROM daily_recipes as dr "
+                     + "JOIN week_plan as wp on wp.week_id = dr.week_id "
+                     + "JOIN recipes as r on r.recipe_id = dr.recipe_id "
+                     + "JOIN users as u on u.user_id = wp.user_id "
+                     + "WHERE u.user_id = ? and dr.day_of_week = ? and wp.week_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user.getUserId());
+            statement.setString(2, day);
+            statement.setInt(3, weekId);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Recipe recipe = new Recipe(rs);
+                dayRecipeList.add(recipe);
+            }
+
+            rs.close();
+            statement.close();
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+
+        return dayRecipeList;
+        
     }
 
     public void editComment(Comment comment) {
@@ -425,6 +493,7 @@ public class QueryMaker {
         return commentsToList();
     }
 
+
     private ObservableList<Comment> commentsToList() throws SQLException {
         ObservableList<Comment> list = FXCollections.observableArrayList();
         Comment comment;
@@ -437,4 +506,61 @@ public class QueryMaker {
         }
         return list;
     }
-}
+
+    public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
+        String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setString(1, weekName);
+            statement.setInt(2, weekNumber);
+            statement.setInt(3, userId);
+
+            statement.executeUpdate();
+        }
+    }
+
+    public void deleteWeeklyPlan(int weekId) throws SQLException {
+        String query = "DELETE FROM week_plan WHERE week_id = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, weekId);
+            statement.executeUpdate();
+        }
+    }
+
+    public void insertDailyRecipe(int weekId, String dayOfWeek, int recipeId) throws SQLException {
+        String query = "INSERT INTO daily_recipes (week_id, day_of_week, recipe_id) VALUES (?, ?, ?)";
+    
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, weekId);
+            statement.setString(2, dayOfWeek);
+            statement.setInt(3, recipeId);
+    
+            statement.executeUpdate();
+        }
+        }
+    }      
+
+    /**
+     * 
+     * @param numberOfWeeks numberOfWeeks.
+     * @return dateList.
+     */
+    /*public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
+        List<LocalDate> dateList = new ArrayList<>();
+        final ZonedDateTime input = ZonedDateTime.now();
+    
+        for (int i = 0; i < numberOfWeeks; i++) {
+            final ZonedDateTime startOfLastWeek = input.plusWeeks(i).with(DayOfWeek.MONDAY);
+            dateList.add(startOfLastWeek.toLocalDate());
+        }
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
+    }
+        return dateList;
+    }
+}*/

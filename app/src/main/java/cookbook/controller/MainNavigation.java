@@ -42,8 +42,14 @@ public class MainNavigation implements Initializable {
 
     @FXML
     private AnchorPane ContentAnchor;
+    
     @FXML
     private Button favouritesButton;
+
+    @FXML
+    private Button WeeklyPlanButton;
+
+
     
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
@@ -114,7 +120,6 @@ public class MainNavigation implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         });
         
         AdminButton.setOnMouseClicked(event -> {
@@ -123,8 +128,8 @@ public class MainNavigation implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         });
+
         favouritesButton.setOnMouseClicked(event -> {
             try {
                 loadScene(3);
@@ -132,6 +137,7 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        
         MessagesButton.setOnMouseClicked(event -> {
             try {
                 loadScene(4);
@@ -146,6 +152,17 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
+        WeeklyPlanButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(6);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        
+
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -175,6 +192,9 @@ public class MainNavigation implements Initializable {
                 break;
             case 5:
                 fxmlLoader.setLocation(Cookbook.class.getResource("HelpScene.fxml"));
+                break;
+            case 6:
+                fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
                 break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
