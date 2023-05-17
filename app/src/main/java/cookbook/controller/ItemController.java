@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 //import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ItemController implements Initializable {
@@ -44,29 +45,28 @@ public class ItemController implements Initializable {
     private AnchorPane parentAnchorPane;
     private Recipe recipe;
 
-    public void setData(Recipe recipe, AnchorPane parent){
-        this.recipe = recipe;
-        parentAnchorPane = parent;
+    public void setData(Recipe recipe, AnchorPane parent) {
+      this.recipe = recipe;
+      parentAnchorPane = parent;
 
-        System.out.println(recipe.getName());
-        this.FoodItemNameWhite.setText(recipe.getName());
-        this.ServingsCount.setText(Integer.toString(recipe.getServings()));
-        this.TimeTakenCount.setText(Float.toString((recipe.getCookTime())));
-        this.FoodItemDescription.setText(recipe.getDescription());
-        //Image image = new Image(getClass().getResourceAsStream(recipe.getImgSrc()));
-        //this.FoodImage.setImage(image);
+      this.FoodItemNameWhite.setText(recipe.getName());
+      this.ServingsCount.setText(Integer.toString(recipe.getServings()));
+      this.TimeTakenCount.setText(Float.toString((recipe.getCookTime())));
+      this.FoodItemDescription.setText(recipe.getDescription());
+      //Image image = new Image(getClass().getResourceAsStream(recipe.getImgSrc()));
+      //this.FoodImage.setImage(image);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //the button invokes a new scene with the information of itself?
-        //RecipeButton.setOnMouseClicked();
-        FoodItemNameWhite.setWrapText(true);
-        FoodItemDescription.setWrapText(true);
-        ServingsCount.setTextFill(Color.BLACK);
-        TimeTakenCount.setTextFill(Color.BLACK);
+			//the button invokes a new scene with the information of itself?
+      //RecipeButton.setOnMouseClicked();
+			FoodItemNameWhite.setWrapText(true);
+			FoodItemDescription.setWrapText(true);
+			ServingsCount.setTextFill(Color.BLACK);
+			TimeTakenCount.setTextFill(Color.BLACK);
 
-        RecipeButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			RecipeButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // fade pane start
@@ -123,7 +123,12 @@ public class ItemController implements Initializable {
             }
             // then get controller
             drs = fxmlLoader.getController();
-            drs.addRecipeObject(recipe, parentAnchorPane, parentAnchorPane.getChildren().get(0));
+            try {
+                drs.addRecipeObject(recipe, parentAnchorPane);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             drs.addIngredients();
 
             AnchorPane.setTopAnchor(n, 0.0);

@@ -1,6 +1,7 @@
 package cookbook.view;
 
 import cookbook.Cookbook;
+import cookbook.controller.AddRecipeController;
 import cookbook.controller.ItemController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -18,7 +20,10 @@ import javafx.scene.layout.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.ResourceBundle;
+
+
 
 public class RecipesScene implements Initializable {
     @FXML
@@ -29,6 +34,12 @@ public class RecipesScene implements Initializable {
     private GridPane grid;
     @FXML
     private AnchorPane ap;
+
+    AddRecipeController addrecipe;
+
+    User user = Session.getCurrentUser();
+    int user_id = user.getUserId();
+
 
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
@@ -42,48 +53,80 @@ public class RecipesScene implements Initializable {
         //tODO: In the first use of the QueryMaker, make it so it retrieves only the USER's recipes.
 
         specificControls();
-
         try {
             QueryMaker qm = new QueryMaker();
             ObservableList<Recipe> recipes = qm.getAllRecipes();
             FilteredList<Recipe> filteredRecipes = new FilteredList<>(recipes, b -> true);
-
+        
             loadRecipes(recipes);
-
+        
             RecipeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredRecipes.setPredicate(Recipe -> {
+                filteredRecipes.setPredicate(recipe -> {
                     // if no search value, display everything.
                     if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
                         return true;
                     }
-
+        
                     String searchKeyword = newValue.toLowerCase();
-                    if (    Recipe.getName().toLowerCase().indexOf(searchKeyword) > -1 ||
-                            Recipe.getDescription().toLowerCase().indexOf(searchKeyword) > -1 ||
-                            Recipe.getInstructions().toLowerCase().indexOf(searchKeyword) > -1) {
-                        return  true; //found matches
-                    } else {
-                        return false;
+        
+                    // Check if the recipe matches the search keyword
+                    if (recipe.getName().toLowerCase().indexOf(searchKeyword) > -1 ||
+                        recipe.getDescription().toLowerCase().indexOf(searchKeyword) > -1 ||
+                        recipe.getInstructions().toLowerCase().indexOf(searchKeyword) > -1) {
+                        return true; // found matches
                     }
+        
+                    try {
+                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
+                        for (String tag : customTags) {
+                            if (tag.toLowerCase().contains(searchKeyword)) {
+                                return true; // found matches
+                            }
+                        }
+                    } catch (SQLException e) {
+                      throw new RuntimeException("Error retrieving custom tags for recipe: " + e.getMessage());
+                    }
+                
+                    return false; // no matches found
                 });
+        
                 SortedList<Recipe> sortedRecipes = new SortedList<>(filteredRecipes);
-
+        
                 grid.getChildren().clear();
-
+        
                 loadRecipes(sortedRecipes);
             });
-
+        
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        
     }
 
     private void specificControls() {
-
-        AddRecipeButton.setOnMouseClicked(event -> {
-            AddRecipeStage.addRecipeStage();
+        AddRecipeButton.setOnMouseClicked(e2 -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddRecipeScene.fxml"));
+            Node n;    
+    
+            // load first
+            try {
+                n = fxmlLoader.load();
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+            // then get controller
+            addrecipe = fxmlLoader.getController();
+    
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+    
+            ap.getChildren().clear();
+            ap.getChildren().add(n);
         });
     }
+
 
     private void loadRecipes(ObservableList<Recipe> allRecipes){
         int row = 1, col = 0;
@@ -118,5 +161,4 @@ public class RecipesScene implements Initializable {
             //GridPane.setMargin(anchorPane, new Insets(0,10,0,10));
         }
     }
-
 }

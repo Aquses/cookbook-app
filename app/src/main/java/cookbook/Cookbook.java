@@ -97,7 +97,7 @@ public class Cookbook extends Application {
                         ex.printStackTrace();
                     }
                 });
-
+                
                 start.getChildren().addAll(header, button);
 
                 primaryStage.setTitle("Dish IT");
@@ -125,6 +125,7 @@ public class Cookbook extends Application {
     // e.printStackTrace();
     // }
     // }
+
 
     public static void main(String[] args) {
         launch(args);

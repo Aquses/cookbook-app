@@ -1,6 +1,8 @@
 package cookbook.controller;
 
 import cookbook.Cookbook;
+import cookbook.model.Session;
+import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -31,12 +33,16 @@ public class MainNavigation implements Initializable {
     private Pane darkenPane;
     @FXML
     private Button HomeButton;
+
+    @FXML
+    private Button MessagesButton;
+
     @FXML
     private AnchorPane ContentAnchor;
-    private static boolean admin;
- 
-    public static Scene getScene(boolean isAdmin) throws IOException {
-        admin = isAdmin;
+    @FXML
+    private Button favouritesButton;
+    
+    public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
         Scene hub = new Scene(fxmlLoader.load(), 1280, 700);
 
@@ -45,14 +51,14 @@ public class MainNavigation implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        AdminButton.setVisible(admin);
+		User currentUser = Session.getCurrentUser();
+        AdminButton.setVisible(currentUser.getIsAdmin());
         try {
             loadScene(0);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+          throw new RuntimeException(e);
         }
-
-        menuControls();
+		menuControls();
     }
 
     private void menuControls() {
@@ -116,6 +122,20 @@ public class MainNavigation implements Initializable {
             }
 
         });
+        favouritesButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(3);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        MessagesButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(4);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -129,13 +149,20 @@ public class MainNavigation implements Initializable {
                 break;
             // Load recipes scene
             case 1:
+                // set logged in user on recipe scene
                 fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
                 break;
             // Load admin scene
             case 2:
                 fxmlLoader.setLocation(Cookbook.class.getResource("AdminScene.fxml"));
                 break;
+            case 3:
+                fxmlLoader.setLocation(Cookbook.class.getResource("FavouritesScene.fxml"));
+                break;// Load favourites scene
             // Load hub when given an invalid number
+            case 4:
+                fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
+                break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
                 throw wrongSceneIDException;

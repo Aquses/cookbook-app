@@ -1,8 +1,6 @@
 package cookbook.view;
 
-import cookbook.controller.CommentController;
-import cookbook.controller.ItemController;
-import cookbook.controller.SampleCommentItem;
+import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
@@ -11,17 +9,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import cookbook.Cookbook;
@@ -82,6 +84,12 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private Text TimePrepareText;
     @FXML
+    private Text RecipeTags;
+    @FXML
+    private Button addTagButton;
+    @FXML
+    private ImageView addTagIcon;
+    @FXML
     private AnchorPane ap;
     @FXML
     private ScrollPane Scrollpane;
@@ -90,8 +98,17 @@ public class DisplayRecipeScene implements Initializable {
 
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
-    private Node previousScene;
 
+    @FXML
+    private Button sendRecipe;
+    
+    private Node previousScene;
+    @FXML
+    private ImageView FavButtonIcon;
+
+    
+
+    private int recipe_id;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double speed = 0.006;
@@ -171,7 +188,49 @@ public class DisplayRecipeScene implements Initializable {
         SubmitCommentButton.setOnMouseExited(event -> {
             SubmitCommentButton.setStyle("-fx-background-radius: 20; -fx-background-color: #BBDD2C");
         });
+        FavouriteRecipeButton.setOnMouseClicked(event -> {
+            User user = Session.getCurrentUser();
+            int user_id = user.getUserId();
 
+            // check weather it is a favorite recipe or not
+            DataQuery db = new DataQuery();
+            boolean fav = false;
+            try {
+                fav = db.isFavorite(user_id, recipe_id);
+            } catch (SQLException e) {
+
+            }
+
+
+            // set icon
+            Image image;
+            db = new DataQuery();
+            if (!fav) {
+                db.insertFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+            }
+            else {
+                db.removeFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+            }
+            FavButtonIcon.setImage(image);
+        });
+
+        addTagButton.setOnAction(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddCustomTag.fxml"));
+            Node n;    
+
+            try {
+                n = fxmlLoader.load();
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+    
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+    
         // Cancel button: Clears comment field if clicked
         CancelCommentButton.setOnMouseClicked(event -> {
             CommentTextField.setText("");
@@ -179,9 +238,13 @@ public class DisplayRecipeScene implements Initializable {
             CancelCommentButton.setDisable(true);
             CharacterCountHBox.setDisable(true);
         });
+            parentAnchorPane.getChildren().clear();
+            parentAnchorPane.getChildren().add(n);
+        });
     }
 
-    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane, Node previousScene) {
+    public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane) throws SQLException {
+        QueryMaker qm = new QueryMaker();
         this.recipe = recipe;
         this.parentAnchorPane = parentAnchorPane;
         this.previousScene = previousScene;
@@ -202,6 +265,36 @@ public class DisplayRecipeScene implements Initializable {
         // For int type below
         TimePrepareText.setText(String.valueOf(recipe.getPrepTime()));
         TimeCookText.setText(String.valueOf(recipe.getCookTime()));
+
+        User user = Session.getCurrentUser();
+        int user_id = user.getUserId();
+        int recipe_id = recipe.getId();
+        this.recipe_id = recipe_id;
+        // check weather it is a favorite recipe or not
+        DataQuery db = new DataQuery();
+        boolean fav = false;
+        try {
+            fav = db.isFavorite(user_id, recipe_id);
+        } catch (SQLException e) {}
+
+        // set icon
+        Image image;
+        if (fav) {
+            image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+        }
+        else {
+            image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+        }
+        FavButtonIcon.setImage(image);
+
+        // Eldaras, this is for tags, uses the method from QueryMaker that I made.
+        try {
+            List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
+            String tagsText = String.join(", ", customTags);
+            RecipeTags.setText(tagsText);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return;
     }
@@ -266,6 +359,19 @@ public class DisplayRecipeScene implements Initializable {
         parentAnchorPane.getChildren().clear();
         parentAnchorPane.getChildren().add(n);
 
+    }
+    @FXML
+    void sendRecipe(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(Cookbook.class.getResource("SendRecipe.fxml"));
+        Parent sendRecipeRoot = loader.load();
+        SendRecipeController sendController = loader.getController();
+
+        sendController.setRecipe(recipe);
+                
+        Scene sendRecipeScene = new Scene(sendRecipeRoot);
+        Stage sendRecipeStage = new Stage();
+        sendRecipeStage.setScene(sendRecipeScene);
+        sendRecipeStage.showAndWait();
     }
 
     // Return to previous scene
