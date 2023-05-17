@@ -1,5 +1,6 @@
 package cookbook.view;
 
+import cookbook.controller.CommentController;
 import cookbook.controller.SendRecipeController;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
 import cookbook.Cookbook;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
@@ -93,6 +95,7 @@ public class DisplayRecipeScene implements Initializable {
     private AnchorPane ap;
     @FXML
     private ScrollPane Scrollpane;
+    
     @FXML
     private HBox CharacterCountHBox;
 
@@ -232,7 +235,7 @@ public class DisplayRecipeScene implements Initializable {
             AnchorPane.setLeftAnchor(n, 0.0);
     
         // Cancel button: Clears comment field if clicked
-        CancelCommentButton.setOnMouseClicked(event -> {
+        CancelCommentButton.setOnMouseClicked(e -> {
             CommentTextField.setText("");
             SubmitCommentButton.setDisable(true);
             CancelCommentButton.setDisable(true);
