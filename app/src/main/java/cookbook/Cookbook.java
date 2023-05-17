@@ -8,6 +8,11 @@ import java.io.IOException;
 //import cookbook.model.QueryMaker;
 import cookbook.view.Splash;
 import cookbook.view.UserLoginScene;
+import java.io.IOException;
+
+//import cookbook.model.QueryMaker;
+import cookbook.view.Splash;
+import cookbook.view.UserLoginScene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,27 +38,30 @@ public class Cookbook extends Application {
     // Need Hub scene to transition to browse or search
 
     // [ START METHOD WITH RESPECTIVE BROWSE AND SEARCH ]
-   /* @Override
-    public void start(Stage stage) {
-        try {
-            //Parent root = FXMLLoader.load(getClass().getResource("browserecipe.fxml"));
-
-            // Uncomment below (searchpage.fxml) and comment above (browserecipe.fxml) to see search scene
-            Parent root = FXMLLoader.load(getClass().getResource("hub.fxml"));
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
+    /*
+     * @Override
+     * public void start(Stage stage) {
+     * try {
+     * //Parent root = FXMLLoader.load(getClass().getResource("browserecipe.fxml"));
+     * 
+     * // Uncomment below (searchpage.fxml) and comment above (browserecipe.fxml) to
+     * see search scene
+     * Parent root = FXMLLoader.load(getClass().getResource("hub.fxml"));
+     * 
+     * Scene scene = new Scene(root);
+     * stage.setScene(scene);
+     * stage.show();
+     * } catch (Exception e) {
+     * e.printStackTrace();
+     * }
+     * }
+     */
 
     // [ COMMENT ]
-    // Original app execution with animation > login > userpage (containing add recipe)
-    // Now UserPageScene for displaying list of recipes is Browse class (potentially delete UserPageScene class)
+    // Original app execution with animation > login > userpage (containing add
+    // recipe)
+    // Now UserPageScene for displaying list of recipes is Browse class (potentially
+    // delete UserPageScene class)
     // Must implement transitions for Search and Browse scenes with the rest
     // AddRecipeStage class not implemented with Browse class "addRecipe" button
 
@@ -62,28 +70,27 @@ public class Cookbook extends Application {
     // [ ORIGINAL START METHOD BELOW ]
     @Override
     public void start(Stage primaryStage) throws Exception {
-     Splash splash = new Splash();
-       
+        Splash splash = new Splash();
 
-    splash.show();
-    primaryStage.setScene(splash.getSplashScene());
-       
-    splash.getSequentialTransition().setOnFinished(e -> {
-        Timeline timeline = new Timeline();
-        KeyFrame key = new KeyFrame(Duration.millis(1500),
-            
-            new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
+        splash.show();
+        primaryStage.setScene(splash.getSplashScene());
+
+        splash.getSequentialTransition().setOnFinished(e -> {
+            Timeline timeline = new Timeline();
+            KeyFrame key = new KeyFrame(Duration.millis(1500),
+
+                    new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
             timeline.getKeyFrames().add(key);
             timeline.setOnFinished((event1) -> {
                 VBox start = new VBox();
-                Scene startScene = new Scene(start, 50,50);
+                Scene startScene = new Scene(start, 50, 50);
                 Button button = new Button();
                 Label header = new Label("Are you ready for DISH IT!!!");
                 header.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-style: italic;");
 
                 start.setSpacing(10);
                 start.setAlignment(Pos.CENTER);
-              
+
                 button.setText("Login");
 
                 button.setOnAction(e2 -> {
@@ -107,7 +114,7 @@ public class Cookbook extends Application {
             });
             timeline.play();
         });
-        
+
         primaryStage.show();
     }
 
@@ -127,6 +134,6 @@ public class Cookbook extends Application {
 
     
     public static void main(String[] args) {
-        launch(args);  
+        launch(args);
     }
 }

@@ -1,9 +1,13 @@
 package cookbook.model;
 
+import cookbook.view.DisplayRecipeScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -14,6 +18,7 @@ public class QueryMaker {
     Statement statement;
     ResultSet results;
     String query;
+    PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -21,17 +26,18 @@ public class QueryMaker {
     }
 
     /*
-    public List<Recipe> getAllRecipes() throws SQLException{
-        query = "SELECT * FROM recipes";
-        return setToList();
-    }*/
+     * public List<Recipe> getAllRecipes() throws SQLException{
+     * query = "SELECT * FROM recipes";
+     * return setToList();
+     * }
+     */
 
-    public ObservableList<Recipe> getAllRecipes() throws SQLException{
+    public ObservableList<Recipe> getAllRecipes() throws SQLException {
         query = "SELECT * FROM recipes";
         return setToList();
     }
 
-    public ObservableList<Recipe> getRecipesFromSQLQuery(String query) throws SQLException{
+    public ObservableList<Recipe> getRecipesFromSQLQuery(String query) throws SQLException {
         this.query = query;
         return setToList();
     }
@@ -41,14 +47,16 @@ public class QueryMaker {
         return setToList();
     }
 
-    public ObservableList<Recipe> getSearchResults() throws SQLException{
-        // here we want a generic search, but the search text needs to be filtered and found based on the query.
+    public ObservableList<Recipe> getSearchResults() throws SQLException {
+        // here we want a generic search, but the search text needs to be filtered and
+        // found based on the query.
         query = "";
         return setToList();
     }
 
-    public ObservableList<User> getAllusers() throws SQLException{
-        // here we want a generic search, but the search text needs to be filtered and found based on the query.
+    public ObservableList<User> getAllusers() throws SQLException {
+        // here we want a generic search, but the search text needs to be filtered and
+        // found based on the query.
         query = "SELECT * FROM users;";
         return setUserToList();
     }
@@ -135,16 +143,16 @@ public class QueryMaker {
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
         ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
-        String query = "SELECT * FROM ingredients WHERE recipe_id = ?";    
-        try { 
+        String query = "SELECT * FROM ingredients WHERE recipe_id = ?";
+        try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, recipeId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-    
+
                 Ingredient ingredient = new Ingredient(rs.getString(1), rs.getInt(2),
-                                                         rs.getInt(3), rs.getString(4));
+                        rs.getInt(3), rs.getString(4));
                 ingredientList.add(ingredient);
             }
 
@@ -157,19 +165,16 @@ public class QueryMaker {
 
         return ingredientList;
 
-
     }
-
 
     public void updateIngredient(Ingredient updatedIngredient, String originalName, int recipeId) {
         String newName = updatedIngredient.getIngredientName();
         int newQty = updatedIngredient.getQty();
         String newMeasurement = updatedIngredient.getMeasurement();
 
-    
         String query = "UPDATE ingredients "
-                    + "SET i_name = ?, qty = ?, measurement = ? "
-                    + "WHERE i_name = ? and recipe_id = ?";
+                + "SET i_name = ?, qty = ?, measurement = ? "
+                + "WHERE i_name = ? and recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -185,13 +190,12 @@ public class QueryMaker {
             System.out.println("Error: " + e.getMessage());
         }
 
-
     }
 
     public void deleteIngredient(Ingredient ingredient, int recipeId) {
         String ingredientName = ingredient.getIngredientName();
         String query = "DELETE from ingredients "
-                    + "WHERE i_name = ? and recipe_id = ?";
+                + "WHERE i_name = ? and recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -203,7 +207,6 @@ public class QueryMaker {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
 
     }
 
@@ -227,9 +230,9 @@ public class QueryMaker {
 
     public void updateRecipe(Recipe recipe) {
         String query = "UPDATE recipes "
-                    + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
-                    + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
-                    + "WHERE recipe_id = ?";
+                + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
+                + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
+                + "WHERE recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -242,7 +245,7 @@ public class QueryMaker {
             statement.setInt(7, recipe.getId());
 
             statement.executeUpdate();
-            
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -352,5 +355,86 @@ public class QueryMaker {
 
     }
 
-    
+    public void editComment(Comment comment) {
+        String query = "UPDATE comments SET content = ? WHERE comment_id = ?";
+        try {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, comment.getComment_text());
+            statement.setInt(2, comment.getId());
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Comment updated successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void deleteComment(Comment comment) {
+        String query = "DELETE FROM comments WHERE comment_id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, comment.getId());
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Comment deleted successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Use comment object here in place of the string
+    public void sendComment(String comment, Recipe recipe) {
+        query = "INSERT INTO comments(user_id, recipe_id, content, comment_Date)" +
+                "VALUES(?, ?, ?, ?)";
+        int user_id, recipe_id;
+
+        // Id is set to auto-increment, so it is not set here
+        // User id who. Who is the current user? TODO: this is being auto-set to
+        // anthony. Needs to get from context.
+        user_id = Session.getCurrentUser().getUserId();
+        // Recipe id
+        recipe_id = recipe.getId();
+        // Comment is already available from function input
+        // Get data on "sqlToday"
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        java.util.Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        java.sql.Date sqlToday = new java.sql.Date(today.getTime());
+
+        try {
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, user_id);
+            prepStatement.setInt(2, recipe_id);
+            prepStatement.setString(3, comment);
+            prepStatement.setDate(4, sqlToday);
+
+            prepStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public ObservableList<Comment> getThisRecipesComments(Recipe recipe) throws SQLException {
+        query = "SELECT * FROM comments WHERE recipe_id = " + recipe.getId();
+        return commentsToList();
+    }
+
+    private ObservableList<Comment> commentsToList() throws SQLException {
+        ObservableList<Comment> list = FXCollections.observableArrayList();
+        Comment comment;
+
+        results = statement.executeQuery(query);
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
+    }
 }
