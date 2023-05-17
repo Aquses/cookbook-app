@@ -8,6 +8,11 @@ import java.io.IOException;
 //import cookbook.model.QueryMaker;
 import cookbook.view.Splash;
 import cookbook.view.UserLoginScene;
+import java.io.IOException;
+
+//import cookbook.model.QueryMaker;
+import cookbook.view.Splash;
+import cookbook.view.UserLoginScene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -59,6 +64,7 @@ public class Cookbook extends Application {
     // delete UserPageScene class)
     // Must implement transitions for Search and Browse scenes with the rest
     // AddRecipeStage class not implemented with Browse class "addRecipe" button
+
 
     // [ ORIGINAL START METHOD BELOW ]
     // [ ORIGINAL START METHOD BELOW ]
@@ -112,21 +118,21 @@ public class Cookbook extends Application {
         primaryStage.show();
     }
 
+
     // @Override
     // public void start(Stage stage) {
-    // try {
-    // FXMLLoader loader = new
-    // FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
-    // AnchorPane root = loader.load();
-    // Scene scene = new Scene(root, 1200, 800, false, null);
-    // stage.setScene(scene);
-    // stage.show();
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
+    //         AnchorPane root = loader.load();
+    //         Scene scene = new Scene(root, 1200, 800, false, null);
+    //         stage.setScene(scene);
+    //         stage.show();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
     // }
 
-
+    
     public static void main(String[] args) {
         launch(args);
     }
