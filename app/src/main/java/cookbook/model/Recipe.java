@@ -1,7 +1,12 @@
 package cookbook.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Recipe {
     private int id;
@@ -105,4 +110,5 @@ public class Recipe {
     public void setCookTime(int cookTime) {
         this.cookTime = cookTime;
     }
+    
 }

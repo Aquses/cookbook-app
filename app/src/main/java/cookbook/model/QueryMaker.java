@@ -1,5 +1,6 @@
 package cookbook.model;
 
+import cookbook.view.DisplayRecipeScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,6 +20,7 @@ public class QueryMaker {
     Statement statement;
     ResultSet results;
     String query;
+    PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -26,17 +28,18 @@ public class QueryMaker {
     }
 
     /*
-    public List<Recipe> getAllRecipes() throws SQLException{
-        query = "SELECT * FROM recipes";
-        return setToList();
-    }*/
+     * public List<Recipe> getAllRecipes() throws SQLException{
+     * query = "SELECT * FROM recipes";
+     * return setToList();
+     * }
+     */
 
-    public ObservableList<Recipe> getAllRecipes() throws SQLException{
+    public ObservableList<Recipe> getAllRecipes() throws SQLException {
         query = "SELECT * FROM recipes";
         return setToList();
     }
 
-    public ObservableList<Recipe> getRecipesFromSQLQuery(String query) throws SQLException{
+    public ObservableList<Recipe> getRecipesFromSQLQuery(String query) throws SQLException {
         this.query = query;
         return setToList();
     }
@@ -46,40 +49,41 @@ public class QueryMaker {
         return setToList();
     }
 
-    public ObservableList<Recipe> getSearchResults() throws SQLException{
-        // here we want a generic search, but the search text needs to be filtered and found based on the query.
+    public ObservableList<Recipe> getSearchResults() throws SQLException {
+        // here we want a generic search, but the search text needs to be filtered and
+        // found based on the query.
         query = "";
         return setToList();
     }
 
-    public ObservableList<User> getAllusers() throws SQLException{
-        // here we want a generic search, but the search text needs to be filtered and found based on the query.
+    public ObservableList<User> getAllusers() throws SQLException {
+        // here we want a generic search, but the search text needs to be filtered and
+        // found based on the query.
         query = "SELECT * FROM users;";
         return setUserToList();
     }
 
     // user story 8, Eldaras, query loads tags and custom_tags. 
     // I'm afraid of optimization. at some point it was lagging due to overload of recipes.
-    public List<String> getCustomTagsForRecipe(int recipeId) throws SQLException {
+    public List<String> getCustomTagsForRecipe(int recipe_id, int user_id) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
     
-        // Retrieve tags from the recipe_tags table
         String tagsQuery = "SELECT tags.tag_name " +
                            "FROM tags " +
                            "JOIN recipe_tags ON tags.tag_id = recipe_tags.tag_id " +
                            "WHERE recipe_tags.recipe_id = ?";
     
-        // Retrieve custom tags from the custom_tags table
         String customTagsQuery = "SELECT custom_tags.ctag_name " +
                                  "FROM custom_tags " +
                                  "JOIN recipe_ctags ON custom_tags.ctag_id = recipe_ctags.ctag_id " +
-                                 "WHERE recipe_ctags.recipe_id = ?";
+                                 "WHERE recipe_ctags.recipe_id = ? AND custom_tags.user_id = ?";
     
         try (PreparedStatement tagsStatement = conn2.prepareStatement(tagsQuery);
              PreparedStatement customTagsStatement = conn2.prepareStatement(customTagsQuery)) {
-            tagsStatement.setInt(1, recipeId);
-            customTagsStatement.setInt(1, recipeId);
+            tagsStatement.setInt(1, recipe_id);
+            customTagsStatement.setInt(1, recipe_id);
+            customTagsStatement.setInt(2, user_id);
     
             ResultSet tagsResultSet = tagsStatement.executeQuery();
             ResultSet customTagsResultSet = customTagsStatement.executeQuery();
@@ -94,9 +98,8 @@ public class QueryMaker {
                 customTags.add(ctagName);
             }
         } finally {
-          conn2.close();
+            conn2.close();
         }
-    
         return customTags;
     }
     
@@ -140,16 +143,16 @@ public class QueryMaker {
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
         ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
-        String query = "SELECT * FROM ingredients WHERE recipe_id = ?";    
-        try { 
+        String query = "SELECT * FROM ingredients WHERE recipe_id = ?";
+        try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, recipeId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-    
+
                 Ingredient ingredient = new Ingredient(rs.getString(1), rs.getInt(2),
-                                                         rs.getInt(3), rs.getString(4));
+                        rs.getInt(3), rs.getString(4));
                 ingredientList.add(ingredient);
             }
 
@@ -162,19 +165,17 @@ public class QueryMaker {
 
         return ingredientList;
 
-
     }
-
 
     public void updateIngredient(Ingredient updatedIngredient, String originalName, int recipeId) {
         String newName = updatedIngredient.getIngredientName();
         int newQty = updatedIngredient.getQty();
         String newMeasurement = updatedIngredient.getMeasurement();
 
-    
+
         String query = "UPDATE ingredients "
-                    + "SET i_name = ?, qty = ?, measurement = ? "
-                    + "WHERE i_name = ? and recipe_id = ?";
+                + "SET i_name = ?, qty = ?, measurement = ? "
+                + "WHERE i_name = ? and recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -190,13 +191,12 @@ public class QueryMaker {
             System.out.println("Error: " + e.getMessage());
         }
 
-
     }
 
     public void deleteIngredient(Ingredient ingredient, int recipeId) {
         String ingredientName = ingredient.getIngredientName();
         String query = "DELETE from ingredients "
-                    + "WHERE i_name = ? and recipe_id = ?";
+                + "WHERE i_name = ? and recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -208,7 +208,6 @@ public class QueryMaker {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
 
     }
 
@@ -232,9 +231,9 @@ public class QueryMaker {
 
     public void updateRecipe(Recipe recipe) {
         String query = "UPDATE recipes "
-                    + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
-                    + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
-                    + "WHERE recipe_id = ?";
+                + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
+                + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
+                + "WHERE recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -247,7 +246,7 @@ public class QueryMaker {
             statement.setInt(7, recipe.getId());
 
             statement.executeUpdate();
-            
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -422,6 +421,81 @@ public class QueryMaker {
         
     }
 
+    public void editComment(Comment comment) {
+        String query = "UPDATE comments SET content = ? WHERE comment_id = ?";
+        try {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, comment.getComment_text());
+            statement.setInt(2, comment.getId());
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Comment updated successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void deleteComment(Comment comment) {
+        String query = "DELETE FROM comments WHERE comment_id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, comment.getId());
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Comment deleted successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Use comment object here in place of the string
+    public void sendComment(String comment, Recipe recipe) {
+        query = "INSERT INTO comments(user_id, recipe_id, content, comment_Date)" +
+                "VALUES(?, ?, ?, ?)";
+        int user_id, recipe_id;
+
+        // Id is set to auto-increment, so it is not set here
+        // User id who. Who is the current user? TODO: this is being auto-set to
+        // anthony. Needs to get from context.
+        user_id = Session.getCurrentUser().getUserId();
+        // Recipe id
+        recipe_id = recipe.getId();
+        // Comment is already available from function input
+        // Get data on "sqlToday"
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        java.util.Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        java.sql.Date sqlToday = new java.sql.Date(today.getTime());
+
+        try {
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, user_id);
+            prepStatement.setInt(2, recipe_id);
+            prepStatement.setString(3, comment);
+            prepStatement.setDate(4, sqlToday);
+
+            prepStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public ObservableList<Comment> getThisRecipesComments(Recipe recipe) throws SQLException {
+        query = "SELECT * FROM comments WHERE recipe_id = " + recipe.getId();
+        return commentsToList();
+    }
+
+    private ObservableList<Comment> commentsToList() throws SQLException {
+        ObservableList<Comment> list = FXCollections.observableArrayList();
+        Comment comment;
+
+        results = statement.executeQuery(query);
     public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
         String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
 
@@ -469,7 +543,13 @@ public class QueryMaker {
             final ZonedDateTime startOfLastWeek = input.plusWeeks(i).with(DayOfWeek.MONDAY);
             dateList.add(startOfLastWeek.toLocalDate());
         }
-    
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
+    }
         return dateList;
     }
     

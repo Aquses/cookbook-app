@@ -38,6 +38,9 @@ public class MainNavigation implements Initializable {
     private Button MessagesButton;
 
     @FXML
+    private Button HelpButton;
+
+    @FXML
     private AnchorPane ContentAnchor;
     
     @FXML
@@ -58,13 +61,14 @@ public class MainNavigation implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 		User currentUser = Session.getCurrentUser();
+		User currentUser = Session.getCurrentUser();
         AdminButton.setVisible(currentUser.getIsAdmin());
         try {
             loadScene(0);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+          throw new RuntimeException(e);
         }
-			menuControls();
+		menuControls();
     }
 
     private void menuControls() {
@@ -142,6 +146,13 @@ public class MainNavigation implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        HelpButton.setOnMouseClicked(event -> {
+            try {
+                loadScene(5);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         WeeklyPlanButton.setOnMouseClicked(event -> {
             try {
@@ -179,6 +190,9 @@ public class MainNavigation implements Initializable {
             // Load hub when given an invalid number
             case 4:
                 fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
+                break;
+            case 5:
+                fxmlLoader.setLocation(Cookbook.class.getResource("HelpScene.fxml"));
                 break;
             case 5:
                 fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
