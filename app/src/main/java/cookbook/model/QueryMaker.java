@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -14,6 +17,7 @@ public class QueryMaker {
     Statement statement;
     ResultSet results;
     String query;
+    PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -352,5 +356,97 @@ public class QueryMaker {
 
     }
 
+    public void editComment(Comment comment) {
+        String query = "UPDATE comments SET content = ? WHERE comment_id = ?";
+        try {
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, comment.getComment_text());
+            statement.setInt(2, comment.getId());
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Comment updated successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    public void deleteComment(Comment comment) {
+        String query = "DELETE FROM comments WHERE id = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, comment.getId());
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Comment deleted successfully!");
+            } else {
+                System.out.println("No comment found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }   
+    public void sendComment(String comment, Recipe recipe){
+        query = "INSERT INTO comments(user_id, recipe_id, content, comment_Date)" +
+                "VALUES(?, ?, ?, ?)";
+        int user_id, recipe_id;
+
+        // Id is set to auto-increment, so it is not set here
+        // User id who. Who is the current user? TODO: this is being auto-set to anthony. Needs to get from context.
+        user_id = 2;
+        // Recipe id
+        recipe_id = recipe.getId();
+        // Comment is already available from function input
+        // Get data on "sqlToday"
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        java.util.Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        java.sql.Date sqlToday = new java.sql.Date(today.getTime());
+
+        //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        //LocalDateTime now = LocalDateTime.now();
+        //dtf.format(now);
+
+        
+        try {
+            //prepStatement = conn.prepareStatement(query);
+            //prepStatement.setString();
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, user_id);
+            prepStatement.setInt(2, recipe_id);
+            prepStatement.setString(3, comment);
+            prepStatement.setDate(4, sqlToday);
+
+            prepStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        }
     
+
+    public ObservableList<Comment> getThisRecipesComments(Recipe recipe) throws SQLException {
+        query = "SELECT * FROM comments WHERE recipe_id = " + recipe.getId();
+        return commentsToList();
+    }
+
+    private ObservableList<Comment> commentsToList() throws SQLException {
+        ObservableList<Comment> list = FXCollections.observableArrayList();
+        Comment comment;
+
+        results = statement.executeQuery(query);
+
+        while (results.next()) {
+            comment = new Comment(results);
+            list.add(comment);
+        }
+        return list;
+    }
 }
+
+
+
+
+
+
