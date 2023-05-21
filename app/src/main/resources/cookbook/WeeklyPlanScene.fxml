@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.WeeklyPlanScene">
+<children>
+    <VBox layoutX="8.0" prefHeight="690.0" prefWidth="932.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
+        </padding>
+        <children>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="74.0" prefWidth="802.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+               <children>
+                  <Label text="Weekly Plan" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="32.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="createPlan" mnemonicParsing="false" onAction="#createPlan" prefHeight="25.0" prefWidth="118.0" text="Create Weekly Plan" translateX="193.0" translateY="-35.0" />
+                  <TextField fx:id="weekNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="41.0" translateX="340.0" translateY="-60.0" />
+                  <Label fx:id="numberLabel" text="Week Number:" textFill="WHITE" translateX="320.0" translateY="-103.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="weekName" layoutX="23.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="112.0" translateX="430.0" translateY="-103.0" />
+                  <Label fx:id="nameLabel" layoutX="23.0" layoutY="121.0" text="Week Plan Name:" textFill="WHITE" translateX="435.0" translateY="-147.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="createButton" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#create" prefHeight="25.0" prefWidth="118.0" text="Create IT!" translateX="590.0" translateY="-164.0" />
+                  <Button fx:id="cancelButton" layoutX="23.0" layoutY="181.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="118.0" text="Cancel" translateX="590.0" translateY="-156.0" />
+                  <Label fx:id="error" layoutX="23.0" layoutY="121.0" text="Must be 1-52" textFill="RED" translateX="320.0" translateY="-172.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="802.0">
+               <children>
+                  <VBox prefHeight="444.0" prefWidth="0.0">
+                     <children>
+                        <TableView fx:id="weeklyPlanTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#weeklyPlanClicked" prefHeight="385.0" prefWidth="305.0">
+                          <columns>
+                            <TableColumn fx:id="weekNumberCol" editable="false" prefWidth="77.03485107421875" style="-fx-alignment: center;" text="Week No." />
+                            <TableColumn fx:id="weekNameCol" editable="false" prefWidth="224.6066131591797" style="-fx-alignment: center;" text="List/Plan Name" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="deleteSelection" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openDelete" prefHeight="31.0" prefWidth="192.0" text="Delete Selected Weekly Plan">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="55.0" top="15.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Label fx:id="youSure" prefHeight="27.0" prefWidth="91.0" text="You Sure?" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="110.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="yesDelete" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="63.0" text="Yes">
+                                 <HBox.margin>
+                                    <Insets left="80.0" right="10.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="noDelete" mnemonicParsing="false" onAction="#deleteCancel" prefHeight="25.0" prefWidth="63.0" text="No">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="15.0" />
+                     </HBox.margin></VBox>
+                  <VBox prefHeight="507.0" prefWidth="98.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label text="Monday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="55.0" left="30.0" top="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Tuesday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="60.0" left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Wednesday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="60.0" left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Thurdsay" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="55.0" left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Friday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="60.0" left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Saturday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="60.0" left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="Sunday" textFill="WHITE">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="30.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="527.0" prefWidth="347.0">
+                     <children>
+                        <ScrollPane prefHeight="300.0" prefWidth="308.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="mondayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="tuesdayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="wednesdayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="thursdayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="fridayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <VBox.margin>
+                              <Insets bottom="12.0" />
+                           </VBox.margin>
+                           <content>
+                              <GridPane fx:id="saturdayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                           <content>
+                              <GridPane fx:id="sundayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ScrollPane>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+        </children>
+    </VBox>
+</children>
+</AnchorPane>
