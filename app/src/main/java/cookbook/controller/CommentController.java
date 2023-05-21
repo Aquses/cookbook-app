@@ -36,6 +36,7 @@ public class CommentController {
   private AnchorPane parentAnchorPane;
 
   public void setData(Comment comment, AnchorPane parent) {
+
     String username = myusername.getText();
     this.comment = comment;
     parentAnchorPane = parent;
@@ -46,8 +47,9 @@ public class CommentController {
 
   @FXML
   void editComment(ActionEvent event) throws SQLException {
+    String updatedComment = mycomment.getText();
     int userid = comment.getUser_id();
-
+    comment.setComment_text(updatedComment);
     QueryMaker qm = new QueryMaker();
     qm.editComment(comment);
 
