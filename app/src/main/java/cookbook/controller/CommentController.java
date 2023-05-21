@@ -36,8 +36,20 @@ public class CommentController {
 
   public void setData(Comment comment, AnchorPane parent) {
 
-    String username = user.getUsername();
-    myusername.setText(username);
+    
+    int commentId = comment.getId();
+
+    try {
+      QueryMaker qm = new QueryMaker();
+      User commentUser = qm.retrieveCommentUser(commentId);
+
+      String username = commentUser.getUsername();
+      myusername.setText(username);
+
+    } catch (SQLException e) {
+      System.out.println("Error: " + e.getMessage());
+    }
+
 
     this.comment = comment;
 
