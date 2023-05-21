@@ -36,7 +36,6 @@ public class CommentController {
 
   public void setData(Comment comment, AnchorPane parent) {
 
-    
     int commentId = comment.getId();
 
     try {
@@ -50,7 +49,6 @@ public class CommentController {
       System.out.println("Error: " + e.getMessage());
     }
 
-
     this.comment = comment;
 
     this.mycomment.setText(comment.getComment_text());
@@ -62,6 +60,8 @@ public class CommentController {
     if (userid != Session.getCurrentUser().getUserId()) {
       editButton.setDisable(true);
       deleteButton.setDisable(true);
+      mycomment.setDisable(true);
+
     }
   }
 
