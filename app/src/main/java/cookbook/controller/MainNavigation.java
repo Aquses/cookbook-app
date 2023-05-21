@@ -2,6 +2,7 @@ package cookbook.controller;
 
 import cookbook.Cookbook;
 import cookbook.model.Session;
+import cookbook.model.ShoppingList;
 import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +50,8 @@ public class MainNavigation implements Initializable {
     @FXML
     private Button WeeklyPlanButton;
 
+    @FXML
+    private Button ShoppingList;
 
     
     public static Scene getScene() throws IOException {
@@ -161,7 +164,13 @@ public class MainNavigation implements Initializable {
             }
         });
 
-        
+        ShoppingList.setOnMouseClicked(event -> {
+            try {
+                loadScene(7);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
     }
 
@@ -195,6 +204,9 @@ public class MainNavigation implements Initializable {
                 break;
             case 6:
                 fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
+                break;
+						case 7:
+                fxmlLoader.setLocation(Cookbook.class.getResource("ShoppingListScene.fxml"));
                 break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
