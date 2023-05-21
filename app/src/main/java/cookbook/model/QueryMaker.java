@@ -507,6 +507,34 @@ public class QueryMaker {
         return list;
     }
 
+
+    public User retrieveCommentUser(int commentId) {
+        String query = "SELECT u.* "
+                     + "FROM users as u "
+                     + "JOIN comments as c on c.user_id = u.user_id "
+                     + "WHERE c.comment_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, commentId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(rs);
+                rs.close();
+                statement.close();
+                return user;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+        return null;
+    }
+
+    
+
     public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
         String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
 

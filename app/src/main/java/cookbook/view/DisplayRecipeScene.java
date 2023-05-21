@@ -481,16 +481,18 @@ public class DisplayRecipeScene implements Initializable {
 
     private void reloadComments() {
         int row = 1, col = 0;
-        QueryMaker qm = null;
+        // QueryMaker qm = null;
 
         // Clear the grid to update for new comments
         CommentsGridPane.getChildren().clear();
 
         try {
             // Get all comments from this recipe using QueryMaker
-            qm = new QueryMaker();
+            // qm = new QueryMaker();
+            QueryMaker qm = new QueryMaker();
             ObservableList<Comment> allComments = qm.getThisRecipesComments(recipe);
             NumberOfCommentsLabel.setText(Integer.toString(allComments.size()));
+            
             System.out.println("We reached this point but i dont know whats happening " + allComments.size());
 
             // For all comments found, spawn the comment with a specific fxml design
