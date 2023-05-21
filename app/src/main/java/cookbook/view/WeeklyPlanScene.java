@@ -25,9 +25,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+
 import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
+
 
 public class WeeklyPlanScene {
 
@@ -132,16 +132,7 @@ public class WeeklyPlanScene {
         loadTable();
         loadWeeklyPlans();
 
-        // // Below is testing to see that the weekly plan contains the recipes for each day
-
-        // for (WeeklyDinnerList wdl : weeklyList) {
-        //     System.out.println("Week Id: " + wdl.getWeekId() + "WeekName: " + wdl.getWeekName() + "User id: " + wdl.getUserId() + "Week number: " + wdl.getWeekNumber());
-        //     for (ObservableList<Recipe> recipeList : wdl.getWeeklyPlan()) {
-        //         for (Recipe recipe : recipeList) {
-        //             System.out.println(recipe.getName());
-        //         }
-        //     }
-        // }
+    
     }
 
     public void loadTable() {
@@ -291,6 +282,7 @@ public class WeeklyPlanScene {
         for(int i=0; i < dailyRecipeList.size(); i++){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/cookbook/DailyRecipeItem.fxml"));
+            // fxmlLoader.setLocation(getClass().getResource("/cookbook/RecipeItem.fxml"));
             AnchorPane anchorPane = null;
             try {
                 anchorPane = fxmlLoader.load();
@@ -299,7 +291,7 @@ public class WeeklyPlanScene {
             }
 
             DailyRecipeController drc = fxmlLoader.getController();
-            drc.setRecipeName(dailyRecipeList.get(i));
+            drc.setRecipe(dailyRecipeList.get(i), ap);
 
             grid.add(anchorPane, col++, row);            
             grid.setMinWidth(Region.USE_COMPUTED_SIZE);
