@@ -7,6 +7,7 @@ import com.mysql.cj.xdevapi.Session;
 
 import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
+import cookbook.view.DisplayRecipeScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,7 +36,10 @@ public class CommentController {
 
   private AnchorPane parentAnchorPane;
 
-  public void setData(Comment comment, AnchorPane parent) {
+  private DisplayRecipeScene drsController;
+
+  public void setData(Comment comment, AnchorPane parent, DisplayRecipeScene drsController) {
+    this.drsController = drsController;
     String username = myusername.getText();
     this.comment = comment;
     parentAnchorPane = parent;
@@ -48,8 +52,12 @@ public class CommentController {
   void editComment(ActionEvent event) throws SQLException {
     int userid = comment.getUser_id();
 
+    // Setting the edited comments text.
+    this.comment.setComment_text(mycomment.getText());
+
     QueryMaker qm = new QueryMaker();
     qm.editComment(comment);
+    drsController.reloadComments();
 
   }
 
@@ -61,7 +69,7 @@ public class CommentController {
     } catch (SQLException e) {
       System.out.println("Error: " + e.getMessage());
     }
-
+    drsController.reloadComments();
   }
 
 }

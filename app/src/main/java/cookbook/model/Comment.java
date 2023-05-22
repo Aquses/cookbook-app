@@ -1,5 +1,8 @@
 package cookbook.model;
 
+import javafx.fxml.FXML;
+
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -12,6 +15,7 @@ public class Comment {
   private int id;
   private int User_id;
   private int recipe_id;
+
 
   public Comment(ResultSet rt) throws SQLException {
     setId(rt.getInt(1));

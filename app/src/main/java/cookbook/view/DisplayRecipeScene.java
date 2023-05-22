@@ -146,6 +146,8 @@ public class DisplayRecipeScene implements Initializable {
 
     private int recipe_id;
 
+    private DisplayRecipeScene controller;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double speed = 0.006;
@@ -341,7 +343,7 @@ public class DisplayRecipeScene implements Initializable {
         this.previousScene = previousScene;
 
         // Always load comments after recipe exists
-        reloadComments();
+        //reloadComments();
 
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
@@ -405,6 +407,12 @@ public class DisplayRecipeScene implements Initializable {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    // This method is used to obtain the controller from this scene, declared in ItemController.
+    // It is used to reload comments whenever needed, and it requires to have this controller available.
+    public void addThisScenesController(DisplayRecipeScene controller) {
+        this.controller = controller;
     }
 
     // Below method is used if the prep time and cook time attributes are float
@@ -479,7 +487,7 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
-    private void reloadComments() {
+    public void reloadComments() {
         int row = 1, col = 0;
         QueryMaker qm = null;
 
@@ -497,7 +505,6 @@ public class DisplayRecipeScene implements Initializable {
             for (int i = 0; i < allComments.size(); i++) {
                 // Load the fxml design onto a new AnchorPane
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                // TODO: set correct comment fxml here
                 fxmlLoader.setLocation(Cookbook.class.getResource("viewComment.fxml"));
                 AnchorPane anchorPane = null;
                 anchorPane = fxmlLoader.load();
@@ -505,9 +512,8 @@ public class DisplayRecipeScene implements Initializable {
                 // Obtain the controller from the respective fxml design and add the details of
                 // the comments
                 CommentController comController = fxmlLoader.getController();
-                // TODO: set the comments data to the controller here
-                // commentController.setData(allComments.get(i), ap);
-                comController.setData(allComments.get(i), anchorPane);
+                System.out.println(controller);
+                comController.setData(allComments.get(i), anchorPane, controller);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);

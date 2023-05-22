@@ -130,6 +130,8 @@ public class ItemController implements Initializable {
                 e.printStackTrace();
             }
             drs.addIngredients();
+            drs.addThisScenesController(drs);
+            drs.reloadComments();
 
             AnchorPane.setTopAnchor(n, 0.0);
             AnchorPane.setRightAnchor(n, 0.0);
