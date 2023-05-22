@@ -566,8 +566,42 @@ public class QueryMaker {
     
             statement.executeUpdate();
         }
+        // }
+    }
+
+    public WeeklyDinnerList retrieveCurrentWeeklyPlan(int weekNumber, User user) {
+        String query = "SELECT * FROM week_plan WHERE week_number = ? AND user_id = ?";
+
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekNumber);
+            statement.setInt(2, user.getUserId());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                int weekId = rs.getInt(1);
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList currentWeeklyList = new WeeklyDinnerList(rs, weeklyListRecipes);
+                return currentWeeklyList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-    }      
+        return null;
+    }
 
     /**
      * 
@@ -592,3 +626,4 @@ public class QueryMaker {
         return dateList;
     }
 }*/
+}
