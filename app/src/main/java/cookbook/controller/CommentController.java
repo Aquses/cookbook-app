@@ -3,10 +3,9 @@ package cookbook.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
-import com.mysql.cj.xdevapi.Session;
-
 import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
+import cookbook.model.Session;
 import cookbook.view.DisplayRecipeScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +45,14 @@ public class CommentController {
     this.mycomment.setText(comment.getComment_text());
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     myDate.setText(dateFormat.format(comment.getDate()));
+
+    if(comment.getUser_id() == Session.getCurrentUser().getUserId()){
+      deleteButton.setVisible(true);
+      editButton.setVisible(true);
+    } else{
+      deleteButton.setVisible(false);
+      editButton.setVisible(false);
+    }
   }
 
   @FXML
