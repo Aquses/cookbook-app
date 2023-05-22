@@ -1,16 +1,32 @@
 package cookbook.model;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javafx.collections.ObservableList;
 
 
 /*
  * ShppingList Class. 
  */
 public class ShoppingList {
-    private int list_id; 
-    private User user_id; 
-    private String list_name;
-    private Date created_date; 
+    private int listId; 
+    private int userId;
+    private int weekId;
+    private String listName;
+    private Date createdDate; 
+    private ObservableList<Ingredient> shoppingListIngredients;
+
+    public ShoppingList(ResultSet rs, ObservableList<Ingredient> ingredientList) throws SQLException {
+        setListId(rs.getInt(1));
+        setUserId(rs.getInt(2));
+        setWeekId(rs.getInt(3));
+        setListName(rs.getString(4));
+        setCreatedDate(rs.getDate(5));
+        setShoppingListIngredients(ingredientList);
+
+    }
 
 
     /**
@@ -18,17 +34,17 @@ public class ShoppingList {
      
      * @return list_id.
      */
-    public int getList_id() {
-        return list_id;
+    public int getListId() {
+        return listId;
     }
 
     /**
      * sets list_id.
      
-     * @param list_id list_id.
+     * @param listId list_id.
      */
-    public void setList_id(int list_id) {
-        this.list_id = list_id;
+    public void setListId(int listId) {
+        this.listId = listId;
     }
     
     /**
@@ -36,17 +52,26 @@ public class ShoppingList {
      
      * @return user_id.
      */
-    public User getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
     /**
      * sets user_id.
      
-     * @param user_id user_id.
+     * @param userId user_id.
      */
-    public void setUser_id(User user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getWeekId() {
+        return weekId;
+    }
+
+    public void setWeekId(int weekId) {
+        this.weekId = weekId;
+
     }
     
     /**
@@ -54,17 +79,17 @@ public class ShoppingList {
     
      * @return list_name.
      */
-    public String getList_name() {
-        return list_name;
+    public String getListName() {
+        return listName;
     }
 
     /**
      * sets list_name.
      
-     * @param list_name list_name.
+     * @param listName list_name.
      */
-    public void setList_name(String list_name) {
-        this.list_name = list_name;
+    public void setListName(String listName) {
+        this.listName = listName;
     }
 
     /**
@@ -72,18 +97,25 @@ public class ShoppingList {
      
      * @return created_date.
      */
-    public Date getCreated_date() {
-        return created_date;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
     /**
      * sets created-date.
      
-     * @param created_date created_date.
+     * @param createdDate created_date.
      */
-    public void setCreated_date(Date created_date) {
-        this.created_date = created_date;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
+    public void setShoppingListIngredients(ObservableList<Ingredient> ingredientList) {
+        this.shoppingListIngredients = ingredientList;
+
+    }
     
+    public ObservableList<Ingredient> getIngredientList() {
+        return shoppingListIngredients;
+    }
 }
