@@ -26,6 +26,7 @@ public class QueryMaker {
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        // "jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false"
         statement = conn.createStatement();
     }
 
@@ -601,6 +602,83 @@ public class QueryMaker {
             System.out.println("Error: " + e.getMessage());
         }
         return null;
+    }
+
+
+    public WeeklyDinnerList retrieveShoppingWeeklyPlan(int weekId, User user) {
+        String query = "SELECT * FROM week_plan WHERE week_id = ? AND user_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekId);
+            statement.setInt(2, user.getUserId());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList shoppingWeekPlan = new WeeklyDinnerList(rs, weeklyListRecipes);
+                return shoppingWeekPlan;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public ShoppingList retrieveShoppingList(int weekId, User user) {
+        String query = "SELECT * FROM shopping_list WHERE week_id = ? and user_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekId);
+            statement.setInt(2, user.getUserId());
+            
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {                
+
+                WeeklyDinnerList shoppingWeeklyPlan = retrieveShoppingWeeklyPlan(weekId, user);
+                ObservableList<ObservableList<Recipe>> recipeList = shoppingWeeklyPlan.getWeeklyPlan();
+                ObservableList<Ingredient> ingredientList = retrieveShoppingIngredients(recipeList);
+                ShoppingList shoppingList = new ShoppingList(rs, ingredientList);
+
+                return shoppingList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+
+    public ObservableList<Ingredient> retrieveShoppingIngredients(ObservableList<ObservableList<Recipe>> weeklyPlanRecipes) {
+
+        ObservableList<Ingredient> totalIngredientList = FXCollections.observableArrayList();
+
+        for (ObservableList<Recipe> recipeList : weeklyPlanRecipes) {
+            for (Recipe r : recipeList) {
+                ObservableList<Ingredient> ingredients = retrieveIngredients(r.getId());
+                for (Ingredient i : ingredients) {
+                    totalIngredientList.add(i);
+                }
+            }
+        }
+
+        return totalIngredientList;
     }
 
     /**
