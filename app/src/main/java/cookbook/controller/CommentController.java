@@ -3,6 +3,7 @@ package cookbook.controller;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_INPeer;
 import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
 import cookbook.model.Session;
@@ -46,7 +47,7 @@ public class CommentController {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     myDate.setText(dateFormat.format(comment.getDate()));
 
-    if(comment.getUser_id() == Session.getCurrentUser().getUserId()){
+    if(comment.getUser_id() == Session.getCurrentUser().getUserId() || Session.getCurrentUser().getIsAdmin()){
       deleteButton.setVisible(true);
       editButton.setVisible(true);
     } else{
