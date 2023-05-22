@@ -19,7 +19,6 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -123,18 +122,15 @@ public class AddRecipeController implements Initializable {
       measurementField.getItems().addAll(measurements);
 
       addRecipeButton.setOnAction(event -> {
-        // Get values from text fields
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
         String recipeInstructions = insField.getText();
         int servings = Integer.parseInt(servingsField.getText());
         int prepTime = Integer.parseInt(prepField.getText());
         int cookTime = Integer.parseInt(cookField.getText());
-        int user_id = Session.getCurrentUser().getUserId();
-      
-        if (recipeName.trim().isEmpty() != true) {
+        User user = Session.getCurrentUser();
+        int user_id = user.getUserId();
 
-        // LOOKS VERY UGLY, WILL FIX IT. SO FAR SOLUTION WITH CHECKBOXES, YOUTUBE!!!
         List<String> selectedCheckboxValues = new ArrayList<>();
         if (checkbox1.isSelected()) {
           selectedCheckboxValues.add(checkbox1.getText());
@@ -172,26 +168,16 @@ public class AddRecipeController implements Initializable {
           Tags tag = new Tags(checkboxValue); 
           tagsView.getItems().add(tag);
         }
-        tagsView.getItems().clear();
         
         try {
           Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
-
-          String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes, user_id) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            
-          PreparedStatement pstmt = conn2.prepareStatement(query);
-          pstmt.setString(1, recipeName);
-          pstmt.setString(2, recipeDesc);
-          pstmt.setString(3, recipeInstructions);
-          pstmt.setInt(4, servings);
-          pstmt.setInt(5, prepTime);
-          pstmt.setInt(6, cookTime);
-          pstmt.setInt(7, user_id);
-          
-          pstmt.executeUpdate();
-                
           Statement stmt = conn2.createStatement();
+                
+          String query = "INSERT INTO recipes (recipe_name, recipe_description, recipe_instructions, servings, prep_time_minutes, cook_time_minutes, user_id) " +
+                         "VALUES ('" + recipeName + "', '" + recipeDesc + "', '" + recipeInstructions + "', " +
+                          servings + ", " + prepTime + ", " + cookTime + ", " + user_id + ")";
+          stmt.executeUpdate(query);
+                
           ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
           rs.next();
           int recipeId = rs.getInt(1);
@@ -228,24 +214,16 @@ public class AddRecipeController implements Initializable {
             stmt.executeUpdate(ingredientQuery);
           }
           tableView.getItems().clear();
+          tagsView.getItems().clear();
+
         } catch (SQLException e) {
           e.printStackTrace();
         }
-
-    
-        // Clear text fields
-        nameField.clear();
-        descField.clear();
-        insField.clear();
-        ingField.clear();
-        servingsField.clear();
-        prepField.clear();
-        cookField.clear();
-        quantityField.clear();
-      };
+        clearFields();
+      });
 
 
-      addTagButton.setOnAction(e -> {
+      addTagButton.setOnAction(event -> {
         Tags tag = new Tags(tagsField.getText());
         ObservableList<Tags> tags = tagsView.getItems();
         tags.add(tag);
@@ -253,7 +231,7 @@ public class AddRecipeController implements Initializable {
         tagsField.clear();
       });
 
-      submitButton.setOnAction(e -> {
+      submitButton.setOnAction(event -> {
         IngredientsAddRecipe ingredient = new IngredientsAddRecipe(ingField.getText(),
                                               Integer.parseInt(quantityField.getText()),
                                               measurementField.getValue());
@@ -264,16 +242,27 @@ public class AddRecipeController implements Initializable {
         quantityField.clear();
       });
 
-      removeButton.setOnAction(e -> {
+      removeButton.setOnAction(event -> {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
         tableView.getItems().remove(selectedID);
       });
-    });
-  }
+    }
+
     public void loadData() {
       ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
       quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
       measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
       tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
+    }
+
+    public void clearFields() {
+      nameField.clear();
+      descField.clear();
+      insField.clear();
+      ingField.clear();
+      servingsField.clear();
+      prepField.clear();
+      cookField.clear();
+      quantityField.clear();
     }
 }
