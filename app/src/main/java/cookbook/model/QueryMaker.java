@@ -13,9 +13,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.List;
+import java.util.Map;
 
 public class QueryMaker {
     Connection conn;
@@ -25,7 +27,7 @@ public class QueryMaker {
     PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
         // "jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false"
         statement = conn.createStatement();
     }
@@ -647,13 +649,11 @@ public class QueryMaker {
             
             ResultSet rs = statement.executeQuery();
 
-            while (rs.next()) {                
+            if (rs.next()) {
 
-                WeeklyDinnerList shoppingWeeklyPlan = retrieveShoppingWeeklyPlan(weekId, user);
-                ObservableList<ObservableList<Recipe>> recipeList = shoppingWeeklyPlan.getWeeklyPlan();
-                ObservableList<Ingredient> ingredientList = retrieveShoppingIngredients(recipeList);
-                ShoppingList shoppingList = new ShoppingList(rs, ingredientList);
-
+                ShoppingList shoppingList = new ShoppingList(rs);
+                rs.close();
+                statement.close();
                 return shoppingList;
             }
 
@@ -665,43 +665,57 @@ public class QueryMaker {
 
 
 
-    public ObservableList<Ingredient> retrieveShoppingIngredients(ObservableList<ObservableList<Recipe>> weeklyPlanRecipes) {
+    // weeklyPlan contains i_name, qty, measurement, and recipeId
+    public void insertShoppingListItems(WeeklyDinnerList weeklyPlan, int listId) {
 
-        ObservableList<Ingredient> totalIngredientList = FXCollections.observableArrayList();
+        String query = "INSERT INTO list_items (list_id, i_name, recipe_id, qty, measurement, item_purchased) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            ObservableList<ObservableList<Recipe>> weeklyPlanRecipes = weeklyPlan.getWeeklyPlan();
 
-        for (ObservableList<Recipe> recipeList : weeklyPlanRecipes) {
-            for (Recipe r : recipeList) {
-                ObservableList<Ingredient> ingredients = retrieveIngredients(r.getId());
-                for (Ingredient i : ingredients) {
-                    totalIngredientList.add(i);
+            for (ObservableList<Recipe> dailyRecipeList : weeklyPlanRecipes) {
+                for (Recipe r : dailyRecipeList) {
+                    ObservableList<Ingredient> ingredients = retrieveIngredients(r.getId());
+                    for (Ingredient i : ingredients) {
+                        statement.setInt(1, listId);
+                        statement.setString(2, i.getIngredientName());
+                        statement.setInt(3, r.getId());
+                        statement.setInt(4, i.getQty());
+                        statement.setString(5, i.getMeasurement());
+                        statement.setBoolean(6, false);
+                        statement.executeUpdate();
+                    }
                 }
             }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        return totalIngredientList;
     }
 
-    /**
-     * 
-     * @param numberOfWeeks numberOfWeeks.
-     * @return dateList.
-     */
-    /*public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
-        List<LocalDate> dateList = new ArrayList<>();
-        final ZonedDateTime input = ZonedDateTime.now();
-    
-        for (int i = 0; i < numberOfWeeks; i++) {
-            final ZonedDateTime startOfLastWeek = input.plusWeeks(i).with(DayOfWeek.MONDAY);
-            dateList.add(startOfLastWeek.toLocalDate());
+    public ObservableList<ShoppingListItem> retrieveShoppingListItems(int listId) {
+        String query = "SELECT * FROM list_items WHERE list_id = ?";
+        ObservableList<ShoppingListItem> shoppingListItems = FXCollections.observableArrayList();
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, listId);            
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+
+                ShoppingListItem listItem = new ShoppingListItem(rs);
+                shoppingListItems.add(listItem);
+            }
+
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        while (results.next()) {
-            comment = new Comment(results);
-            list.add(comment);
-        }
-        return list;
+        return shoppingListItems;
     }
-        return dateList;
-    }
-}*/
+
 }
