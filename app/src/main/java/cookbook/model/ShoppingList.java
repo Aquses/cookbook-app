@@ -16,15 +16,16 @@ public class ShoppingList {
     private int weekId;
     private String listName;
     private Date createdDate; 
-    private ObservableList<Ingredient> shoppingListIngredients;
+    // private ObservableList<Ingredient> shoppingListIngredients;
 
-    public ShoppingList(ResultSet rs, ObservableList<Ingredient> ingredientList) throws SQLException {
+    // public ShoppingList(ResultSet rs, ObservableList<Ingredient> ingredientList) throws SQLException {
+    public ShoppingList(ResultSet rs) throws SQLException {
         setListId(rs.getInt(1));
         setUserId(rs.getInt(2));
         setWeekId(rs.getInt(3));
         setListName(rs.getString(4));
         setCreatedDate(rs.getDate(5));
-        setShoppingListIngredients(ingredientList);
+        // setShoppingListIngredients(ingredientList);
 
     }
 
@@ -110,12 +111,12 @@ public class ShoppingList {
         this.createdDate = createdDate;
     }
 
-    public void setShoppingListIngredients(ObservableList<Ingredient> ingredientList) {
-        this.shoppingListIngredients = ingredientList;
+    // public void setShoppingListIngredients(ObservableList<Ingredient> ingredientList) {
+    //     this.shoppingListIngredients = ingredientList;
 
-    }
+    // }
     
-    public ObservableList<Ingredient> getIngredientList() {
-        return shoppingListIngredients;
-    }
+    // public ObservableList<Ingredient> getIngredientList() {
+    //     return shoppingListIngredients;
+    // }
 }
