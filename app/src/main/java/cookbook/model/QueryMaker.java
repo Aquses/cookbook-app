@@ -27,7 +27,7 @@ public class QueryMaker {
     PreparedStatement prepStatement;
 
     public QueryMaker() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
         // "jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false"
         statement = conn.createStatement();
     }
