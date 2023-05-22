@@ -11,6 +11,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -23,6 +25,21 @@
             <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
          </padding>
          <children>
+            <Button fx:id="returnButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="94.0" style="-fx-background-color: #2F2928;" text="Back" textFill="#6f6f6f">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../menuIcons/icons8-left-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
             <VBox prefHeight="64.0" prefWidth="178.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -38,10 +55,11 @@
                                  </font></Label>
                            </children>
                         </HBox>
-                        <Button fx:id="addRecipeButton" layoutX="687.0" layoutY="4.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #559d36;" text="ADD" textOverrun="CLIP">
+                        <Button fx:id="addRecipeButton" disable="true" layoutX="696.0" layoutY="8.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: #BBDD2C;" text="Add" textAlignment="CENTER">
                            <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font></Button>
+                              <Font name="Segoe UI Bold" size="12.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                </children>
@@ -54,7 +72,7 @@
             </VBox>
             <HBox alignment="TOP_CENTER" prefHeight="563.0" prefWidth="814.0" style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="533.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="472.0" prefWidth="825.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
                         <AnchorPane prefHeight="505.0" prefWidth="822.0">
                            <children>

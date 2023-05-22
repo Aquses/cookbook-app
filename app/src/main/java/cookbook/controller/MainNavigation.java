@@ -53,6 +53,9 @@ public class MainNavigation implements Initializable {
     @FXML
     private Button ShoppingList;
 
+    @FXML
+    private Button logoutButton;
+
     
     public static Scene getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("NavBar.fxml"));
@@ -205,7 +208,7 @@ public class MainNavigation implements Initializable {
             case 6:
                 fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
                 break;
-						case 7:
+			case 7:
                 fxmlLoader.setLocation(Cookbook.class.getResource("ShoppingListScene.fxml"));
                 break;
             default:

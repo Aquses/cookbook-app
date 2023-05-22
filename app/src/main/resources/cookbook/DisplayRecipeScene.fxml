@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="ap" prefHeight="674.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.DisplayRecipeScene">
+<AnchorPane fx:id="ap" prefHeight="756.0" prefWidth="1395.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.DisplayRecipeScene">
     <children>
       <ScrollPane fx:id="Scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="744.0" prefWidth="940.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;" AnchorPane.bottomAnchor="-36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -62,7 +62,7 @@
                                        <graphic>
                                           <ImageView fx:id="addTagIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../java/cookbook/controller/menuIcons/icons8-plus-48.png" />
+                                                <Image url="@../menuIcons/icons8-plus-48.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>

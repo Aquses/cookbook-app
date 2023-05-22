@@ -4,7 +4,11 @@ package cookbook.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -14,8 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import cookbook.Cookbook;
 import cookbook.model.IngredientsAddRecipe;
 import cookbook.model.User;
 import cookbook.model.Session;
@@ -100,6 +108,8 @@ public class AddRecipeController implements Initializable {
     @FXML private Button submitButton;
 
     @FXML private Button removeButton;
+    
+    @FXML private Button returnButton;
 
     @FXML private TableView<Tags> tagsView;
 
@@ -113,6 +123,9 @@ public class AddRecipeController implements Initializable {
     @FXML private CheckBox checkbox6;
     @FXML private CheckBox checkbox7;
     @FXML private CheckBox checkbox8;
+
+    @FXML private AnchorPane ap;
+
 
     @FXML private GridPane grid;
 
@@ -245,6 +258,22 @@ public class AddRecipeController implements Initializable {
       removeButton.setOnAction(event -> {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
         tableView.getItems().remove(selectedID);
+      });
+
+      returnButton.setOnAction(event -> {
+        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("HubScene.fxml"));
+        Node n;    
+
+        try {
+            n = fxmlLoader.load();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+
+        AnchorPane.setTopAnchor(n, 0.0);
+        AnchorPane.setRightAnchor(n, 0.0);
+        AnchorPane.setBottomAnchor(n, 0.0);
+        AnchorPane.setLeftAnchor(n, 0.0);
       });
     }
 

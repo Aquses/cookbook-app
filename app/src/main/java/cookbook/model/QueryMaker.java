@@ -69,7 +69,6 @@ public class QueryMaker {
     }
 
     // user story 8, Eldaras, query loads tags and custom_tags. 
-    // I'm afraid of optimization. at some point it was lagging due to overload of recipes.
     public List<String> getCustomTagsForRecipe(int recipe_id, int user_id) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -132,19 +131,6 @@ public class QueryMaker {
         }
         return list;
     }
-
-    // private ObservableList<Tags> setTagsToList() throws SQLException {
-    //     ObservableList<Tags> list = FXCollections.observableArrayList();
-    //     Tags tag;
-    //     results = statement.executeQuery(query);
-
-    //     while (results.next()) {
-    //         tag = new Tags(results);
-    //         list.add(tag);
-    //     }
-    //     return list;
-    // }
-
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
         ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
