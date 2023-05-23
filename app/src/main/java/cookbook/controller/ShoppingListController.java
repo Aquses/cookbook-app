@@ -2,16 +2,12 @@ package cookbook.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import cookbook.Cookbook;
-import cookbook.model.Ingredient;
-import cookbook.model.QueryMaker;
-import cookbook.model.Session;
-import cookbook.model.ShoppingList;
-import cookbook.model.ShoppingListItem;
-import cookbook.model.User;
-import cookbook.model.WeeklyDinnerList;
+import cookbook.model.*;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -88,7 +84,43 @@ public class ShoppingListController {
         this.plan = plan;
         System.out.println("Success!");
         System.out.println(plan);
+        //planToIngredientCompilation(plan);
     }
+
+    /*
+    private ObservableList<Ingredient> planToIngredientCompilation(WeeklyDinnerList plan){
+        ObservableList<ObservableList<Recipe>> list = plan.getWeeklyPlan();
+        ObservableList<Ingredient> ret = null;
+
+        try {
+            QueryMaker qm = new QueryMaker();
+
+            //for every list in this list
+            for(int i=0; i<list.size(); i++){
+
+                //and for every recipe in this list
+                ObservableList<Recipe> weekDay = list.get(i);
+                for(int j=0; j<weekDay.size(); j++){
+
+                    //e.g.: weekday 0 = monday
+                    //make a query using each recipe id
+                    Recipe item = weekDay.get(j);
+
+                    //finally, for every ingredient in this recipe, provide filtering and add to a final variable
+                    ObservableList<Ingredient> temporaryList = qm.retrieveIngredients(item.getId());
+                    for(int k=0; k<temporaryList.size(); k++){
+                        //Ingredient temporaryIngredient = temporaryList.get(k).getIngredientName();
+                        //if(rt.contains(temporaryIngredient)){
+
+                        //}
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ret;
+    }*/
 
     private void testingShoppingList() {
 
