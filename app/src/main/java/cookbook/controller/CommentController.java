@@ -40,7 +40,7 @@ public class CommentController {
 
   public void setData(Comment comment, AnchorPane parent, DisplayRecipeScene drsController) {
     this.drsController = drsController;
-    String username = myusername.getText();
+    myusername.setText(comment.getUserName());
     this.comment = comment;
     parentAnchorPane = parent;
     this.mycomment.setText(comment.getComment_text());
