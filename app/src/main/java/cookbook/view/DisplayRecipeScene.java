@@ -310,29 +310,27 @@ public class DisplayRecipeScene implements Initializable {
         });
 
         addTagButton.setOnAction(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddCustomTag.fxml"));
-            Node n;    
-
             try {
-                n = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(Cookbook.class.getResource("AddCustomTag.fxml"));
+    
+                Parent window = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Select Custom Tag");
+                stage.setScene(new Scene(window, 400, 550));
+                stage.show();
+    
             } catch (IOException e) {
               throw new RuntimeException(e);
             }
-    
-            AnchorPane.setTopAnchor(n, 0.0);
-            AnchorPane.setRightAnchor(n, 0.0);
-            AnchorPane.setBottomAnchor(n, 0.0);
-            AnchorPane.setLeftAnchor(n, 0.0);
-    
+        });
+
         // Cancel button: Clears comment field if clicked
         CancelCommentButton.setOnMouseClicked(e -> {
             CommentTextField.setText("");
             SubmitCommentButton.setDisable(true);
             CancelCommentButton.setDisable(true);
             CharacterCountHBox.setDisable(true);
-        });
-            parentAnchorPane.getChildren().clear();
-            parentAnchorPane.getChildren().add(n);
         });
     }
 

@@ -66,41 +66,37 @@ public class RecipesScene implements Initializable {
                     if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
                         return true;
                     }
+                    String[] searchKeywords = newValue.toLowerCase().split("[,\\s]+");
         
-                    String searchKeyword = newValue.toLowerCase();
-        
-                    // Check if the recipe matches the search keyword
-                    if (recipe.getName().toLowerCase().indexOf(searchKeyword) > -1 ||
-                        recipe.getDescription().toLowerCase().indexOf(searchKeyword) > -1 ||
-                        recipe.getInstructions().toLowerCase().indexOf(searchKeyword) > -1) {
-                        return true; // found matches
-                    }
-        
-                    try {
-                        List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
-                        for (String tag : customTags) {
-                            if (tag.toLowerCase().contains(searchKeyword)) {
-                                return true; // found matches
-                            }
+                    // Check if any of the search keywords match the recipe
+                    for (String searchKeyword : searchKeywords) {
+                        if (recipe.getName().toLowerCase().contains(searchKeyword) ||
+                                recipe.getDescription().toLowerCase().contains(searchKeyword) ||
+                                recipe.getInstructions().toLowerCase().contains(searchKeyword)) {
+                            return true; // found a match
                         }
-                    } catch (SQLException e) {
-                      throw new RuntimeException("Error retrieving custom tags for recipe: " + e.getMessage());
+        
+                        try {
+                            List<String> customTags = qm.getCustomTagsForRecipe(recipe.getId(), user.getUserId());
+                            for (String tag : customTags) {
+                                if (tag.toLowerCase().contains(searchKeyword)) {
+                                    return true; // found a match
+                                }
+                            }
+                        } catch (SQLException e) {
+                          throw new RuntimeException("error: " + e.getMessage());
+                        }
                     }
-                
-                    return false; // no matches found
+                    return false;
                 });
         
                 SortedList<Recipe> sortedRecipes = new SortedList<>(filteredRecipes);
-        
                 grid.getChildren().clear();
-        
                 loadRecipes(sortedRecipes);
             });
-        
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+          throw new RuntimeException(e);
         }
-        
     }
 
     private void specificControls() {
