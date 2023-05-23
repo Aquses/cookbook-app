@@ -146,6 +146,8 @@ public class DisplayRecipeScene implements Initializable {
 
     private int recipe_id;
 
+    private DisplayRecipeScene controller;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double speed = 0.006;
@@ -341,7 +343,7 @@ public class DisplayRecipeScene implements Initializable {
         this.previousScene = previousScene;
 
         // Always load comments after recipe exists
-        reloadComments();
+        // reloadComments();
 
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
@@ -405,6 +407,10 @@ public class DisplayRecipeScene implements Initializable {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void addThisScenesController(DisplayRecipeScene controller) {
+        this.controller = controller;
     }
 
     // Below method is used if the prep time and cook time attributes are float
@@ -479,7 +485,7 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
-    private void reloadComments() {
+    public void reloadComments() {
         int row = 1, col = 0;
         // QueryMaker qm = null;
 
@@ -509,7 +515,7 @@ public class DisplayRecipeScene implements Initializable {
                 CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
                 // commentController.setData(allComments.get(i), ap);
-                comController.setData(allComments.get(i), anchorPane);
+                comController.setData(allComments.get(i), anchorPane, controller);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);

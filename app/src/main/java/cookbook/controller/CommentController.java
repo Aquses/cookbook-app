@@ -7,6 +7,7 @@ import cookbook.model.Comment;
 import cookbook.model.QueryMaker;
 import cookbook.model.Session;
 import cookbook.model.User;
+import cookbook.view.DisplayRecipeScene;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -34,15 +35,18 @@ public class CommentController {
   private Comment comment; // Assume Comment class represents a comment object
   private User user;
 
-  public void setData(Comment comment, AnchorPane parent) {
+  private DisplayRecipeScene drsController;
 
+  public void setData(Comment comment, AnchorPane parent, DisplayRecipeScene drsController) {
+    this.drsController = drsController;
     int commentId = comment.getId();
 
     try {
       QueryMaker qm = new QueryMaker();
       User commentUser = qm.retrieveCommentUser(commentId);
 
-      String username = commentUser.getUsername();
+      //String username = commentUser.getUsername();
+      String username = commentUser.getFname() + " " + commentUser.getLname();
       myusername.setText(username);
 
     } catch (SQLException e) {
@@ -58,8 +62,8 @@ public class CommentController {
     int userid = comment.getUser_id();
 
     if (userid != Session.getCurrentUser().getUserId()) {
-      editButton.setDisable(true);
-      deleteButton.setDisable(true);
+      editButton.setVisible(false);
+      deleteButton.setVisible(false);
       mycomment.setDisable(true);
 
     }
@@ -84,6 +88,8 @@ public class CommentController {
     } else {
       System.out.println("only the creator of the comment can edit it.");
     }
+
+    drsController.reloadComments();
   }
 
   @FXML
@@ -99,6 +105,8 @@ public class CommentController {
     } else {
       System.out.println("only the creator of the comment can delete it");
     }
+
+    drsController.reloadComments();
   }
 
 }
