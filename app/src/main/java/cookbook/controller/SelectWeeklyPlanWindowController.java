@@ -4,18 +4,25 @@ import cookbook.model.QueryMaker;
 import cookbook.model.Session;
 import cookbook.model.User;
 import cookbook.model.WeeklyDinnerList;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import javax.xml.transform.Source;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+// Gustavo edited this page.
 
 public class SelectWeeklyPlanWindowController implements Initializable {
 
@@ -36,12 +43,34 @@ public class SelectWeeklyPlanWindowController implements Initializable {
 
     private ObservableList<WeeklyDinnerList> weeklyList = FXCollections.observableArrayList();
 
+    private WeeklyDinnerList selectedPlan;
+
+    private ShoppingListController callerController;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         User user = Session.getCurrentUser();
-
         loadTable();
         loadWeeklyPlans(user);
+        //Stage stage = (Stage) SelectButton.getScene().getWindow();
+
+        SelectButton.setOnMouseClicked(event -> {
+            if(selectedPlan != null){
+                callerController.setSelectedPlan(selectedPlan);
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+            } else{
+                SelectButton.setDisable(true);
+            }
+        });
+
+        CancelButton.setOnMouseClicked(event -> {
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        });
     }
 
     public void loadWeeklyPlans(User user) {
@@ -63,5 +92,20 @@ public class SelectWeeklyPlanWindowController implements Initializable {
     public void loadTable() {
         weekNumberCol.setCellValueFactory(new PropertyValueFactory<>("weekNumber"));
         weekNameCol.setCellValueFactory(new PropertyValueFactory<>("weekName"));
+    }
+
+    @FXML
+    private void weeklyPlanClicked(){
+        //first, make select button clickable (enable)
+        if(SelectButton.isDisabled()){
+            SelectButton.setDisable(false);
+        }
+        //then set the variable that will retain the values from the click
+        selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
+        //submission is handled in initialization
+    }
+
+    public void setCallerController(ShoppingListController controller){
+        callerController = controller;
     }
 }

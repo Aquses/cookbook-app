@@ -32,6 +32,10 @@ public class ShoppingListController {
     @FXML
     private Button ClearListButton;
 
+    private ShoppingListController controller;
+
+    private WeeklyDinnerList plan;
+
 
     private User user;
     private ShoppingList shoppingList;
@@ -61,6 +65,10 @@ public class ShoppingListController {
             fxmlLoader.setLocation(Cookbook.class.getResource("SelectWeeklyPlanWindow.fxml"));
 
             Parent window = fxmlLoader.load();
+            SelectWeeklyPlanWindowController windowController = fxmlLoader.getController();
+
+            windowController.setCallerController(controller);
+
             Stage stage = new Stage();
             stage.setTitle("Select a Weekly Plan");
             stage.setScene(new Scene(window, 339, 508));
@@ -70,6 +78,16 @@ public class ShoppingListController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void setController(ShoppingListController controller){
+        this.controller = controller;
+    }
+
+    public void setSelectedPlan(WeeklyDinnerList plan){
+        this.plan = plan;
+        System.out.println("Success!");
+        System.out.println(plan);
     }
 
     private void testingShoppingList() {
@@ -109,6 +127,6 @@ public class ShoppingListController {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }            
+    }
 
 }

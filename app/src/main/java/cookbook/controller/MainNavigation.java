@@ -225,6 +225,13 @@ public class MainNavigation implements Initializable {
         ContentAnchor.getChildren().clear();
         ContentAnchor.getChildren().add(n);
 
+        switch(sceneID){
+            case 7:
+                ShoppingListController controller = fxmlLoader.getController();
+                controller.setController(controller);
+                break;
+        }
+
         return;
     }
 }
