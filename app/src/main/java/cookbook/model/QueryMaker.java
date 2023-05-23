@@ -649,8 +649,6 @@ public class QueryMaker {
         return null;
     }
 
-
-
     // weeklyPlan contains i_name, qty, measurement, and recipeId
     public void insertShoppingListItems(WeeklyDinnerList weeklyPlan, int listId) {
 

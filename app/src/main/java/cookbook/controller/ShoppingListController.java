@@ -1,7 +1,9 @@
 package cookbook.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
+import cookbook.Cookbook;
 import cookbook.model.Ingredient;
 import cookbook.model.QueryMaker;
 import cookbook.model.Session;
@@ -11,12 +13,25 @@ import cookbook.model.User;
 import cookbook.model.WeeklyDinnerList;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class ShoppingListController {
 
     @FXML
     private AnchorPane ap;
+    @FXML
+    private Label InstructionLabel;
+    @FXML
+    private Button NewListButton;
+    @FXML
+    private Button ClearListButton;
+
 
     private User user;
     private ShoppingList shoppingList;
@@ -34,6 +49,27 @@ public class ShoppingListController {
         for (ShoppingListItem item : shoppingListItems) {
             System.out.println(item.getIngredientName() + " " + item.getQty() + " " + item.getMeasurement());
         }
+
+        NewListButton.setOnMouseClicked(event -> {
+            openListChoiceWindow();
+        });
+    }
+
+    private void openListChoiceWindow(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(Cookbook.class.getResource("SelectWeeklyPlanWindow.fxml"));
+
+            Parent window = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Select a Weekly Plan");
+            stage.setScene(new Scene(window, 339, 508));
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void testingShoppingList() {
