@@ -101,9 +101,22 @@ public class Splash
         iv.setFitHeight(40);
         iv.setX(60);
         iv.setY(150);
-        pane.getChildren().addAll(rect, label, lab, iv,circle2);
 
+
+        RotateTransition rt = new RotateTransition(Duration.millis(3000), iv);
+        rt.setByAngle(360); 
+        rt.setCycleCount(Timeline.INDEFINITE);
+        rt.setInterpolator(Interpolator.LINEAR);
+
+        rt.play();
+
+
+        
+        pane.getChildren().addAll(rect, label, lab, iv,circle2);
         seqT.play();
+
+        
+
     }
 
     public Scene getSplashScene()
