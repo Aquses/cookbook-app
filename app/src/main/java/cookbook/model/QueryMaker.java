@@ -538,10 +538,22 @@ public class QueryMaker {
     }
 
     public void deleteWeeklyPlan(int weekId) throws SQLException {
-        String query = "DELETE FROM week_plan WHERE week_id = ?";
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setInt(1, weekId);
-            statement.executeUpdate();
+        try {
+            // must delete daily recipe rows first
+            String deleteDailyRecipesQuery = "DELETE FROM daily_recipes WHERE week_id = ?";
+            PreparedStatement dailyRecipesStatement = conn.prepareStatement(deleteDailyRecipesQuery);
+            dailyRecipesStatement.setInt(1, weekId);
+            dailyRecipesStatement.executeUpdate();
+            dailyRecipesStatement.close();
+    
+            // then delete the weekly plan
+            String deleteWeeklyPlanQuery = "DELETE FROM week_plan WHERE week_id = ?";
+            PreparedStatement weeklyPlanStatement = conn.prepareStatement(deleteWeeklyPlanQuery);
+            weeklyPlanStatement.setInt(1, weekId);
+            weeklyPlanStatement.executeUpdate();
+            weeklyPlanStatement.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -662,6 +674,7 @@ public class QueryMaker {
                 for (Recipe r : dailyRecipeList) {
                     ObservableList<Ingredient> ingredients = retrieveIngredients(r.getId());
                     for (Ingredient i : ingredients) {
+											if (!hasItem(listId, i.getIngredientName(), i.getMeasurement())) {
                         statement.setInt(1, listId);
                         statement.setString(2, i.getIngredientName());
                         statement.setInt(3, r.getId());
@@ -669,6 +682,9 @@ public class QueryMaker {
                         statement.setString(5, i.getMeasurement());
                         statement.setBoolean(6, false);
                         statement.executeUpdate();
+											} else {
+												updateItem(listId, i);
+											}
                     }
                 }
             }
@@ -676,6 +692,47 @@ public class QueryMaker {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+		public void updateItem(int list_id, Ingredient ingredient) {
+			String updateQuery = "UPDATE list_items SET qty = qty + ? WHERE list_id = ? AND i_name = ? AND measurement = ?";
+			
+			try {
+					PreparedStatement statement = conn.prepareStatement(updateQuery);
+					statement.setInt(1, ingredient.getQty());
+					statement.setInt(2, list_id);
+					statement.setString(3, ingredient.getIngredientName());
+					statement.setString(4, ingredient.getMeasurement());
+					
+					statement.executeUpdate();
+					statement.close();
+			} catch (SQLException e) {
+					System.out.println("Error: " + e.getMessage());
+			}
+	}
+		
+		public boolean hasItem(int list_id, String ingredientName, String measurement) {
+			String query = "SELECT COUNT(*) FROM list_items WHERE list_id = ? AND i_name = ? AND measurement = ?";
+			
+			try {
+					PreparedStatement statement = conn.prepareStatement(query);
+					statement.setInt(1, list_id);
+					statement.setString(2, ingredientName);
+					statement.setString(3, measurement);
+					
+					ResultSet rs = statement.executeQuery();
+					rs.next();
+					
+					int count = rs.getInt(1);
+					
+					rs.close();
+					statement.close();
+					
+					return count > 0;
+			} catch (SQLException e) {
+					System.out.println("Error: " + e.getMessage());
+			}
+			return false;
+	}
 
     public ObservableList<ShoppingListItem> retrieveShoppingListItems(int listId) {
         String query = "SELECT * FROM list_items WHERE list_id = ?";
@@ -718,5 +775,51 @@ public class QueryMaker {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void deleteShoppingList(int user_id, int week_id) {
+        try {
+            // must delete the corresponding list_items first
+            String deleteItemsQuery = "DELETE FROM list_items WHERE list_id IN " +
+                                      "(SELECT list_id FROM shopping_list WHERE user_id = ? AND week_id = ?)";
+            PreparedStatement itemsStatement = conn.prepareStatement(deleteItemsQuery);
+            itemsStatement.setInt(1, user_id);
+            itemsStatement.setInt(2, week_id);
+            itemsStatement.executeUpdate();
+            itemsStatement.close();
+    
+            // then delete the shopping_list
+            String deleteShoppingListQuery = "DELETE FROM shopping_list WHERE user_id = ? AND week_id = ?";
+            PreparedStatement shoppingListStatement = conn.prepareStatement(deleteShoppingListQuery);
+            shoppingListStatement.setInt(1, user_id);
+            shoppingListStatement.setInt(2, week_id);
+            shoppingListStatement.executeUpdate();
+            shoppingListStatement.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    
+    public boolean isShoppingList(int user_id, int week_id) {
+        String query = "SELECT * FROM shopping_list WHERE user_id = ? AND week_id = ?";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user_id);
+            statement.setInt(2, week_id);
+            
+            ResultSet rs = statement.executeQuery();
+    
+            boolean hasShoppingList = rs.next();
+            
+            rs.close();
+            statement.close();
+            
+            return hasShoppingList;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return false;
     }
 }

@@ -213,20 +213,25 @@ public class WeeklyPlanScene {
     void delete(ActionEvent event) {
 			WeeklyDinnerList selectedWeeklyList = weeklyPlanTable.getSelectionModel().getSelectedItem();
 			if (selectedWeeklyList != null) {
-					int weekId = selectedWeeklyList.getWeekId();
+				int weekId = selectedWeeklyList.getWeekId();
 					
-					try {
-						QueryMaker queryMaker = new QueryMaker();
-						queryMaker.deleteWeeklyPlan(weekId);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} 
+				try {
+					QueryMaker queryMaker = new QueryMaker();
+					
+        
+					if (queryMaker.isShoppingList(weekId, user.getUserId())) {
+						queryMaker.deleteShoppingList(weekId, user.getUserId());
+					}
+				queryMaker.deleteWeeklyPlan(weekId);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
 	
-					// Refresh the table of weekly lists
-					weeklyPlanTable.getItems().remove(selectedWeeklyList);
-					weeklyPlanTable.refresh();
+				// Refresh the table of weekly lists
+				weeklyPlanTable.getItems().remove(selectedWeeklyList);
+				weeklyPlanTable.refresh();
 
-					deleteCancel(event);
+				deleteCancel(event);
 			}
 	}
   
