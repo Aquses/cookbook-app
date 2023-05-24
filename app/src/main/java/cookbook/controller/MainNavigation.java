@@ -185,6 +185,8 @@ public class MainNavigation implements Initializable {
                 Scene newScene = new Scene(root);
                 primaryStage.setScene(newScene);
                 primaryStage.setTitle("Dish IT");
+                primaryStage.setWidth(660);
+                primaryStage.setHeight(540);
                 primaryStage.show();
             } catch (IOException e) {
               // TODO Auto-generated catch block
