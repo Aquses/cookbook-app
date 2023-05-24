@@ -110,16 +110,17 @@ public class Cookbook extends Application {
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
                     Scene scene = new Scene(root);
-                    primaryStage.setScene(scene);
-                    primaryStage.setTitle("Dish IT");
-                    primaryStage.setWidth(660);
-                    primaryStage.setHeight(540);
-                    primaryStage.show();
+                    Stage loginStage = (Stage) vbox.getScene().getWindow(); // Get the current stage
+                    loginStage.setScene(scene);
+                    loginStage.setTitle("Dish IT");
+                    loginStage.setWidth(660);
+                    loginStage.setHeight(540);
+                    loginStage.show();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                  e.printStackTrace();
                 }
             });
-            pause.play();
+            pause.play();            
         });
         animation.play();
 
@@ -131,18 +132,4 @@ public class Cookbook extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    // @Override
-    // public void start(Stage stage) {
-    // try {
-    // FXMLLoader loader = new
-    // FXMLLoader(getClass().getClassLoader().getResource("AddRecipeScene.fxml"));
-    // AnchorPane root = loader.load();
-    // Scene scene = new Scene(root, 1200, 800, false, null);
-    // stage.setScene(scene);
-    // stage.show();
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // }
-
 }
