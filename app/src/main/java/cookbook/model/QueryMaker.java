@@ -702,4 +702,21 @@ public class QueryMaker {
         return shoppingListItems;
     }
 
+    public void createShoppingList(int user_id, int week_id, String list_name, LocalDate date_created) {
+        String insertQuery = "INSERT INTO shopping_list (user_id, week_id, list_name, date_created) VALUES (?, ?, ?, ?)";
+    
+        try {
+            PreparedStatement statement = conn.prepareStatement(insertQuery);
+            statement.setInt(1, user_id);
+            statement.setInt(2, week_id);
+            statement.setString(3, list_name);
+            statement.setDate(4, java.sql.Date.valueOf(date_created));
+    
+            statement.executeUpdate();
+            statement.close();
+    
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }

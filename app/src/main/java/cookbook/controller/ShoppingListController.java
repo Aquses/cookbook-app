@@ -2,6 +2,7 @@ package cookbook.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import cookbook.Cookbook;
 import cookbook.model.*;
@@ -49,17 +50,11 @@ public class ShoppingListController {
     private User user;
     private ShoppingList shoppingList;
     private ObservableList<ShoppingListItem> shoppingListItems;
-    private WeeklyDinnerList weeklyPlan;
-
+  
     @FXML
     public void initialize() {
         this.user = Session.getCurrentUser();
        
-        /*// Testing in console if ingredients are retrieved. Currently does not handle duplicates or combine qty
-        for (ShoppingListItem item : shoppingListItems) {
-            System.out.println(item.getIngredientName() + " " + item.getQty() + " " + item.getMeasurement());
-        }*/
-
         NewListButton.setOnMouseClicked(event -> {
             openListChoiceWindow();
         });
@@ -150,10 +145,26 @@ public class ShoppingListController {
         try {
             QueryMaker qm = new QueryMaker();
             ShoppingList shoppingList = qm.retrieveShoppingList(plan.getWeekId(), user);
-            this.shoppingList = shoppingList;
+						// check if shopping list already exists
+            if (shoppingList != null) {
+							this.shoppingList = shoppingList;
 
-            ObservableList<ShoppingListItem> shoppingListItems = qm.retrieveShoppingListItems(shoppingList.getListId());
-            this.shoppingListItems = shoppingListItems;
+							ObservableList<ShoppingListItem> shoppingListItems = qm.retrieveShoppingListItems(shoppingList.getListId());
+							this.shoppingListItems = shoppingListItems;
+						// create new list and insert items if list doesn't exist	
+						} else {
+							LocalDate dateCreated = LocalDate.now();
+							qm.createShoppingList(user.getUserId(), plan.getWeekId(), plan.getWeekName(), dateCreated);
+
+							ShoppingList newShoppingList = qm.retrieveShoppingList(plan.getWeekId(), user);
+							this.shoppingList = newShoppingList;
+
+							qm.insertShoppingListItems(plan, newShoppingList.getListId());
+
+							ObservableList<ShoppingListItem> shoppingListItems = qm.retrieveShoppingListItems(newShoppingList.getListId());
+							this.shoppingListItems = shoppingListItems;
+						}
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
