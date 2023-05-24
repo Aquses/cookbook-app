@@ -819,7 +819,19 @@ public class QueryMaker {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        
         return false;
     }
+
+		public void deleteListItem(int itemId) {
+			String deleteQuery = "DELETE FROM list_items WHERE item_id = ?";
+	
+			try {
+				PreparedStatement statement = conn.prepareStatement(deleteQuery);
+				statement.setInt(1, itemId);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+	}
 }

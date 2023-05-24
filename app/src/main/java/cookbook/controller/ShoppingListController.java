@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import cookbook.Cookbook;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,41 +16,48 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
 
-	
+	@FXML
+	private TextField quantityField;
+	@FXML
+	private Label quantityLabel;
+	@FXML
+	private Button deleteButton;
+	@FXML
+	private Button editButton;
+	@FXML
+	private TableView<ShoppingListItem> itemTable;
+	@FXML
+  private TableColumn<ShoppingListItem, String> Item;
+  @FXML
+  private TableColumn<ShoppingListItem, Integer> Quantity;
+  @FXML
+  private TableColumn<ShoppingListItem, String> Measurement;
+  @FXML
+  private Label listHeader;
+  @FXML
+  private AnchorPane ap;
+  @FXML
+  private Label InstructionLabel;
+  @FXML
+  private Button NewListButton;
+  @FXML
+  private Button ClearListButton;
 
-		@FXML
-		private TableView<ShoppingListItem> itemTable;
-		@FXML
-    private TableColumn<ShoppingListItem, String> Item;
-    @FXML
-    private TableColumn<ShoppingListItem, Integer> Quantity;
-    @FXML
-    private TableColumn<ShoppingListItem, String> Measurement;
-    @FXML
-    private Label listHeader;
-    @FXML
-    private AnchorPane ap;
-    @FXML
-    private Label InstructionLabel;
-    @FXML
-    private Button NewListButton;
-    @FXML
-    private Button ClearListButton;
+  private ShoppingListController controller;
 
-    private ShoppingListController controller;
-
-    private WeeklyDinnerList plan;
+  private WeeklyDinnerList plan;
 
 
-    private User user;
-    private ShoppingList shoppingList;
-    private ObservableList<ShoppingListItem> shoppingListItems;
+  private User user;
+  private ShoppingList shoppingList;
+  private ObservableList<ShoppingListItem> shoppingListItems;
   
     @FXML
     public void initialize() {
@@ -169,30 +177,26 @@ public class ShoppingListController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+    @FXML
+    void delete(ActionEvent event) {
+			ShoppingListItem selectedItem = itemTable.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) {
+				int itemId = selectedItem.getItemId();
+					
+				try {
+					QueryMaker queryMaker = new QueryMaker();
+					queryMaker.deleteListItem(itemId);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
 
-    // This should eventually not be here. When the user selects a weekly plan to create a shopping list, the weeklyplan object should be passed into 
-    // the parameter of a method that should be used in this controller class. This will allow the inserting of shopping list items and the
-    // "retrieveShoppingWeeklyPlan()" method can be removed.
+				itemTable.getItems().remove(selectedItem);
+				itemTable.refresh();
+			}
+    }
 
-    /*private void testingWeeklyPlan() {
+    @FXML
+    void edit(ActionEvent event) {
 
-        try {
-            QueryMaker qm = new QueryMaker();
-            WeeklyDinnerList plan = qm.retrieveShoppingWeeklyPlan(plan.getWeekId(), user);
-            this.weeklyPlan = weeklyPlan;
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }*/
-
-    /*private void testingInsertItems() {
-
-        try {
-            QueryMaker qm = new QueryMaker();
-            qm.insertShoppingListItems(weeklyPlan, shoppingList.getListId());
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }*/
-
+    }
 }

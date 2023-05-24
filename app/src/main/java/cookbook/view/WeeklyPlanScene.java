@@ -115,22 +115,22 @@ public class WeeklyPlanScene {
 
     @FXML
     public void initialize() {
-        this.user = Session.getCurrentUser();
-        nameLabel.setVisible(false);
-        numberLabel.setVisible(false);
-        weekNumber.setVisible(false);   
-        weekName.setVisible(false);
-        cancelButton.setVisible(false);
-        createButton.setVisible(false);
-				error.setVisible(false);
-				youSure.setVisible(false);
-				yesDelete.setVisible(false);
-				noDelete.setVisible(false);
+      this.user = Session.getCurrentUser();
+      nameLabel.setVisible(false);
+      numberLabel.setVisible(false);
+      weekNumber.setVisible(false);   
+      weekName.setVisible(false);
+      cancelButton.setVisible(false);
+      createButton.setVisible(false);
+			error.setVisible(false);
+			youSure.setVisible(false);
+			yesDelete.setVisible(false);
+			noDelete.setVisible(false);
 
         
         
-        loadTable();
-        loadWeeklyPlans();
+      loadTable();
+      loadWeeklyPlans();
 
     
     }
