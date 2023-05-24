@@ -52,7 +52,7 @@ public class SelectWeeklyPlanWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         User user = Session.getCurrentUser();
         loadTable();
-        loadWeeklyPlans(user);
+        loadWeeklyPlans(user);  
         //Stage stage = (Stage) SelectButton.getScene().getWindow();
 
         SelectButton.setOnMouseClicked(event -> {

@@ -2,23 +2,36 @@ package cookbook.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Map;
 
 import cookbook.Cookbook;
 import cookbook.model.*;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
 
+	
+
+		@FXML
+		private TableView<ShoppingListItem> itemTable;
+		@FXML
+    private TableColumn<ShoppingListItem, String> Item;
+    @FXML
+    private TableColumn<ShoppingListItem, Integer> Quantity;
+    @FXML
+    private TableColumn<ShoppingListItem, String> Measurement;
+    @FXML
+    private Label listHeader;
     @FXML
     private AnchorPane ap;
     @FXML
@@ -41,19 +54,28 @@ public class ShoppingListController {
     @FXML
     public void initialize() {
         this.user = Session.getCurrentUser();
-        testingShoppingList();
-        testingWeeklyPlan();
-        testingInsertItems();
-
-        // Testing in console if ingredients are retrieved. Currently does not handle duplicates or combine qty
+       
+        /*// Testing in console if ingredients are retrieved. Currently does not handle duplicates or combine qty
         for (ShoppingListItem item : shoppingListItems) {
             System.out.println(item.getIngredientName() + " " + item.getQty() + " " + item.getMeasurement());
-        }
+        }*/
 
         NewListButton.setOnMouseClicked(event -> {
             openListChoiceWindow();
         });
     }
+
+    public void loadTable() {
+			Item.setCellValueFactory(new PropertyValueFactory<>("ingredientName"));
+			Quantity.setCellValueFactory(new PropertyValueFactory<>("qty"));
+			Measurement.setCellValueFactory(new PropertyValueFactory<>("measurement"));
+	}
+
+	public void setTable() {
+		testingShoppingList();
+		loadTable();
+		itemTable.setItems(shoppingListItems);
+	}
 
     private void openListChoiceWindow(){
         try {
@@ -68,7 +90,8 @@ public class ShoppingListController {
             Stage stage = new Stage();
             stage.setTitle("Select a Weekly Plan");
             stage.setScene(new Scene(window, 339, 508));
-            stage.show();
+            stage.showAndWait();
+						setTable();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -126,10 +149,10 @@ public class ShoppingListController {
 
         try {
             QueryMaker qm = new QueryMaker();
-            ShoppingList shoppingList = qm.retrieveShoppingList(1, user);
+            ShoppingList shoppingList = qm.retrieveShoppingList(plan.getWeekId(), user);
             this.shoppingList = shoppingList;
 
-            ObservableList<ShoppingListItem> shoppingListItems = qm.retrieveShoppingListItems(1);
+            ObservableList<ShoppingListItem> shoppingListItems = qm.retrieveShoppingListItems(shoppingList.getListId());
             this.shoppingListItems = shoppingListItems;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
@@ -140,18 +163,18 @@ public class ShoppingListController {
     // the parameter of a method that should be used in this controller class. This will allow the inserting of shopping list items and the
     // "retrieveShoppingWeeklyPlan()" method can be removed.
 
-    private void testingWeeklyPlan() {
+    /*private void testingWeeklyPlan() {
 
         try {
             QueryMaker qm = new QueryMaker();
-            WeeklyDinnerList weeklyPlan = qm.retrieveShoppingWeeklyPlan(1, user);
+            WeeklyDinnerList plan = qm.retrieveShoppingWeeklyPlan(plan.getWeekId(), user);
             this.weeklyPlan = weeklyPlan;
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
+    }*/
 
-    private void testingInsertItems() {
+    /*private void testingInsertItems() {
 
         try {
             QueryMaker qm = new QueryMaker();
@@ -159,6 +182,6 @@ public class ShoppingListController {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-    }
+    }*/
 
 }

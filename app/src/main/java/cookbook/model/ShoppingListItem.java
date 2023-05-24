@@ -77,5 +77,9 @@ public class ShoppingListItem {
     public void setItemPurchased(boolean itemPurchased) {
         this.itemPurchased = itemPurchased;
     }
+    @Override
+    public String toString() {
+        return ingredientName + "\t" + String.valueOf(qty) + "\t" + measurement;
+    }
     
 }
