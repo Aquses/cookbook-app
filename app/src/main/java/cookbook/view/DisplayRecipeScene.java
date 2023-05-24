@@ -151,8 +151,8 @@ public class DisplayRecipeScene implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double speed = 0.006;
-				user = Session.getCurrentUser();
-				dayBox.setItems(FXCollections.observableArrayList(days));	
+		user = Session.getCurrentUser();
+		dayBox.setItems(FXCollections.observableArrayList(days));	
 
         // Writing comments initialization functions
         try {
@@ -172,57 +172,57 @@ public class DisplayRecipeScene implements Initializable {
             transitionPreviousScene();
         });
 
-				try {
-					QueryMaker queryMaker = new QueryMaker();
-					weeklyList = queryMaker.retrieveWeeklyListObjects(user);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		
-				weekBox.setItems(weeklyList);
-				weekBox.setConverter(new StringConverter<WeeklyDinnerList>() {
-						@Override
-						public String toString(WeeklyDinnerList week) {
-							return week != null && week.getWeekName() != null ? week.getWeekName() : "";
-						}
-		
-						@Override
-						public WeeklyDinnerList fromString(String string) {
-								return null; 
-						}
-					});
+        try {
+            QueryMaker queryMaker = new QueryMaker();
+            weeklyList = queryMaker.retrieveWeeklyListObjects(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-					weekLabel.setVisible(false);
-					dayLabel.setVisible(false);
-					weekBox.setVisible(false);
-					dayBox.setVisible(false);
-					addButton.setVisible(false);
-					cancelButton.setVisible(false);
+        weekBox.setItems(weeklyList);
+        weekBox.setConverter(new StringConverter<WeeklyDinnerList>() {
+            @Override
+            public String toString(WeeklyDinnerList week) {
+                return week != null && week.getWeekName() != null ? week.getWeekName() : "";
+            }
 
-					FavouriteRecipeButton.setOnMouseClicked(event -> {
-						User user = Session.getCurrentUser();
-						int user_id = user.getUserId();
-		
-							// check weather it is a favorite recipe or not
-						DataQuery db = new DataQuery();
-						boolean fav = false;
-						try {
-							fav = db.isFavorite(user_id, recipe_id);
-						} catch (SQLException e) {}
-		
-		
-						// set icon
-						Image image;
-						db = new DataQuery();
-						if(!fav) {
-							db.insertFavorite(user_id, recipe_id);
-							image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-						}else {
-							db.removeFavorite(user_id, recipe_id);
-							image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
-						}
-							FavButtonIcon.setImage(image);
-						});
+            @Override
+            public WeeklyDinnerList fromString(String string) {
+                return null; 
+            }
+        });
+
+        weekLabel.setVisible(false);
+        dayLabel.setVisible(false);
+        weekBox.setVisible(false);
+        dayBox.setVisible(false);
+        addButton.setVisible(false);
+        cancelButton.setVisible(false);
+
+        FavouriteRecipeButton.setOnMouseClicked(event -> {
+            User user = Session.getCurrentUser();
+            int user_id = user.getUserId();
+
+            // check weather it is a favorite recipe or not
+            DataQuery db = new DataQuery();
+            boolean fav = false;
+            try {
+                fav = db.isFavorite(user_id, recipe_id);
+            } catch (SQLException e) {}
+
+
+            // set icon
+            Image image;
+            db = new DataQuery();
+            if (!fav) {
+                db.insertFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+            } else {
+                db.removeFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+            }
+                FavButtonIcon.setImage(image);
+        });
     }
 
     private void writeCommentsInitialize() throws SQLException {
