@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -97,6 +98,13 @@ public class Cookbook extends Application {
         });
         animation.play();
 
+        StackPane root = new StackPane();
+        root.getChildren().addAll(backgroundImageView, vbox);
+
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        primaryStage.setTitle(APP_TITLE);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
     // @Override
     // public void start(Stage stage) {
