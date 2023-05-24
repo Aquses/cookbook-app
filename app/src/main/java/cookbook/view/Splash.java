@@ -28,16 +28,14 @@ public class Splash
     {
         pane = new Pane();
         pane.setStyle("-fx-background-color:black");
-        
-
-        splash = new Scene(pane);
+        splash = new Scene(pane, 500, 250);
         seqT = new SequentialTransition();
     }
 
     public void show()
     {
         
-        int scale = 20;
+        int scale = 35;
         int dur = 500;
         rect = new Circle(100 - 3 * scale, 20, scale);
         rect.setFill(Color.YELLOWGREEN);
@@ -83,24 +81,24 @@ public class Splash
         seqT.setNode(rect);
         //The text part
         Label label = new Label("Dish I.T");
-        label.setFont(new Font("Verdana", 20));
+        label.setFont(new Font("Verdana", 30));
         label.setStyle("-fx-text-fill:white");
-        label.setLayoutX(10);
-        label.setLayoutY(50);
+        label.setLayoutX(15);
+        label.setLayoutY(90);
         Label lab = new Label("Preparing Your Kitchen......");
-        lab.setFont(new Font("Verdana", 12));
+        lab.setFont(new Font("Verdana", 15));
         lab.setStyle("-fx-text-fill:white");
-        lab.setLayoutX(10);
-        lab.setLayoutY(130);
+        lab.setLayoutX(15);
+        lab.setLayoutY(150);
 
 
         
         Image image = new Image("https://yt3.ggpht.com/a/AATXAJzbA6sPn9bCHxcXnQ_jlXFJ0ErDqpq2mOyiBg=s900-c-k-c0xffffffff-no-rj-mo");
         ImageView iv = new ImageView(image);
-        iv.setFitWidth(40);
-        iv.setFitHeight(40);
-        iv.setX(60);
-        iv.setY(150);
+        iv.setFitWidth(50);
+        iv.setFitHeight(50);
+        iv.setX(90);
+        iv.setY(200);
 
 
         RotateTransition rt = new RotateTransition(Duration.millis(3000), iv);
