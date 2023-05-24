@@ -3,11 +3,21 @@
  */
 package cookbook;
 
+import java.io.IOException;
 import java.net.URL;
 
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -60,6 +70,32 @@ public class Cookbook extends Application {
 
         vbox.setTranslateX(-300);
         vbox.setTranslateY(300);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(vbox.translateYProperty(), -200)),
+                new KeyFrame(Duration.seconds(1.5), new KeyValue(vbox.translateYProperty(), 2)));
+
+        // this is for playing animations in sequence and login scene after
+        Animation animation = new SequentialTransition(fadeTransition, timeline);
+        animation.setDelay(Duration.seconds(0.5));
+        animation.setOnFinished(event -> {
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(pauseEvent -> {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
+                    Scene scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.setTitle("Dish IT");
+                    primaryStage.setWidth(660);
+                    primaryStage.setHeight(540);
+                    primaryStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            pause.play();
+        });
+        animation.play();
 
     }
     // @Override
