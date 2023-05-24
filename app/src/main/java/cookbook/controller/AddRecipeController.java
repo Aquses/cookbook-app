@@ -282,22 +282,21 @@ public class AddRecipeController implements Initializable {
 
     @FXML
     public void transitionPreviousScene() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
-        Node n;    
+      FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+      Node n;   
 
-        // load first
-        try {
-            n = fxmlLoader.load();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+      try {
+        n = fxmlLoader.load();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
 
-        AnchorPane.setTopAnchor(n, 0.0);
-        AnchorPane.setRightAnchor(n, 0.0);
-        AnchorPane.setBottomAnchor(n, 0.0);
-        AnchorPane.setLeftAnchor(n, 0.0);
+      AnchorPane.setTopAnchor(n, 0.0);
+      AnchorPane.setRightAnchor(n, 0.0);
+      AnchorPane.setBottomAnchor(n, 0.0);
+      AnchorPane.setLeftAnchor(n, 0.0);
 
-        ap.getChildren().clear();
-        ap.getChildren().add(n);
+      ap.getChildren().clear();
+      ap.getChildren().add(n);
     }
 }
