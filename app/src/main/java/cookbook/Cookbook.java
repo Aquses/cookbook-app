@@ -11,6 +11,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -64,8 +65,6 @@ public class Cookbook extends Application {
         Image backgroundImage = new Image(backgroundImageUrl.toString());
         ImageView backgroundImageView = new ImageView(backgroundImage);
 
-        URL logoImageUrl = new URL(
-                "https://www.owl-marketing.com/wp-content/uploads/2010/08/29.png");
         Image image = new Image("file:" + LOGO_IMAGE_PATH);
         ImageView logoImageView = new ImageView(image);
 
@@ -74,12 +73,17 @@ public class Cookbook extends Application {
         fadeTransition.setToValue(1.0);
         fadeTransition.setDelay(Duration.seconds(0.5));
 
+        RotateTransition rotate = new RotateTransition(Duration.seconds(3), square);
+        rotate.setByAngle(360); // Rotate the square by 360 degrees
+        rotate.setCycleCount(2);
+        rotate.setAutoReverse(true);
+
         // Slide up animation for the app name text
         Text appNameText = new Text(APP_NAME);
         appNameText.setFont(APP_NAME_FONT);
         appNameText.setFill(Color.WHITESMOKE);
 
-        VBox vbox = new VBox(20, logoImageView, appNameText);
+        VBox vbox = new VBox(20, logoImageView, appNameText, square);
         vbox.setAlignment(Pos.CENTER);
 
         vbox.setTranslateX(-300);
@@ -90,7 +94,7 @@ public class Cookbook extends Application {
                 new KeyFrame(Duration.seconds(1.5), new KeyValue(vbox.translateYProperty(), 2)));
 
         // this is for playing animations in sequence and login scene after
-        Animation animation = new SequentialTransition(fadeTransition, timeline);
+        Animation animation = new SequentialTransition(fadeTransition, timeline, rotate);
         animation.setDelay(Duration.seconds(0.5));
         animation.setOnFinished(event -> {
             PauseTransition pause = new PauseTransition(Duration.seconds(2));
