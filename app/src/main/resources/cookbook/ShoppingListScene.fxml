@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -70,7 +71,7 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="82.0" prefWidth="267.0" text="Shopping List:" textFill="WHITE">
+            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="82.0" prefWidth="267.0" text="Shopping List:" textFill="WHITE" translateX="470.0" translateY="60.0">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -83,7 +84,8 @@
             <TextField fx:id="quantityField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="83.0" translateX="200.0" translateY="-10.0" />
             <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="157.0" text="Delete Selected Item" translateY="-35.0" />
             <Button fx:id="editButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="99.0" text="Edit Quantity" translateX="290.0" translateY="-62.0" />
-            <TableView fx:id="itemTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="404.0" translateY="-50.0">
+            <TextArea fx:id="copyArea" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="331.0" prefWidth="313.0" translateX="470.0" translateY="-45.0" />
+            <TableView fx:id="itemTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="404.0" translateY="-380.0">
               <columns>
                 <TableColumn fx:id="Item" prefWidth="180.00000762939453" text="Item" />
                 <TableColumn fx:id="Quantity" minWidth="0.0" prefWidth="95.33331298828125" text="Quantity" />

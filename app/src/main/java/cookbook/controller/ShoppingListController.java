@@ -16,13 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
-
+	@FXML
+	private TextArea copyArea;
 	@FXML
 	private TextField quantityField;
 	@FXML
@@ -78,37 +80,51 @@ public class ShoppingListController {
 		testingShoppingList();
 		loadTable();
 		itemTable.setItems(shoppingListItems);
+		setCopyArea();
 	}
 
-    private void openListChoiceWindow(){
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(Cookbook.class.getResource("SelectWeeklyPlanWindow.fxml"));
+  private void openListChoiceWindow(){
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(Cookbook.class.getResource("SelectWeeklyPlanWindow.fxml"));
 
-            Parent window = fxmlLoader.load();
-            SelectWeeklyPlanWindowController windowController = fxmlLoader.getController();
+      Parent window = fxmlLoader.load();
+      SelectWeeklyPlanWindowController windowController = fxmlLoader.getController();
 
-            windowController.setCallerController(controller);
+      windowController.setCallerController(controller);
 
-            Stage stage = new Stage();
-            stage.setTitle("Select a Weekly Plan");
-            stage.setScene(new Scene(window, 339, 508));
-            stage.showAndWait();
-						setTable();
+      Stage stage = new Stage();
+      stage.setTitle("Select a Weekly Plan");
+      stage.setScene(new Scene(window, 339, 508));
+      stage.showAndWait();
+			setTable();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     public void setController(ShoppingListController controller){
-        this.controller = controller;
+      this.controller = controller;
     }
 
     public void setSelectedPlan(WeeklyDinnerList plan){
-        this.plan = plan;
+      this.plan = plan;
     }
+
+		public void setCopyArea() {
+			StringBuilder textAreaContent = new StringBuilder();
+
+			for (ShoppingListItem item : shoppingListItems) {
+        String itemName = item.getIngredientName();
+				String quantity = String.valueOf(item.getQty());
+        String measurement = item.getMeasurement();
+
+        String row = quantity.toString() + "\t" + measurement + "\t\t" + itemName + "\n";
+        textAreaContent.append(row);
+    	}
+			copyArea.setText(textAreaContent.toString());
+		}
 
     /*
     private ObservableList<Ingredient> planToIngredientCompilation(WeeklyDinnerList plan){
@@ -189,6 +205,7 @@ public class ShoppingListController {
 				} 
 				itemTable.getItems().remove(selectedItem);
 				itemTable.refresh();
+				setCopyArea();
 			}
     }
 
@@ -207,6 +224,7 @@ public class ShoppingListController {
 					e.printStackTrace();
 				} 
 				setTable();
+				setCopyArea();
 			}
     }
 }
