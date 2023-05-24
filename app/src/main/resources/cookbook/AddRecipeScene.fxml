@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -26,23 +25,21 @@
             <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
          </padding>
          <children>
-            <HBox prefHeight="34.0" prefWidth="803.0" spacing="20.0">
-               <children>
-                  <ImageView fx:id="returnButton" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="returnButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="34.0" prefWidth="94.0" style="-fx-background-color: #2F2928;" text="Back" textFill="#6f6f6f">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../menuIcons/icons8-left-48.png" />
                      </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
                   </ImageView>
-                  <Label prefHeight="34.0" prefWidth="580.0" text="Back" textFill="WHITE">
-                     <font>
-                        <Font name="Segoe UI" size="12.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
+               </graphic>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
             <VBox prefHeight="64.0" prefWidth="178.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
