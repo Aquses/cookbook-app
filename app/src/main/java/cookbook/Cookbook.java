@@ -13,6 +13,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,13 +34,15 @@ import javafx.util.Duration;
 
 public class Cookbook extends Application {
 
-    private static final int WINDOW_WIDTH = 1170;
-    private static final int WINDOW_HEIGHT = 617;
-    private static final String APP_TITLE = "Dish IT welcomes you";
-    private static final String BACKGROUND_IMAGE_PATH = "https://jooinn.com/images/color-background-5.png";
-    private static final String LOGO_IMAGE_PATH = "https://pin.it/4cIJnkW";
-    private static final String APP_NAME = "Dish IT Welcomes you";
-    private static final Font APP_NAME_FONT = new Font("Arial", 28);
+    private final int WINDOW_WIDTH = 1170;
+    private final int WINDOW_HEIGHT = 617;
+    private final String APP_TITLE = "May The Dish Be With You";
+    private final String LOGO_IMAGE_PATH = "app/src/main/resources/menuIcons/lets_dish.png";
+    private final String APP_NAME = "Preparing Your Kitchen...";
+    private final Font APP_NAME_FONT = new Font("Times New Roman", 28);
+    private final int square_size = 40;
+    private final int move_distance = 200;
+    private final Duration move_duration = Duration.seconds(3);
 
     public static void main(String[] args) {
         launch(args);
@@ -46,8 +50,17 @@ public class Cookbook extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Rectangle square = new Rectangle(square_size, square_size);
+        square.setFill(Color.GREENYELLOW);
+
+        TranslateTransition squTransition = new TranslateTransition(move_duration, square);
+        squTransition.setFromX(-120);
+        squTransition.setToX(move_distance);
+        squTransition.setAutoReverse(true);
+        squTransition.setCycleCount(Animation.INDEFINITE);
         URL backgroundImageUrl = new URL(
                 "https://cdn.discordapp.com/attachments/1110126286715756604/1110924197850534039/IMG_2556.png");
+
         Image backgroundImage = new Image(backgroundImageUrl.toString());
         ImageView backgroundImageView = new ImageView(backgroundImage);
 
