@@ -3,21 +3,13 @@
  */
 package cookbook;
 
-import java.io.IOException;
+import java.net.URL;
 
-//import cookbook.model.QueryMaker;
-import cookbook.view.Splash;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,56 +17,36 @@ import javafx.util.Duration;
 
 public class Cookbook extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Splash splash = new Splash();
+    private static final int WINDOW_WIDTH = 1170;
+    private static final int WINDOW_HEIGHT = 617;
+    private static final String APP_TITLE = "Dish IT welcomes you";
+    private static final String BACKGROUND_IMAGE_PATH = "https://jooinn.com/images/color-background-5.png";
+    private static final String LOGO_IMAGE_PATH = "https://pin.it/4cIJnkW";
+    private static final String APP_NAME = "Dish IT Welcomes you";
+    private static final Font APP_NAME_FONT = new Font("Arial", 28);
 
-        splash.show();
-        primaryStage.setScene(splash.getSplashScene());
-
-        splash.getSequentialTransition().setOnFinished(e -> {
-            Timeline timeline = new Timeline();
-            KeyFrame key = new KeyFrame(Duration.millis(1500),
-
-                    new KeyValue(splash.getSplashScene().getRoot().opacityProperty(), 0));
-            timeline.getKeyFrames().add(key);
-            timeline.setOnFinished((event1) -> {
-                VBox start = new VBox();
-                Scene startScene = new Scene(start, 50, 50);
-                Button button = new Button();
-                Label header = new Label("Are you ready for DISH IT!!!");
-                header.setStyle("-fx-font-size: 24; -fx-font-weight: bold; -fx-font-style: italic;");
-
-                start.setSpacing(10);
-                start.setAlignment(Pos.CENTER);
-
-                button.setText("Login");
-
-                button.setOnAction(e2 -> {
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
-                        Scene scene = new Scene(root);
-                        primaryStage.setScene(scene);
-                        primaryStage.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                start.getChildren().addAll(header, button);
-
-                primaryStage.setTitle("Dish IT");
-                primaryStage.setWidth(660);
-                primaryStage.setHeight(540);
-                primaryStage.setScene(startScene);
-                primaryStage.show();
-            });
-            timeline.play();
-        });
-
-        primaryStage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        URL backgroundImageUrl = new URL(
+                "https://cdn.discordapp.com/attachments/1110126286715756604/1110924197850534039/IMG_2556.png");
+        Image backgroundImage = new Image(backgroundImageUrl.toString());
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+
+        URL logoImageUrl = new URL(
+                "https://www.owl-marketing.com/wp-content/uploads/2010/08/29.png");
+        Image image = new Image("file:" + LOGO_IMAGE_PATH);
+        ImageView logoImageView = new ImageView(image);
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), logoImageView);
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
+        fadeTransition.setDelay(Duration.seconds(0.5));
+
+    }
     // @Override
     // public void start(Stage stage) {
     // try {
@@ -89,7 +61,4 @@ public class Cookbook extends Application {
     // }
     // }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
