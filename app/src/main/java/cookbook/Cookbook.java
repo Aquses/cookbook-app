@@ -7,9 +7,13 @@ import java.net.URL;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,6 +49,17 @@ public class Cookbook extends Application {
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);
         fadeTransition.setDelay(Duration.seconds(0.5));
+
+        // Slide up animation for the app name text
+        Text appNameText = new Text(APP_NAME);
+        appNameText.setFont(APP_NAME_FONT);
+        appNameText.setFill(Color.WHITESMOKE);
+
+        VBox vbox = new VBox(20, logoImageView, appNameText);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setTranslateX(-300);
+        vbox.setTranslateY(300);
 
     }
     // @Override
