@@ -435,8 +435,6 @@ public class DisplayRecipeScene implements Initializable {
         RecipeEditor editor;
         Node n;
 
-        System.out.println(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
-
         // load first
         try {
             n = fxmlLoader.load();
@@ -470,13 +468,11 @@ public class DisplayRecipeScene implements Initializable {
         sendRecipeStage.showAndWait();
     }
 
-    // Return to previous scene
     @FXML
-    public void transitionPreviousScene() {
+    private void transitionPreviousScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
         Node n;    
 
-        // load first
         try {
             n = fxmlLoader.load();
         } catch (IOException e) {

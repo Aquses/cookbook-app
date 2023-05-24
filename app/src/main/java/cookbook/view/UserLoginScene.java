@@ -68,7 +68,6 @@ public class UserLoginScene implements Initializable {
     }
 
     private void login() throws SQLException {
-
         String username = usernameField.getText();
         String password = passwordField.getText();
         Stage primaryStage = (Stage) usernameField.getScene().getWindow(); // Get the current stage
@@ -83,8 +82,8 @@ public class UserLoginScene implements Initializable {
             Session.setCurrentUser(loggedUser);
             primaryStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
             primaryStage.setWidth(1280);
-            primaryStage.setHeight(700);
-    
+            primaryStage.setHeight(800);
+            
             try {
                 primaryStage.setScene(MainNavigation.getScene());
             } catch (IOException e) {
@@ -96,6 +95,7 @@ public class UserLoginScene implements Initializable {
         }
     }
     
+
 }
 
 

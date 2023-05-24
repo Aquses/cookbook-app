@@ -23,9 +23,9 @@ public class ShoppingListController {
 
 	
 
-		@FXML
-		private TableView<ShoppingListItem> itemTable;
-		@FXML
+	@FXML
+	private TableView<ShoppingListItem> itemTable;
+	@FXML
     private TableColumn<ShoppingListItem, String> Item;
     @FXML
     private TableColumn<ShoppingListItem, Integer> Quantity;
