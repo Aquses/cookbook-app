@@ -1,6 +1,5 @@
 package cookbook.controller;
 
-import javafx.animation.Animation;
 import java.net.URL;
 import java.util.ResourceBundle;
 

@@ -1,14 +1,18 @@
 package cookbook.model;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import cookbook.Cookbook;
 //import javax.management.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 //import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -16,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -83,19 +88,21 @@ public class RecipeEditor {
     @FXML
     private Button saveButton;
 
+    @FXML
+    private ImageView returnButton;
 
     ObservableList<Ingredient> ingredientList =  FXCollections.observableArrayList();
     Recipe recipe;
     int recipeId;
 
     @FXML
-    public
-    void initialize(Recipe recipe) {
+    public void initialize(Recipe recipe) {
         this.recipe = recipe;
         this.recipeId = recipe.getId();
         loadData();
         refreshTable(recipeId);
         addRecipeObject(recipe);
+        transitionPreviousScene();
     }
 
     public void loadData() {
@@ -235,6 +242,28 @@ public class RecipeEditor {
         }
 
 
+    }
+
+    @FXML
+    public void transitionPreviousScene() {
+        returnButton.setOnMouseClicked(event -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+            Node n;   
+      
+            try {
+              n = fxmlLoader.load();
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+      
+            AnchorPane.setTopAnchor(n, 0.0);
+            AnchorPane.setRightAnchor(n, 0.0);
+            AnchorPane.setBottomAnchor(n, 0.0);
+            AnchorPane.setLeftAnchor(n, 0.0);
+      
+            ap.getChildren().clear();
+            ap.getChildren().add(n);
+        });
     }
 
     public static void getRecipeEditor() {
