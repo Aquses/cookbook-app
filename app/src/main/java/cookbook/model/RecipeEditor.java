@@ -245,9 +245,9 @@ public class RecipeEditor {
     }
 
     @FXML
-    public void transitionPreviousScene() {
+    void transitionPreviousScene() {
         returnButton.setOnMouseClicked(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
             Node n;   
       
             try {
@@ -265,11 +265,5 @@ public class RecipeEditor {
             ap.getChildren().add(n);
         });
     }
-
-    public static void getRecipeEditor() {
-    }
-
-
-
 }
     
