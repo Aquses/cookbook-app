@@ -472,7 +472,7 @@ public class DisplayRecipeScene implements Initializable {
 
     // Return to previous scene
     @FXML
-    private void transitionPreviousScene() {
+    public void transitionPreviousScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
         Node n;    
 

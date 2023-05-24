@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -35,6 +36,7 @@ import cookbook.model.IngredientsAddRecipe;
 import cookbook.model.User;
 import cookbook.model.Session;
 import cookbook.model.Tags;
+
 
 public class AddRecipeController implements Initializable {
 
@@ -106,7 +108,7 @@ public class AddRecipeController implements Initializable {
 
     @FXML private Button removeButton;
     
-    @FXML private Button returnButton;
+    @FXML private ImageView returnButton;
 
     @FXML private TableView<Tags> tagsView;
 
@@ -122,8 +124,6 @@ public class AddRecipeController implements Initializable {
     @FXML private CheckBox checkbox8;
 
     @FXML private AnchorPane ap;
-
-
     @FXML private GridPane grid;
 
     @Override
@@ -257,20 +257,8 @@ public class AddRecipeController implements Initializable {
         tableView.getItems().remove(selectedID);
       });
 
-      returnButton.setOnAction(event -> {
-        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("HubScene.fxml"));
-        Node n;    
-
-        try {
-            n = fxmlLoader.load();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-
-        AnchorPane.setTopAnchor(n, 0.0);
-        AnchorPane.setRightAnchor(n, 0.0);
-        AnchorPane.setBottomAnchor(n, 0.0);
-        AnchorPane.setLeftAnchor(n, 0.0);
+      returnButton.setOnMouseClicked(event -> {
+        transitionPreviousScene();
       });
     }
 
@@ -290,5 +278,26 @@ public class AddRecipeController implements Initializable {
       prepField.clear();
       cookField.clear();
       quantityField.clear();
+    }
+
+    @FXML
+    public void transitionPreviousScene() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+        Node n;    
+
+        // load first
+        try {
+            n = fxmlLoader.load();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+
+        AnchorPane.setTopAnchor(n, 0.0);
+        AnchorPane.setRightAnchor(n, 0.0);
+        AnchorPane.setBottomAnchor(n, 0.0);
+        AnchorPane.setLeftAnchor(n, 0.0);
+
+        ap.getChildren().clear();
+        ap.getChildren().add(n);
     }
 }
