@@ -7,6 +7,7 @@ import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -175,6 +177,20 @@ public class MainNavigation implements Initializable {
             }
         });
 
+        logoutButton.setOnMouseClicked(event -> {
+            Stage primaryStage = (Stage) logoutButton.getScene().getWindow();
+            Parent root;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
+                Scene newScene = new Scene(root);
+                primaryStage.setScene(newScene);
+                primaryStage.setTitle("Dish IT");
+                primaryStage.show();
+            } catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
