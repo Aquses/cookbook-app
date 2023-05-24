@@ -18,6 +18,7 @@ import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -68,6 +69,7 @@ public class Cookbook extends Application {
         Image image = new Image("file:" + LOGO_IMAGE_PATH);
         ImageView logoImageView = new ImageView(image);
 
+        // Fade in animation for the logo
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), logoImageView);
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);
@@ -88,6 +90,11 @@ public class Cookbook extends Application {
 
         vbox.setTranslateX(-300);
         vbox.setTranslateY(300);
+
+        squTransition.play();
+
+        Group roots = new Group();
+        roots.getChildren().add(vbox);
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(vbox.translateYProperty(), -200)),
