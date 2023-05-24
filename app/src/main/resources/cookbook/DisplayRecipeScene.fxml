@@ -1,418 +1,323 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="ap" prefHeight="756.0" prefWidth="1395.0" style="-fx-background-color: #2F2928;"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="cookbook.view.DisplayRecipeScene">
+<AnchorPane fx:id="ap" prefHeight="756.0" prefWidth="1395.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.view.DisplayRecipeScene">
     <children>
-        <ScrollPane fx:id="Scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="744.0" prefWidth="940.0"
-                    style="-fx-background: #2F2928; -fx-background-color: #2F2928;" AnchorPane.bottomAnchor="-36.0"
-                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <content>
-                <VBox prefHeight="803.0" prefWidth="937.0" spacing="10.0">
-                    <padding>
-                        <Insets bottom="10.0" left="100.0" right="30.0" top="50.0"/>
-                    </padding>
-                    <children>
-                        <HBox prefHeight="34.0" prefWidth="803.0" spacing="20.0">
-                            <children>
-                                <ImageView fx:id="ReturnButton" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@../menuIcons/icons8-left-48.png"/>
-                                    </image>
-                                    <cursor>
-                                        <Cursor fx:constant="HAND"/>
-                                    </cursor>
-                                </ImageView>
-                                <Label prefHeight="34.0" prefWidth="580.0" text="This Recipe" textFill="WHITE">
-                                    <font>
-                                        <Font name="Segoe UI" size="12.0"/>
-                                    </font>
-                                </Label>
-                            </children>
+      <ScrollPane fx:id="Scrollpane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="744.0" prefWidth="940.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;" AnchorPane.bottomAnchor="-36.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+              <VBox prefHeight="803.0" prefWidth="937.0" spacing="10.0">
+                  <padding>
+                      <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
+                  </padding>
+                  <children>
+                  <HBox prefHeight="34.0" prefWidth="803.0" spacing="20.0">
+                     <children>
+                        <ImageView fx:id="ReturnButton" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../menuIcons/icons8-left-48.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                            <Label prefHeight="34.0" prefWidth="580.0" text="This Recipe" textFill="WHITE">
+                                <font>
+                                    <Font name="Segoe UI" size="12.0" />
+                                </font>
+                            </Label>
+                     </children>
+                  </HBox>
+                      <VBox prefHeight="84.0" prefWidth="886.0" style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
+                          <children>
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <AnchorPane prefHeight="50.0" prefWidth="741.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Text fx:id="RecipeName" fill="#ff845f" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Title Name" wrappingWidth="666.9368553161621" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="36.0" />
+                                       </font>
+                                    </Text>
+                                    <HBox alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="160.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Button fx:id="addTagButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
+                                       <graphic>
+                                          <ImageView fx:id="addTagIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../menuIcons/icons8-plus-48.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="FavouriteRecipeButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
+                                             <graphic>
+                                                <ImageView fx:id="FavButtonIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../menuIcons/star-gold.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="EditRecipeButton" mnemonicParsing="false" onAction="#transitionEditScene" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../menuIcons/icons8-pencil-drawing-48.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="sendRecipe" layoutX="542.0" layoutY="23.0" mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0" prefWidth="95.0" text="Send Recipe" />
+                           </children>
+                              </AnchorPane>
+                           </children>
                         </HBox>
-                        <VBox prefHeight="84.0" prefWidth="886.0"
-                              style="-fx-border-radius: 10; -fx-border-color: #ffffff; -fx-border-width: 3;">
-                            <children>
-                                <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                                    <children>
-                                        <AnchorPane prefHeight="50.0" prefWidth="741.0" HBox.hgrow="ALWAYS">
-                                            <children>
-                                                <Text fx:id="RecipeName" fill="#ff845f" strokeType="OUTSIDE"
-                                                      strokeWidth="0.0" text="Recipe Title Name"
-                                                      wrappingWidth="666.9368553161621" AnchorPane.bottomAnchor="0.0"
-                                                      AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                    <font>
-                                                        <Font name="Segoe UI Black" size="36.0"/>
-                                                    </font>
-                                                </Text>
-                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="160.0"
-                                                      spacing="10.0" AnchorPane.bottomAnchor="0.0"
-                                                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                    <children>
-                                                        <Button fx:id="addTagButton" mnemonicParsing="false"
-                                                                prefHeight="33.0" prefWidth="34.0"
-                                                                style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
-                                                            <graphic>
-                                                                <ImageView fx:id="addTagIcon" fitHeight="20.0"
-                                                                           fitWidth="20.0" pickOnBounds="true"
-                                                                           preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@../menuIcons/icons8-plus-48.png"/>
-                                                                    </image>
-                                                                </ImageView>
-                                                            </graphic>
-                                                        </Button>
-                                                        <Button fx:id="FavouriteRecipeButton" mnemonicParsing="false"
-                                                                prefHeight="33.0" prefWidth="34.0"
-                                                                style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
-                                                            <graphic>
-                                                                <ImageView fx:id="FavButtonIcon" fitHeight="20.0"
-                                                                           fitWidth="20.0" pickOnBounds="true"
-                                                                           preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@../menuIcons/star-gold.png"/>
-                                                                    </image>
-                                                                </ImageView>
-                                                            </graphic>
-                                                        </Button>
-                                                        <Button fx:id="EditRecipeButton" mnemonicParsing="false"
-                                                                onAction="#transitionEditScene" prefHeight="33.0"
-                                                                prefWidth="34.0"
-                                                                style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
-                                                            <graphic>
-                                                                <ImageView fitHeight="20.0" fitWidth="20.0"
-                                                                           pickOnBounds="true" preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@../menuIcons/icons8-pencil-drawing-48.png"/>
-                                                                    </image>
-                                                                </ImageView>
-                                                            </graphic>
-                                                        </Button>
-                                                    </children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label text="Servings" textFill="#ffbe00">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Text fx:id="ServingsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="46.13692092895508">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Label text="Time to prepare" textFill="#ffbe00">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Text fx:id="TimePrepareText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="46.13692092895508">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Label text="Time to cook" textFill="#ffbe00">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Text fx:id="TimeCookText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="46.13692092895508">
+                                 <font>
+                                    <Font name="Segoe UI Black" size="12.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                          </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                      </VBox>
+                  <VBox prefHeight="242.0" prefWidth="808.0">
+                     <children>
+                        <HBox prefHeight="129.0" prefWidth="787.0">
+                           <children>
+                              <VBox prefHeight="167.0" prefWidth="442.0">
+                                 <children>
+                                    <Label text="Description" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Text fx:id="RecipeShortDescription" fill="#5fb7ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Short Description here" wrappingWidth="470.13695907592773">
+                                       <font>
+                                          <Font name="Segoe UI Light Italic" size="16.0" />
+                                       </font>
+                                    </Text>
+                                    <Label text="Ingredients" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="25.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Text fx:id="RecipeIngredients" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients text here" wrappingWidth="478.13683700561523">
+                                       <font>
+                                          <Font name="Segoe UI Light" size="16.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <Label fx:id="dayLabel" layoutX="639.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="79.0" text="Day of Week:" translateX="120.0" translateY="40.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="weekBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="133.0" translateX="-120.0" translateY="60.0" />
+                              <Label fx:id="weekLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="79.0" text="Weekly Plan:" translateX="-225.0" translateY="40.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="addPlan" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addPlan" prefHeight="25.0" prefWidth="169.0" text="Add Recipe to Weekly Plan" translateX="-280.0" translateY="10.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <ChoiceBox fx:id="dayBox" layoutX="489.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="133.0" translateX="-350.0" translateY="60.0" />
+                              <Button fx:id="addButton" layoutX="781.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="78.0" text="Add IT" translateX="-580.0" translateY="100.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="cancelButton" layoutX="1049.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="78.0" text="Cancel" translateX="-560.0" translateY="100.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Label text="How to cook" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Black" size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Text fx:id="RecipeDetails" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Detailed Description here" wrappingWidth="767.7367820739746">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </Text>
+                        <Label text="Tags" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Black" size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Text fx:id="RecipeTags" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags here" wrappingWidth="767.7367820739746">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="193.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox prefHeight="45.0" prefWidth="787.0" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="NumberOfCommentsLabel" text="0" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Comments" textFill="WHITE">
+                                       <font>
+                                          <Font name="Segoe UI Black" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="166.0" prefWidth="787.0">
+                                 <children>
+                                    <AnchorPane prefHeight="142.0" prefWidth="794.0">
+                                       <children>
+                                          <Circle fx:id="ProfilePictureCircle" fill="#fefd9f" radius="20.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <VBox alignment="TOP_CENTER" layoutY="-42.0" prefHeight="160.0" prefWidth="732.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <TextArea fx:id="CommentTextField" minHeight="-Infinity" prefHeight="96.0" prefWidth="732.0" promptText="Add a remark..." style="-fx-text-fill: #ffffff; -fx-border-color: TRANSPARENT;" stylesheets="@../UIstuff/text-field-transparent.css" wrapText="true">
+                                                   <font>
+                                                      <Font name="Segoe UI" size="14.0" />
+                                                   </font>
+                                                </TextArea>
+                                                <Line endX="100.0" startX="-617.10009765625" startY="4.57763671875E-5" stroke="WHITE" strokeLineCap="ROUND" VBox.vgrow="NEVER" />
+                                                <HBox alignment="TOP_RIGHT" prefHeight="34.0" prefWidth="732.0" spacing="10.0">
+                                                   <children>
+                                                      <HBox fx:id="CharacterCountHBox" alignment="CENTER_RIGHT" disable="true" prefHeight="23.0" prefWidth="193.0" spacing="5.0">
+                                                         <children>
+                                                            <Label fx:id="NumberCharactersLeftLabel" text="1000">
+                                                               <font>
+                                                                  <Font name="Segoe UI Light" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="CharactersLeftTextLabel" text="characters left">
+                                                               <font>
+                                                                  <Font name="Segoe UI Light" size="12.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <Button fx:id="CancelCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: TRANSPARENT;" text="Cancel" textAlignment="CENTER" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Segoe UI Bold" size="12.0" />
+                                                         </font>
+                                                      </Button>
+                                                      <Button fx:id="SubmitCommentButton" disable="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" style="-fx-background-radius: 20; -fx-background-color: #BBDD2C;" text="Remark" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font name="Segoe UI Bold" size="12.0" />
+                                                         </font>
+                                                      </Button>
+                                                   </children>
                                                 </HBox>
-                                                <Button fx:id="sendRecipe" layoutX="542.0" layoutY="23.0"
-                                                        mnemonicParsing="false" onAction="#sendRecipe" prefHeight="25.0"
-                                                        prefWidth="95.0" text="Send Recipe"/>
-                                            </children>
-                                        </AnchorPane>
-                                    </children>
-                                </HBox>
-                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                                    <children>
-                                        <Label text="Servings" textFill="#ffbe00">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Label>
-                                        <Text fx:id="ServingsText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                              text="0" wrappingWidth="46.13692092895508">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Text>
-                                        <Label text="Time to prepare" textFill="#ffbe00">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Label>
-                                        <Text fx:id="TimePrepareText" fill="WHITE" strokeType="OUTSIDE"
-                                              strokeWidth="0.0" text="0" wrappingWidth="46.13692092895508">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Text>
-                                        <Label text="Time to cook" textFill="#ffbe00">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Label>
-                                        <Text fx:id="TimeCookText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                              text="0" wrappingWidth="46.13692092895508">
-                                            <font>
-                                                <Font name="Segoe UI Black" size="12.0"/>
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </HBox>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </padding>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </VBox>
-                        <VBox prefHeight="242.0" prefWidth="808.0">
-                            <children>
-                                <HBox prefHeight="129.0" prefWidth="787.0">
-                                    <children>
-                                        <VBox prefHeight="167.0" prefWidth="442.0">
-                                            <children>
-                                                <Label text="Description" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Segoe UI Black" size="24.0"/>
-                                                    </font>
-                                                    <VBox.margin>
-                                                        <Insets/>
-                                                    </VBox.margin>
-                                                </Label>
-                                                <Text fx:id="RecipeShortDescription" fill="#5fb7ff" strokeType="OUTSIDE"
-                                                      strokeWidth="0.0" text="Short Description here"
-                                                      wrappingWidth="470.13695907592773">
-                                                    <font>
-                                                        <Font name="Segoe UI Light Italic" size="16.0"/>
-                                                    </font>
-                                                </Text>
-                                                <Label text="Ingredients" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Segoe UI Black" size="24.0"/>
-                                                    </font>
-                                                    <VBox.margin>
-                                                        <Insets top="25.0"/>
-                                                    </VBox.margin>
-                                                </Label>
-                                                <Text fx:id="RecipeIngredients" fill="WHITE" strokeType="OUTSIDE"
-                                                      strokeWidth="0.0" text="Ingredients text here"
-                                                      wrappingWidth="387.13683700561523">
-                                                    <font>
-                                                        <Font name="Segoe UI Light" size="16.0"/>
-                                                    </font>
-                                                </Text>
-                                            </children>
-                                        </VBox>
-                                    <VBox prefHeight="82.0" prefWidth="500.0">
-                                        <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="150.0" text="Number of people" translateX="200" translateY="180.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0" />
-                                            </font>
-                                        </Label>
-                                        <ChoiceBox fx:id="numberOfPersons" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="133.0" translateX="180" translateY="185.0"/>
-                                        <Button fx:id="setPersons" layoutX="1049.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setPersonsEvt" prefHeight="25.0" prefWidth="78.0" text="Set" translateX="210" translateY="190.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0" />
-                                            </font>
-                                        </Button>
-                                    </VBox>
-
-                                        <Label fx:id="dayLabel" layoutX="639.0" layoutY="10.0" maxHeight="-Infinity"
-                                               maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                               prefHeight="17.0" prefWidth="79.0" text="Day of Week:" translateX="120.0"
-                                               translateY="40.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0"/>
-                                            </font>
-                                        </Label>
-                                        <ChoiceBox fx:id="weekBox" maxHeight="-Infinity" maxWidth="-Infinity"
-                                                   minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
-                                                   prefWidth="133.0" translateX="-120.0" translateY="60.0"/>
-                                        <Label fx:id="weekLabel" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0"
-                                               prefWidth="79.0" text="Weekly Plan:" translateX="-225.0"
-                                               translateY="40.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0"/>
-                                            </font>
-                                        </Label>
-                                        <Button fx:id="addPlan" maxHeight="-Infinity" maxWidth="-Infinity"
-                                                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                                                onAction="#addPlan" prefHeight="25.0" prefWidth="169.0"
-                                                text="Add Recipe to Weekly Plan" translateX="-280.0" translateY="10.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0"/>
-                                            </font>
-                                        </Button>
-                                        <ChoiceBox fx:id="dayBox" layoutX="489.0" layoutY="10.0" maxHeight="-Infinity"
-                                                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                                   prefHeight="25.0" prefWidth="133.0" translateX="-350.0"
-                                                   translateY="60.0"/>
-                                        <Button fx:id="addButton" layoutX="781.0" layoutY="10.0" maxHeight="-Infinity"
-                                                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                                mnemonicParsing="false" onAction="#add" prefHeight="25.0"
-                                                prefWidth="78.0" text="Add IT" translateX="-580.0" translateY="100.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0"/>
-                                            </font>
-                                        </Button>
-                                        <Button fx:id="cancelButton" layoutX="1049.0" layoutY="10.0"
-                                                maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                                minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel"
-                                                prefHeight="25.0" prefWidth="78.0" text="Cancel" translateX="-560.0"
-                                                translateY="100.0">
-                                            <font>
-                                                <Font name="System Bold" size="12.0"/>
-                                            </font>
-                                        </Button>
-
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets top="20.0"/>
-                                    </VBox.margin>
-                                </HBox>
-                                <Label text="How to cook" textFill="WHITE">
-                                    <font>
-                                        <Font name="Segoe UI Black" size="24.0"/>
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets top="25.0"/>
-                                    </VBox.margin>
-                                </Label>
-                                <Text fx:id="RecipeDetails" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Detailed Description here" wrappingWidth="292.73684310913086">
-                                    <font>
-                                        <Font name="Segoe UI Light" size="16.0"/>
-                                    </font>
-                                </Text>
-
-                                <Label text="Tags" textFill="WHITE">
-                                    <font>
-                                        <Font name="Segoe UI Black" size="24.0"/>
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets top="25.0"/>
-                                    </VBox.margin>
-                                </Label>
-                                <Text fx:id="RecipeTags" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Tags here" wrappingWidth="293.73681259155273">
-                                    <font>
-                                        <Font name="Segoe UI Light" size="16.0"/>
-                                    </font>
-                                </Text>
-
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </padding>
-                        </VBox>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <VBox prefHeight="193.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0"
-                                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                      AnchorPane.topAnchor="0.0">
-                                    <children>
-                                        <HBox prefHeight="45.0" prefWidth="787.0" spacing="10.0">
-                                            <children>
-                                                <Label fx:id="NumberOfCommentsLabel" text="0" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Segoe UI Black" size="24.0"/>
-                                                    </font>
-                                                </Label>
-                                                <Label text="Comments" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Segoe UI Black" size="24.0"/>
-                                                    </font>
-                                                </Label>
-                                            </children>
-                                        </HBox>
-                                        <HBox prefHeight="166.0" prefWidth="787.0">
-                                            <children>
-                                                <AnchorPane prefHeight="142.0" prefWidth="794.0">
-                                                    <children>
-                                                        <Circle fx:id="ProfilePictureCircle" fill="#fefd9f"
-                                                                radius="20.0" stroke="BLACK" strokeType="INSIDE"
-                                                                AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-                                                        <VBox alignment="TOP_CENTER" layoutY="-42.0" prefHeight="160.0"
-                                                              prefWidth="732.0" spacing="10.0"
-                                                              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="52.0"
-                                                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                            <children>
-                                                                <TextArea fx:id="CommentTextField" minHeight="-Infinity"
-                                                                          prefHeight="96.0" prefWidth="732.0"
-                                                                          promptText="Add a remark..."
-                                                                          style="-fx-text-fill: #ffffff; -fx-border-color: TRANSPARENT;"
-                                                                          stylesheets="@../UIstuff/text-field-transparent.css"
-                                                                          wrapText="true">
-                                                                    <font>
-                                                                        <Font name="Segoe UI" size="14.0"/>
-                                                                    </font>
-                                                                </TextArea>
-                                                                <Line endX="100.0" startX="-617.10009765625"
-                                                                      startY="4.57763671875E-5" stroke="WHITE"
-                                                                      strokeLineCap="ROUND" VBox.vgrow="NEVER"/>
-                                                                <HBox alignment="TOP_RIGHT" prefHeight="34.0"
-                                                                      prefWidth="732.0" spacing="10.0">
-                                                                    <children>
-                                                                        <HBox fx:id="CharacterCountHBox"
-                                                                              alignment="CENTER_RIGHT" disable="true"
-                                                                              prefHeight="23.0" prefWidth="193.0"
-                                                                              spacing="5.0">
-                                                                            <children>
-                                                                                <Label fx:id="NumberCharactersLeftLabel"
-                                                                                       text="1000">
-                                                                                    <font>
-                                                                                        <Font name="Segoe UI Light"
-                                                                                              size="12.0"/>
-                                                                                    </font>
-                                                                                </Label>
-                                                                                <Label fx:id="CharactersLeftTextLabel"
-                                                                                       text="characters left">
-                                                                                    <font>
-                                                                                        <Font name="Segoe UI Light"
-                                                                                              size="12.0"/>
-                                                                                    </font>
-                                                                                </Label>
-                                                                            </children>
-                                                                        </HBox>
-                                                                        <Button fx:id="CancelCommentButton"
-                                                                                disable="true" mnemonicParsing="false"
-                                                                                prefHeight="23.0" prefWidth="74.0"
-                                                                                style="-fx-background-radius: 20; -fx-background-color: TRANSPARENT;"
-                                                                                text="Cancel" textAlignment="CENTER"
-                                                                                textFill="WHITE">
-                                                                            <font>
-                                                                                <Font name="Segoe UI Bold" size="12.0"/>
-                                                                            </font>
-                                                                        </Button>
-                                                                        <Button fx:id="SubmitCommentButton"
-                                                                                disable="true" mnemonicParsing="false"
-                                                                                prefHeight="23.0" prefWidth="74.0"
-                                                                                style="-fx-background-radius: 20; -fx-background-color: #BBDD2C;"
-                                                                                text="Remark" textAlignment="CENTER">
-                                                                            <font>
-                                                                                <Font name="Segoe UI Bold" size="12.0"/>
-                                                                            </font>
-                                                                        </Button>
-                                                                    </children>
-                                                                </HBox>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </AnchorPane>
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                                    </padding>
-                                </VBox>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <children>
-                                <GridPane fx:id="CommentsGridPane" alignment="TOP_CENTER" prefHeight="0.0"
-                                          prefWidth="806.0" vgap="20.0" AnchorPane.bottomAnchor="0.0"
-                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                          AnchorPane.topAnchor="0.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                    </columnConstraints>
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                                    </padding>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="50.0" top="25.0"/>
-                            </VBox.margin>
-                        </AnchorPane>
-                    </children>
-                </VBox>
-            </content>
-        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <GridPane fx:id="CommentsGridPane" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="806.0" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="50.0" top="25.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+                  </children>
+              </VBox>
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>
