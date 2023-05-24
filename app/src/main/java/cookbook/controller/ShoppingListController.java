@@ -108,9 +108,6 @@ public class ShoppingListController {
 
     public void setSelectedPlan(WeeklyDinnerList plan){
         this.plan = plan;
-        System.out.println("Success!");
-        System.out.println(plan);
-        //planToIngredientCompilation(plan);
     }
 
     /*
@@ -177,6 +174,7 @@ public class ShoppingListController {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
     @FXML
     void delete(ActionEvent event) {
 			ShoppingListItem selectedItem = itemTable.getSelectionModel().getSelectedItem();
@@ -189,7 +187,6 @@ public class ShoppingListController {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} 
-
 				itemTable.getItems().remove(selectedItem);
 				itemTable.refresh();
 			}
@@ -197,6 +194,19 @@ public class ShoppingListController {
 
     @FXML
     void edit(ActionEvent event) {
+		  ShoppingListItem selectedItem = itemTable.getSelectionModel().getSelectedItem();
+			String quantityText = quantityField.getText();
 
+			if (quantityText != null && quantityText.matches("\\d+")) {
+        int quantity = Integer.parseInt(quantityText);
+				int itemId = selectedItem.getItemId();
+				try {
+					QueryMaker queryMaker = new QueryMaker();
+					queryMaker.updateListItem(itemId, quantity);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
+				setTable();
+			}
     }
 }

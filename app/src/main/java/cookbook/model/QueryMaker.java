@@ -834,4 +834,18 @@ public class QueryMaker {
 				System.out.println("Error: " + e.getMessage());
 			}
 	}
+
+	public void updateListItem(int itemId, int quantity) {
+		String updateQuery = "UPDATE list_items SET qty = ? WHERE item_id = ?";
+		
+		try {
+			PreparedStatement statement = conn.prepareStatement(updateQuery);
+			statement.setInt(1, quantity);
+			statement.setInt(2, itemId);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+		}
+}
 }
