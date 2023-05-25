@@ -85,9 +85,8 @@ public class HubScene implements Initializable {
 
         try {
             QueryMaker qm = new QueryMaker();
-            // WeeklyDinnerList currentWeeklyPlan = qm.retrieveCurrentWeeklyPlan(getCurrentWeek(), user);
-            WeeklyDinnerList currentWeeklyPlan = qm.retrieveCurrentWeeklyPlan(19, user);
-
+            WeeklyDinnerList currentWeeklyPlan = qm.retrieveCurrentWeeklyPlan(getCurrentWeek(), user);
+            
             if (currentWeeklyPlan != null) {
                 ObservableList<ObservableList<Recipe>> weeklyRecipes = currentWeeklyPlan.getWeeklyPlan();
 
