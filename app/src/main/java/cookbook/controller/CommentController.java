@@ -53,14 +53,20 @@ public class CommentController {
       System.out.println("Error: " + e.getMessage());
     }
 
-  public void setData(Comment comment, AnchorPane parent) {
-    String username = myusername.getText();
     this.comment = comment;
 
     this.mycomment.setText(comment.getComment_text());
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     myDate.setText(dateFormat.format(comment.getDate()));
+    int userid = comment.getUser_id();
+
+    if (userid != Session.getCurrentUser().getUserId()) {
+      editButton.setVisible(false);
+      deleteButton.setVisible(false);
+      mycomment.setDisable(true);
+
+    }
   }
 
   @FXML
@@ -68,8 +74,14 @@ public class CommentController {
     String updatedComment = mycomment.getText();
     int userid = comment.getUser_id();
 
-    QueryMaker qm = new QueryMaker();
-    qm.editComment(comment);
+    if (userid == Session.getCurrentUser().getUserId()) {
+
+      try {
+
+        comment.setComment_text(updatedComment);
+        QueryMaker qm = new QueryMaker();
+        qm.editComment(comment);
+      } catch (SQLException e) {
 
       }
 
@@ -82,13 +94,19 @@ public class CommentController {
 
   @FXML
   void removeComment(ActionEvent event) {
-    try {
-      QueryMaker qm = new QueryMaker();
-      qm.deleteComment(comment);
-    } catch (SQLException e) {
-      System.out.println("Error: " + e.getMessage());
+    int userid = comment.getUser_id();
+    if (userid == Session.getCurrentUser().getUserId()) {
+      try {
+        QueryMaker qm = new QueryMaker();
+        qm.deleteComment(comment);
+      } catch (SQLException e) {
+        System.out.println("Error: " + e.getMessage());
+      }
+    } else {
+      System.out.println("only the creator of the comment can delete it");
     }
 
+    drsController.reloadComments();
   }
 
 }
