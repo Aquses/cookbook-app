@@ -40,7 +40,7 @@ public class Cookbook extends Application {
     private final int WINDOW_WIDTH = 1170;
     private final int WINDOW_HEIGHT = 617;
     private final String APP_TITLE = "May The Dish Be With You";
-    private final String LOGO_IMAGE_PATH = "app/src/main/resources/menuIcons/lets_dish.png";
+    private final String LOGO_IMAGE_PATH = "cookbook/app/src/main/resources/menuIcons/lets_dish.png";
     private final String APP_NAME = "Preparing Your Kitchen...";
     private final Font APP_NAME_FONT = new Font("Times New Roman", 28);
     private final int square_size = 40;
