@@ -68,35 +68,33 @@ public class UserLoginScene implements Initializable {
     }
 
     private void login() throws SQLException {
-
         String username = usernameField.getText();
         String password = passwordField.getText();
-        Stage userStage = new Stage();
+        Stage primaryStage = (Stage) usernameField.getScene().getWindow(); // Get the current stage
         DataQuery dq = new DataQuery();
         boolean result = dq.checkCredentials(username, password);
         errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
-
+    
         if (result) {
             DataQuery userQuery = new DataQuery();
-            // set logged in user object to pass to the hub scene
             User loggedUser = new User(userQuery.getUser(username, password));
             Session.setCurrentUser(loggedUser);
-            userStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
-      
+            primaryStage.setTitle("Welcome " + loggedUser.getFname() + " " + loggedUser.getLname() + "!");
+            primaryStage.setWidth(1280);
+            primaryStage.setHeight(800);
+            
             try {
-                userStage.setScene(MainNavigation.getScene());
-                userStage.show();
-              } catch (IOException e) {
+                primaryStage.setScene(MainNavigation.getScene());
+            } catch (IOException e) {
                 throw new RuntimeException(e);
-              }
-              userStage.show();
-
+            }
         } else {
             System.out.println("Invalid username or password.");
             errorLabel.setText("Invalid username or password.");
         }
     }
+    
 
 }
 

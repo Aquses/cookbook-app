@@ -165,19 +165,19 @@
                   </VBox>
                   <VBox prefHeight="527.0" prefWidth="347.0">
                      <children>
-                        <ScrollPane prefHeight="300.0" prefWidth="308.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="308.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
                            <content>
-                              <GridPane fx:id="mondayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
+                              <GridPane fx:id="mondayGrid" hgap="10.0" prefHeight="59.0" prefWidth="341.0" vgap="20.0">
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                                  </rowConstraints>
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
@@ -189,7 +189,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
@@ -201,7 +201,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
@@ -213,7 +213,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
@@ -225,7 +225,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <VBox.margin>
                               <Insets bottom="12.0" />
                            </VBox.margin>
@@ -237,7 +237,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <ScrollPane prefHeight="300.0" prefWidth="370.0">
+                        <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="370.0" vbarPolicy="NEVER">
                            <content>
                               <GridPane fx:id="sundayGrid" hgap="10.0" prefHeight="47.0" prefWidth="350.0" vgap="20.0">
                                  <rowConstraints>

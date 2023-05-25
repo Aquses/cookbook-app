@@ -12,15 +12,18 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
-public class DailyRecipeController {
+public class HubItemController {
 
     @FXML
     private Label recipeName;
 
+    @FXML
+    private Pane recipePaneButton;
+
     private Recipe recipe;
     private AnchorPane parentAnchorPane;
-
 
     @FXML
     public void setRecipe(Recipe recipe, AnchorPane parent) {
@@ -54,5 +57,4 @@ public class DailyRecipeController {
         parentAnchorPane.getChildren().clear();
         parentAnchorPane.getChildren().add(n);
     }
-
 }

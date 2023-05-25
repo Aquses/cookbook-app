@@ -20,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class AddCustomTag implements Initializable {
@@ -28,8 +27,6 @@ public class AddCustomTag implements Initializable {
     @FXML private Text tagText;
 
     @FXML private Label recipeLabel;
-
-    @FXML private ImageView returnButton;
 
     @FXML private TextField cTagField;
 
@@ -57,8 +54,6 @@ public class AddCustomTag implements Initializable {
             cTagView.setItems(tags);
             cTagField.clear();
         });
-        
-        
     }
 
     public void addCustomTagsToRecipe() {

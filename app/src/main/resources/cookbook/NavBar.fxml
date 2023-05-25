@@ -22,7 +22,7 @@
                             <children>
                                 <VBox prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: B9DA2C;">
                                     <children>
-                                        <Button fx:id="HomeButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #8DAE00;" text="Home" textFill="WHITE">
+                                        <Button fx:id="HomeButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #8DAE00;" text="Home">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
@@ -81,7 +81,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                                         </Button>
-                                        <Button alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Groceries List">
+                                        <Button fx:id="ShoppingList" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Shopping List">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
@@ -96,7 +96,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                                         </Button>
-                              <Button fx:id="MessagesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Messages" textFill="WHITE">
+                              <Button fx:id="MessagesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Messages">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -111,7 +111,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="WeeklyPlanButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Weekly Plan" textFill="WHITE">
+                              <Button fx:id="WeeklyPlanButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Weekly Plan">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -128,23 +128,20 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                                 </VBox>
-                                <VBox prefHeight="95.0" prefWidth="141.0" style="-fx-background-color: #18432D;">
-                                    <children>
-                                        <Button fx:id="HelpButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: #18432D;" text="Help">
-                                            <font>
-                                                <Font name="System Bold" size="12.0" />
-                                            </font>
-                                            <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../menuIcons/icons8-help-48.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                    </children>
-                                </VBox>
-                        <Button fx:id="AdminButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #18432D;" text="Admin" textFill="WHITE">
+                                  <Button fx:id="HelpButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: #18432D;" text="Help">
+                                      <font>
+                                          <Font name="System Bold" size="12.0" />
+                                      </font>
+                                      <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                              <image>
+                                                  <Image url="@../menuIcons/icons8-help-48.png" />
+                                              </image>
+                                          </ImageView>
+                                      </graphic>
+                                  </Button>
+                                <VBox prefHeight="95.0" prefWidth="141.0" style="-fx-background-color: #18432D;" />
+                        <Button fx:id="AdminButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #18432D;" text="Admin">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -155,6 +152,21 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                        </Button>
+                        <Button fx:id="logoutButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #18432D;" text="Logout">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../menuIcons/icons8-logout-50.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
                             </children>
                         </VBox>

@@ -2,10 +2,12 @@ package cookbook.controller;
 
 import cookbook.Cookbook;
 import cookbook.model.Session;
+import cookbook.model.ShoppingList;
 import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +52,11 @@ public class MainNavigation implements Initializable {
     @FXML
     private Button WeeklyPlanButton;
 
+    @FXML
+    private Button ShoppingList;
+
+    @FXML
+    private Button logoutButton;
 
     
     public static Scene getScene() throws IOException {
@@ -161,8 +169,29 @@ public class MainNavigation implements Initializable {
             }
         });
 
-        
+        ShoppingList.setOnMouseClicked(event -> {
+            try {
+                loadScene(7);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
+        logoutButton.setOnMouseClicked(event -> {
+            Stage primaryStage = (Stage) logoutButton.getScene().getWindow();
+            Parent root;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/cookbook/LoginScreenScene.fxml"));
+                Scene newScene = new Scene(root);
+                primaryStage.setScene(newScene);
+                primaryStage.setTitle("Dish IT");
+                primaryStage.setWidth(660);
+                primaryStage.setHeight(540);
+                primaryStage.show();
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            }
+        });
     }
 
     private void loadScene(int sceneID) throws IOException {
@@ -196,6 +225,9 @@ public class MainNavigation implements Initializable {
             case 6:
                 fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
                 break;
+			case 7:
+                fxmlLoader.setLocation(Cookbook.class.getResource("ShoppingListScene.fxml"));
+                break;
             default:
                 IOException wrongSceneIDException = new IOException("The provided scene ID to load does not exist.");
                 throw wrongSceneIDException;
@@ -209,6 +241,13 @@ public class MainNavigation implements Initializable {
 
         ContentAnchor.getChildren().clear();
         ContentAnchor.getChildren().add(n);
+
+        switch(sceneID){
+            case 7:
+                ShoppingListController controller = fxmlLoader.getController();
+                controller.setController(controller);
+                break;
+        }
 
         return;
     }

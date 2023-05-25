@@ -13,9 +13,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.List;
+import java.util.Map;
 
 public class QueryMaker {
     Connection conn;
@@ -26,6 +28,7 @@ public class QueryMaker {
 
     public QueryMaker() throws SQLException {
         conn = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
+        // "jdbc:mysql://localhost/cookbook?user=admin&password=cookbook123&useSSL=false"
         statement = conn.createStatement();
     }
 
@@ -66,7 +69,6 @@ public class QueryMaker {
     }
 
     // user story 8, Eldaras, query loads tags and custom_tags. 
-    // I'm afraid of optimization. at some point it was lagging due to overload of recipes.
     public List<String> getCustomTagsForRecipe(int recipe_id, int user_id) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");
@@ -129,19 +131,6 @@ public class QueryMaker {
         }
         return list;
     }
-
-    // private ObservableList<Tags> setTagsToList() throws SQLException {
-    //     ObservableList<Tags> list = FXCollections.observableArrayList();
-    //     Tags tag;
-    //     results = statement.executeQuery(query);
-
-    //     while (results.next()) {
-    //         tag = new Tags(results);
-    //         list.add(tag);
-    //     }
-    //     return list;
-    // }
-
 
     public ObservableList<Ingredient> retrieveIngredients(int recipeId) {
         ObservableList<Ingredient> ingredientList = FXCollections.observableArrayList();
@@ -493,21 +482,6 @@ public class QueryMaker {
         return commentsToList();
     }
 
-    public String getUserNameFromUserID(int user_id) throws SQLException {
-        query = "SELECT * FROM users WHERE user_id = " + user_id;
-        return userFromID();
-    }
-
-    private String userFromID() throws SQLException {
-        String userName = "";
-        results = statement.executeQuery(query);
-
-        while(results.next()){
-            userName = results.getString(2) + " " + results.getString(3);
-        }
-
-        return userName;
-    }
 
     private ObservableList<Comment> commentsToList() throws SQLException {
         ObservableList<Comment> list = FXCollections.observableArrayList();
@@ -521,6 +495,34 @@ public class QueryMaker {
         }
         return list;
     }
+
+
+    public User retrieveCommentUser(int commentId) {
+        String query = "SELECT u.* "
+                     + "FROM users as u "
+                     + "JOIN comments as c on c.user_id = u.user_id "
+                     + "WHERE c.comment_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, commentId);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(rs);
+                rs.close();
+                statement.close();
+                return user;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }        
+        return null;
+    }
+
+    
 
     public void insertWeeklyPlan(String weekName, int weekNumber, int userId) throws SQLException {
         String query = "INSERT INTO week_plan (week_name, week_number, user_id) VALUES (?, ?, ?)";
@@ -536,10 +538,22 @@ public class QueryMaker {
     }
 
     public void deleteWeeklyPlan(int weekId) throws SQLException {
-        String query = "DELETE FROM week_plan WHERE week_id = ?";
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setInt(1, weekId);
-            statement.executeUpdate();
+        try {
+            // must delete daily recipe rows first
+            String deleteDailyRecipesQuery = "DELETE FROM daily_recipes WHERE week_id = ?";
+            PreparedStatement dailyRecipesStatement = conn.prepareStatement(deleteDailyRecipesQuery);
+            dailyRecipesStatement.setInt(1, weekId);
+            dailyRecipesStatement.executeUpdate();
+            dailyRecipesStatement.close();
+    
+            // then delete the weekly plan
+            String deleteWeeklyPlanQuery = "DELETE FROM week_plan WHERE week_id = ?";
+            PreparedStatement weeklyPlanStatement = conn.prepareStatement(deleteWeeklyPlanQuery);
+            weeklyPlanStatement.setInt(1, weekId);
+            weeklyPlanStatement.executeUpdate();
+            weeklyPlanStatement.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -553,29 +567,285 @@ public class QueryMaker {
     
             statement.executeUpdate();
         }
-        }
-    }      
+        // }
+    }
 
-    /**
-     * 
-     * @param numberOfWeeks numberOfWeeks.
-     * @return dateList.
-     */
-    /*public static List<LocalDate> getNextWeeks(int numberOfWeeks) {
-        List<LocalDate> dateList = new ArrayList<>();
-        final ZonedDateTime input = ZonedDateTime.now();
+    public WeeklyDinnerList retrieveCurrentWeeklyPlan(int weekNumber, User user) {
+        String query = "SELECT * FROM week_plan WHERE week_number = ? AND user_id = ?";
+
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekNumber);
+            statement.setInt(2, user.getUserId());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                int weekId = rs.getInt(1);
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList currentWeeklyList = new WeeklyDinnerList(rs, weeklyListRecipes);
+                return currentWeeklyList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public WeeklyDinnerList retrieveShoppingWeeklyPlan(int weekId, User user) {
+        String query = "SELECT * FROM week_plan WHERE week_id = ? AND user_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekId);
+            statement.setInt(2, user.getUserId());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                
+                ObservableList<ObservableList<Recipe>> weeklyListRecipes = FXCollections.observableArrayList();
+
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Monday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Tuesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Wednesday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Thursday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Friday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Saturday", weekId));
+                weeklyListRecipes.add(retrieveDailyRecipes(user, "Sunday", weekId));
+                
+                WeeklyDinnerList shoppingWeekPlan = new WeeklyDinnerList(rs, weeklyListRecipes);
+                return shoppingWeekPlan;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public ShoppingList retrieveShoppingList(int weekId, User user) {
+        String query = "SELECT * FROM shopping_list WHERE week_id = ? and user_id = ?";
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, weekId);
+            statement.setInt(2, user.getUserId());
+            
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+
+                ShoppingList shoppingList = new ShoppingList(rs);
+                rs.close();
+                statement.close();
+                return shoppingList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // weeklyPlan contains i_name, qty, measurement, and recipeId
+    public void insertShoppingListItems(WeeklyDinnerList weeklyPlan, int listId) {
+
+        String query = "INSERT INTO list_items (list_id, i_name, recipe_id, qty, measurement, item_purchased) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            ObservableList<ObservableList<Recipe>> weeklyPlanRecipes = weeklyPlan.getWeeklyPlan();
+
+            for (ObservableList<Recipe> dailyRecipeList : weeklyPlanRecipes) {
+                for (Recipe r : dailyRecipeList) {
+                    ObservableList<Ingredient> ingredients = retrieveIngredients(r.getId());
+                    for (Ingredient i : ingredients) {
+											if (!hasItem(listId, i.getIngredientName(), i.getMeasurement())) {
+                        statement.setInt(1, listId);
+                        statement.setString(2, i.getIngredientName());
+                        statement.setInt(3, r.getId());
+                        statement.setInt(4, i.getQty());
+                        statement.setString(5, i.getMeasurement());
+                        statement.setBoolean(6, false);
+                        statement.executeUpdate();
+											} else {
+												updateItem(listId, i);
+											}
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+		public void updateItem(int list_id, Ingredient ingredient) {
+			String updateQuery = "UPDATE list_items SET qty = qty + ? WHERE list_id = ? AND i_name = ? AND measurement = ?";
+			
+			try {
+					PreparedStatement statement = conn.prepareStatement(updateQuery);
+					statement.setInt(1, ingredient.getQty());
+					statement.setInt(2, list_id);
+					statement.setString(3, ingredient.getIngredientName());
+					statement.setString(4, ingredient.getMeasurement());
+					
+					statement.executeUpdate();
+					statement.close();
+			} catch (SQLException e) {
+					System.out.println("Error: " + e.getMessage());
+			}
+	}
+		
+		public boolean hasItem(int list_id, String ingredientName, String measurement) {
+			String query = "SELECT COUNT(*) FROM list_items WHERE list_id = ? AND i_name = ? AND measurement = ?";
+			
+			try {
+					PreparedStatement statement = conn.prepareStatement(query);
+					statement.setInt(1, list_id);
+					statement.setString(2, ingredientName);
+					statement.setString(3, measurement);
+					
+					ResultSet rs = statement.executeQuery();
+					rs.next();
+					
+					int count = rs.getInt(1);
+					
+					rs.close();
+					statement.close();
+					
+					return count > 0;
+			} catch (SQLException e) {
+					System.out.println("Error: " + e.getMessage());
+			}
+			return false;
+	}
+
+    public ObservableList<ShoppingListItem> retrieveShoppingListItems(int listId) {
+        String query = "SELECT * FROM list_items WHERE list_id = ?";
+        ObservableList<ShoppingListItem> shoppingListItems = FXCollections.observableArrayList();
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, listId);            
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+
+                ShoppingListItem listItem = new ShoppingListItem(rs);
+                shoppingListItems.add(listItem);
+            }
+
+            rs.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return shoppingListItems;
+    }
+
+    public void createShoppingList(int user_id, int week_id, String list_name, LocalDate date_created) {
+        String insertQuery = "INSERT INTO shopping_list (user_id, week_id, list_name, date_created) VALUES (?, ?, ?, ?)";
     
-        for (int i = 0; i < numberOfWeeks; i++) {
-            final ZonedDateTime startOfLastWeek = input.plusWeeks(i).with(DayOfWeek.MONDAY);
-            dateList.add(startOfLastWeek.toLocalDate());
+        try {
+            PreparedStatement statement = conn.prepareStatement(insertQuery);
+            statement.setInt(1, user_id);
+            statement.setInt(2, week_id);
+            statement.setString(3, list_name);
+            statement.setDate(4, java.sql.Date.valueOf(date_created));
+    
+            statement.executeUpdate();
+            statement.close();
+    
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
+    }
 
-        while (results.next()) {
-            comment = new Comment(results);
-            list.add(comment);
+    public void deleteShoppingList(int user_id, int week_id) {
+        try {
+            // must delete the corresponding list_items first
+            String deleteItemsQuery = "DELETE FROM list_items WHERE list_id IN " +
+                                      "(SELECT list_id FROM shopping_list WHERE user_id = ? AND week_id = ?)";
+            PreparedStatement itemsStatement = conn.prepareStatement(deleteItemsQuery);
+            itemsStatement.setInt(1, user_id);
+            itemsStatement.setInt(2, week_id);
+            itemsStatement.executeUpdate();
+            itemsStatement.close();
+    
+            // then delete the shopping_list
+            String deleteShoppingListQuery = "DELETE FROM shopping_list WHERE user_id = ? AND week_id = ?";
+            PreparedStatement shoppingListStatement = conn.prepareStatement(deleteShoppingListQuery);
+            shoppingListStatement.setInt(1, user_id);
+            shoppingListStatement.setInt(2, week_id);
+            shoppingListStatement.executeUpdate();
+            shoppingListStatement.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-        return list;
     }
-        return dateList;
+    
+    public boolean isShoppingList(int user_id, int week_id) {
+        String query = "SELECT * FROM shopping_list WHERE user_id = ? AND week_id = ?";
+        
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, user_id);
+            statement.setInt(2, week_id);
+            
+            ResultSet rs = statement.executeQuery();
+    
+            boolean hasShoppingList = rs.next();
+            
+            rs.close();
+            statement.close();
+            
+            return hasShoppingList;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return false;
     }
-}*/
+
+		public void deleteListItem(int itemId) {
+			String deleteQuery = "DELETE FROM list_items WHERE item_id = ?";
+	
+			try {
+				PreparedStatement statement = conn.prepareStatement(deleteQuery);
+				statement.setInt(1, itemId);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+	}
+
+	public void updateListItem(int itemId, int quantity) {
+		String updateQuery = "UPDATE list_items SET qty = ? WHERE item_id = ?";
+		
+		try {
+			PreparedStatement statement = conn.prepareStatement(updateQuery);
+			statement.setInt(1, quantity);
+			statement.setInt(2, itemId);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+		}
+}
+}
