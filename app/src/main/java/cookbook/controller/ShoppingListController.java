@@ -120,7 +120,7 @@ public class ShoppingListController {
 				String quantity = String.valueOf(item.getQty());
         String measurement = item.getMeasurement();
 
-        String row = quantity.toString() + "\t" + measurement + "\t\t" + itemName + "\n";
+        String row = quantity.toString() + "\t\t" + measurement + "\t\t\t" + itemName + "\n";
         textAreaContent.append(row);
     	}
 			copyArea.setText(textAreaContent.toString());
