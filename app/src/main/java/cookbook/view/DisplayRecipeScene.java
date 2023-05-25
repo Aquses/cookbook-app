@@ -154,8 +154,6 @@ public class DisplayRecipeScene implements Initializable {
 
     private DisplayRecipeScene controller;
 
-    private DisplayRecipeScene controller;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -181,7 +179,6 @@ public class DisplayRecipeScene implements Initializable {
         });
         // This is the return button
         ReturnButton.setOnMouseClicked(event -> {
-            // rn it just goes to RecipesScene. idk quite logical?
             transitionPreviousScene();
         });
 
@@ -205,12 +202,6 @@ public class DisplayRecipeScene implements Initializable {
             }
         });
 
-        weekLabel.setVisible(false);
-        dayLabel.setVisible(false);
-        weekBox.setVisible(false);
-        dayBox.setVisible(false);
-        addButton.setVisible(false);
-        cancelButton.setVisible(false);
         weekLabel.setVisible(false);
         dayLabel.setVisible(false);
         weekBox.setVisible(false);
@@ -345,8 +336,6 @@ public class DisplayRecipeScene implements Initializable {
             }
         });
 
-        });
-
         // Cancel button: Clears comment field if clicked
         CancelCommentButton.setOnMouseClicked(e -> {
             CommentTextField.setText("");
@@ -363,7 +352,6 @@ public class DisplayRecipeScene implements Initializable {
         this.previousScene = previousScene;
 
         // Always load comments after recipe exists
-        // reloadComments();
         // reloadComments();
 
         RecipeName.setText(recipe.getName());
@@ -434,10 +422,6 @@ public class DisplayRecipeScene implements Initializable {
         this.controller = controller;
     }
 
-    public void addThisScenesController(DisplayRecipeScene controller) {
-        this.controller = controller;
-    }
-
     // Below method is used if the prep time and cook time attributes are float
     public String floatToMinutes(float time) {
         String t = Float.toString(time);
@@ -460,6 +444,8 @@ public class DisplayRecipeScene implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipeEditor.fxml"));
         RecipeEditor editor;
         Node n;
+
+        System.out.println(Cookbook.class.getResource("DisplayRecipeScene.fxml"));
 
         // load first
         try {
@@ -495,30 +481,22 @@ public class DisplayRecipeScene implements Initializable {
         sendRecipeStage.showAndWait();
     }
 
+    // Return to previous scene
     @FXML
     private void transitionPreviousScene() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
-        Node n;    
+        // previousScene is already loaded when the addRecipeObject function is called.
+        AnchorPane.setTopAnchor(previousScene, 0.0);
+        AnchorPane.setRightAnchor(previousScene, 0.0);
+        AnchorPane.setBottomAnchor(previousScene, 0.0);
+        AnchorPane.setLeftAnchor(previousScene, 0.0);
 
-        try {
-            n = fxmlLoader.load();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+        parentAnchorPane.getChildren().clear();
+        parentAnchorPane.getChildren().add(previousScene);
 
-        AnchorPane.setTopAnchor(n, 0.0);
-        AnchorPane.setRightAnchor(n, 0.0);
-        AnchorPane.setBottomAnchor(n, 0.0);
-        AnchorPane.setLeftAnchor(n, 0.0);
-
-        ap.getChildren().clear();
-        ap.getChildren().add(n);
     }
 
     public void reloadComments() {
-    public void reloadComments() {
         int row = 1, col = 0;
-        // QueryMaker qm = null;
         // QueryMaker qm = null;
 
         // Clear the grid to update for new comments
@@ -526,8 +504,6 @@ public class DisplayRecipeScene implements Initializable {
 
         try {
             // Get all comments from this recipe using QueryMaker
-            // qm = new QueryMaker();
-            QueryMaker qm = new QueryMaker();
             // qm = new QueryMaker();
             QueryMaker qm = new QueryMaker();
             ObservableList<Comment> allComments = qm.getThisRecipesComments(recipe);
@@ -549,7 +525,6 @@ public class DisplayRecipeScene implements Initializable {
                 CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
                 // commentController.setData(allComments.get(i), ap);
-                comController.setData(allComments.get(i), anchorPane, controller);
                 comController.setData(allComments.get(i), anchorPane, controller);
 
                 // Grid pane commands
