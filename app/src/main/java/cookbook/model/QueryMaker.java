@@ -482,6 +482,21 @@ public class QueryMaker {
         return commentsToList();
     }
 
+    public String getUserNameFromUserID(int user_id) throws SQLException {
+        query = "SELECT * FROM users WHERE user_id = " + user_id;
+        return userFromID();
+    }
+
+    private String userFromID() throws SQLException {
+        String userName = "";
+        results = statement.executeQuery(query);
+
+        while(results.next()){
+            userName = results.getString(2) + " " + results.getString(3);
+        }
+
+        return userName;
+    }
 
     private ObservableList<Comment> commentsToList() throws SQLException {
         ObservableList<Comment> list = FXCollections.observableArrayList();

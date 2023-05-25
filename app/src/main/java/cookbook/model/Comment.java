@@ -1,5 +1,8 @@
 package cookbook.model;
 
+import javafx.fxml.FXML;
+
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -12,14 +15,18 @@ public class Comment {
   private int id;
   private int User_id;
   private int recipe_id;
+  private String userName;
+
 
   public Comment(ResultSet rt) throws SQLException {
+    QueryMaker qm = new QueryMaker();
+
     setId(rt.getInt(1));
     setUser_id(rt.getInt(2));
     setRecipe_id(rt.getInt(3));
     setComment_text(rt.getString(4));
     setDate(rt.getDate(5));
-
+    setUserName(qm.getUserNameFromUserID(getUser_id()));
   }
 
   // a method to set the date format for the date of comments
@@ -36,6 +43,14 @@ public class Comment {
 
     }
     return result;
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
   /**
