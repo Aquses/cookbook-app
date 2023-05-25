@@ -95,7 +95,7 @@ public class DisplayRecipeScene implements Initializable {
     private AnchorPane ap;
     @FXML
     private ScrollPane Scrollpane;
-    
+
     @FXML
     private HBox CharacterCountHBox;
 
@@ -136,21 +136,34 @@ public class DisplayRecipeScene implements Initializable {
     @FXML
     private ImageView FavButtonIcon;
 
-    
-	private User user;
+    @FXML
+    private Button setPersons;
 
-	private ObservableList<WeeklyDinnerList> weeklyList;
+    @FXML
+    private ChoiceBox<Integer> numberOfPersons;
 
-    private String[] days = {"Monday", "Tuesday", "Wednesday", 
-			"Thursday", "Friday", "Saturday", "Sunday"};
+
+    private User user;
+
+    private ObservableList<WeeklyDinnerList> weeklyList;
+
+    private String[] days = {"Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday", "Sunday"};
 
     private int recipe_id;
 
+    private DisplayRecipeScene controller;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        for (int i = 2; i <= 16; i += 2) {
+            numberOfPersons.getItems().add(i);
+        }
+
         double speed = 0.006;
-				user = Session.getCurrentUser();
-				dayBox.setItems(FXCollections.observableArrayList(days));	
+        user = Session.getCurrentUser();
+        dayBox.setItems(FXCollections.observableArrayList(days));
 
         // Writing comments initialization functions
         try {
@@ -169,57 +182,58 @@ public class DisplayRecipeScene implements Initializable {
             transitionPreviousScene();
         });
 
-				try {
-					QueryMaker queryMaker = new QueryMaker();
-					weeklyList = queryMaker.retrieveWeeklyListObjects(user);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-		
-				weekBox.setItems(weeklyList);
-				weekBox.setConverter(new StringConverter<WeeklyDinnerList>() {
-						@Override
-						public String toString(WeeklyDinnerList week) {
-							return week != null && week.getWeekName() != null ? week.getWeekName() : "";
-						}
-		
-						@Override
-						public WeeklyDinnerList fromString(String string) {
-								return null; 
-						}
-					});
+        try {
+            QueryMaker queryMaker = new QueryMaker();
+            weeklyList = queryMaker.retrieveWeeklyListObjects(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-					weekLabel.setVisible(false);
-					dayLabel.setVisible(false);
-					weekBox.setVisible(false);
-					dayBox.setVisible(false);
-					addButton.setVisible(false);
-					cancelButton.setVisible(false);
+        weekBox.setItems(weeklyList);
+        weekBox.setConverter(new StringConverter<WeeklyDinnerList>() {
+            @Override
+            public String toString(WeeklyDinnerList week) {
+                return week != null && week.getWeekName() != null ? week.getWeekName() : "";
+            }
 
-					FavouriteRecipeButton.setOnMouseClicked(event -> {
-						User user = Session.getCurrentUser();
-						int user_id = user.getUserId();
-		
-							// check weather it is a favorite recipe or not
-						DataQuery db = new DataQuery();
-						boolean fav = false;
-						try {
-							fav = db.isFavorite(user_id, recipe_id);
-						} catch (SQLException e) {}
-		
-		
-						// set icon
-						Image image;
-						db = new DataQuery();
-						if(!fav) {
-							db.insertFavorite(user_id, recipe_id);
-							image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-						}else {
-							db.removeFavorite(user_id, recipe_id);
-							image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
-						}
-							FavButtonIcon.setImage(image);
-						});
+            @Override
+            public WeeklyDinnerList fromString(String string) {
+                return null;
+            }
+        });
+
+        weekLabel.setVisible(false);
+        dayLabel.setVisible(false);
+        weekBox.setVisible(false);
+        dayBox.setVisible(false);
+        addButton.setVisible(false);
+        cancelButton.setVisible(false);
+
+        FavouriteRecipeButton.setOnMouseClicked(event -> {
+            User user = Session.getCurrentUser();
+            int user_id = user.getUserId();
+
+            // check weather it is a favorite recipe or not
+            DataQuery db = new DataQuery();
+            boolean fav = false;
+            try {
+                fav = db.isFavorite(user_id, recipe_id);
+            } catch (SQLException e) {
+            }
+
+
+            // set icon
+            Image image;
+            db = new DataQuery();
+            if (!fav) {
+                db.insertFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+            } else {
+                db.removeFavorite(user_id, recipe_id);
+                image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+            }
+            FavButtonIcon.setImage(image);
+        });
     }
 
     private void writeCommentsInitialize() throws SQLException {
@@ -299,8 +313,7 @@ public class DisplayRecipeScene implements Initializable {
             if (!fav) {
                 db.insertFavorite(user_id, recipe_id);
                 image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-            }
-            else {
+            } else {
                 db.removeFavorite(user_id, recipe_id);
                 image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
             }
@@ -308,29 +321,27 @@ public class DisplayRecipeScene implements Initializable {
         });
 
         addTagButton.setOnAction(event -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("AddCustomTag.fxml"));
-            Node n;    
-
             try {
-                n = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(Cookbook.class.getResource("AddCustomTag.fxml"));
+
+                Parent window = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Select Custom Tag");
+                stage.setScene(new Scene(window, 400, 550));
+                stage.show();
+
             } catch (IOException e) {
-              throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
-    
-            AnchorPane.setTopAnchor(n, 0.0);
-            AnchorPane.setRightAnchor(n, 0.0);
-            AnchorPane.setBottomAnchor(n, 0.0);
-            AnchorPane.setLeftAnchor(n, 0.0);
-    
+        });
+
         // Cancel button: Clears comment field if clicked
         CancelCommentButton.setOnMouseClicked(e -> {
             CommentTextField.setText("");
             SubmitCommentButton.setDisable(true);
             CancelCommentButton.setDisable(true);
             CharacterCountHBox.setDisable(true);
-        });
-            parentAnchorPane.getChildren().clear();
-            parentAnchorPane.getChildren().add(n);
         });
     }
 
@@ -341,7 +352,7 @@ public class DisplayRecipeScene implements Initializable {
         this.previousScene = previousScene;
 
         // Always load comments after recipe exists
-        reloadComments();
+        // reloadComments();
 
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
@@ -366,14 +377,14 @@ public class DisplayRecipeScene implements Initializable {
         boolean fav = false;
         try {
             fav = db.isFavorite(user_id, recipe_id);
-        } catch (SQLException e) {}
+        } catch (SQLException e) {
+        }
 
         // set icon
         Image image;
         if (fav) {
             image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
-        }
-        else {
+        } else {
             image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
         }
         FavButtonIcon.setImage(image);
@@ -405,6 +416,10 @@ public class DisplayRecipeScene implements Initializable {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void addThisScenesController(DisplayRecipeScene controller) {
+        this.controller = controller;
     }
 
     // Below method is used if the prep time and cook time attributes are float
@@ -451,6 +466,7 @@ public class DisplayRecipeScene implements Initializable {
         parentAnchorPane.getChildren().add(n);
 
     }
+
     @FXML
     void sendRecipe(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(Cookbook.class.getResource("SendRecipe.fxml"));
@@ -458,7 +474,7 @@ public class DisplayRecipeScene implements Initializable {
         SendRecipeController sendController = loader.getController();
 
         sendController.setRecipe(recipe);
-                
+
         Scene sendRecipeScene = new Scene(sendRecipeRoot);
         Stage sendRecipeStage = new Stage();
         sendRecipeStage.setScene(sendRecipeScene);
@@ -479,18 +495,20 @@ public class DisplayRecipeScene implements Initializable {
 
     }
 
-    private void reloadComments() {
+    public void reloadComments() {
         int row = 1, col = 0;
-        QueryMaker qm = null;
+        // QueryMaker qm = null;
 
         // Clear the grid to update for new comments
         CommentsGridPane.getChildren().clear();
 
         try {
             // Get all comments from this recipe using QueryMaker
-            qm = new QueryMaker();
+            // qm = new QueryMaker();
+            QueryMaker qm = new QueryMaker();
             ObservableList<Comment> allComments = qm.getThisRecipesComments(recipe);
             NumberOfCommentsLabel.setText(Integer.toString(allComments.size()));
+
             System.out.println("We reached this point but i dont know whats happening " + allComments.size());
 
             // For all comments found, spawn the comment with a specific fxml design
@@ -507,7 +525,7 @@ public class DisplayRecipeScene implements Initializable {
                 CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
                 // commentController.setData(allComments.get(i), ap);
-                comController.setData(allComments.get(i), anchorPane);
+                comController.setData(allComments.get(i), anchorPane, controller);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);
@@ -524,42 +542,64 @@ public class DisplayRecipeScene implements Initializable {
             throw new RuntimeException(e);
         }
     }
-		@FXML
+
+    @FXML
     void add(ActionEvent event) {
-			String day = dayBox.getValue();
-			WeeklyDinnerList week = weekBox.getValue();
-			if (day != null && week != null) {
-					try {
-						QueryMaker queryMaker = new QueryMaker();
-						queryMaker.insertDailyRecipe(week.getWeekId(), day, recipe_id);
-						cancel(event);	
-					} catch (SQLException e) {
-						System.out.println(e.getMessage());
-					}
-				}
-			}
-    
+        String day = dayBox.getValue();
+        WeeklyDinnerList week = weekBox.getValue();
+        if (day != null && week != null) {
+            try {
+                QueryMaker queryMaker = new QueryMaker();
+                queryMaker.insertDailyRecipe(week.getWeekId(), day, recipe_id);
+                cancel(event);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     @FXML
     void addPlan(ActionEvent event) {
-    	weekLabel.setVisible(true);
-    	dayLabel.setVisible(true);
-    	weekBox.setVisible(true);
-    	dayBox.setVisible(true);
-    	addButton.setVisible(true);
-    	cancelButton.setVisible(true);
+        weekLabel.setVisible(true);
+        dayLabel.setVisible(true);
+        weekBox.setVisible(true);
+        dayBox.setVisible(true);
+        addButton.setVisible(true);
+        cancelButton.setVisible(true);
     }
 
     @FXML
     void cancel(ActionEvent event) {
-    	weekLabel.setVisible(false);
-    	dayLabel.setVisible(false);
-    	weekBox.setVisible(false);
-    	dayBox.setVisible(false);
-    	addButton.setVisible(false);
-    	cancelButton.setVisible(false);
+        weekLabel.setVisible(false);
+        dayLabel.setVisible(false);
+        weekBox.setVisible(false);
+        dayBox.setVisible(false);
+        addButton.setVisible(false);
+        cancelButton.setVisible(false);
 
-		dayBox.setValue(null);
-		weekBox.setValue(null);
+        dayBox.setValue(null);
+        weekBox.setValue(null);
+    }
+
+    @FXML
+    void setPersonsEvt(ActionEvent event) {
+        Integer selectedItem = numberOfPersons.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            try {
+                QueryMaker qm = new QueryMaker();
+                ObservableList<Ingredient> ingredientsList = qm.retrieveIngredients(recipe.getId());
+                StringBuilder sb = new StringBuilder();
+
+                for (Ingredient i : ingredientsList) {
+                    sb.append(i.getIngredientName() + " | " + i.getQty()*selectedItem + " | " + i.getMeasurement() + "\n");
+                }
+
+                RecipeIngredients.setText(sb.toString());
+
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 }
 

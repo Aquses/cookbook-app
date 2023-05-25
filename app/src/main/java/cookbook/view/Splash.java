@@ -20,7 +20,7 @@ public class Splash
 {
 
     static Scene splash;
-    static Rectangle rect = new Rectangle();
+    static Circle rect = new Circle();
     final private Pane pane;
     final private SequentialTransition seqT;
 
@@ -28,65 +28,93 @@ public class Splash
     {
         pane = new Pane();
         pane.setStyle("-fx-background-color:black");
-
-        splash = new Scene(pane);
+        splash = new Scene(pane, 500, 250);
         seqT = new SequentialTransition();
     }
 
     public void show()
     {
         
-        int scale = 30;
-        int dur = 800;
-        rect = new Rectangle(100 - 2 * scale, 20, scale, scale);
-        rect.setFill(Color.AQUAMARINE);
+        int scale = 35;
+        int dur = 500;
+        rect = new Circle(100 - 3 * scale, 20, scale);
+        rect.setFill(Color.YELLOWGREEN);
+        Circle circle2 = new Circle(100 - 3 * scale, 20, scale);
+        circle2.setFill(Color.GREEN);
 
         int[] rotins = {scale, 2 * scale, 3 * scale, 4 * scale, 5 * scale, -6 * scale, -5 * scale, -4 * scale, -3 * scale, -2 * scale};
+        int[] rotins2 = {-scale, -2 * scale, -3 * scale, -4 * scale, -5 * scale, 6 * scale, 5 * scale, 4 * scale, 3 * scale, 2 * scale};
         int x, y;
-        for (int i : rotins) {
-            //rotating the square
+
+        for (int i = 0; i < rotins.length; i++) {
+            int rotationValue = rotins[i];
+            int translationValue = rotins2[i];
             RotateTransition rt = new RotateTransition(Duration.millis(dur), rect);
-            rt.setByAngle(i / Math.abs(i) * 90);
-            rt.setCycleCount(1);
-            //moving the square horizontally
+            rt.setByAngle(rotationValue / Math.abs(rotationValue) * 90);
+            rt.setCycleCount(2);
+        
             TranslateTransition pt = new TranslateTransition(Duration.millis(dur), rect);
-            x = (int) (rect.getX() + Math.abs(i));
-            y = (int) (rect.getX() + Math.abs(i) + (Math.abs(i) / i) * scale);
+            x = (int) (rect.getRadius() + Math.abs(rotationValue));
+            y = (int) (rect.getRadius() + Math.abs(rotationValue) + (Math.abs(rotationValue) / rotationValue) * scale);
             pt.setFromX(x);
             pt.setToX(y);
-            //parallelly execute them and you get a rolling square
+    
+            RotateTransition rt2 = new RotateTransition(Duration.millis(dur), circle2);
+            rt2.setByAngle(translationValue / Math.abs(translationValue) * 90);
+            rt2.setCycleCount(2);
+            TranslateTransition pt2 = new TranslateTransition(Duration.millis(dur), circle2);
+            x = (int) (circle2.getRadius() + Math.abs(translationValue));
+            y = (int) (circle2.getRadius() + Math.abs(translationValue) + (Math.abs(translationValue) / translationValue) * scale);
+            pt2.setFromX(x);
+            pt2.setToX(y);
+        
             ParallelTransition pat = new ParallelTransition();
-            pat.getChildren().addAll(pt, rt);
+            pat.getChildren().addAll(pt, rt, pt2, rt2);
             pat.setCycleCount(1);
+        
             seqT.getChildren().add(pat);
         }
-        //playing the animation
+        
+
+        
         seqT.play();
-        //lambda code sourced from StackOverflow, fades away stage
         seqT.setNode(rect);
         //The text part
-        Label label = new Label("Dish.IT");
+        Label label = new Label("Dish I.T");
         label.setFont(new Font("Verdana", 30));
         label.setStyle("-fx-text-fill:white");
-        label.setLayoutX(140);
-        label.setLayoutY(70);
-        Label lab = new Label("Loading...");
-        lab.setFont(new Font("Times New Roman", 10));
+        label.setLayoutX(15);
+        label.setLayoutY(90);
+        Label lab = new Label("Preparing Your Kitchen......");
+        lab.setFont(new Font("Verdana", 15));
         lab.setStyle("-fx-text-fill:white");
-        lab.setLayoutX(70);
-        lab.setLayoutY(80);
-        //A complimentary image
+        lab.setLayoutX(15);
+        lab.setLayoutY(150);
 
-        Image image = new Image("https://s3.amazonaws.com/media.eremedia.com/uploads/2012/08/24111405/stackoverflow-logo-700x467.png");
+
+        
+        Image image = new Image("https://yt3.ggpht.com/a/AATXAJzbA6sPn9bCHxcXnQ_jlXFJ0ErDqpq2mOyiBg=s900-c-k-c0xffffffff-no-rj-mo");
         ImageView iv = new ImageView(image);
-        iv.setFitWidth(32);
-        iv.setFitHeight(32);
-        iv.setX(174);
-        iv.setY(130);
-        //now adding everything to position, opening the stage, start the animation
-        pane.getChildren().addAll(rect, label, lab, iv);
+        iv.setFitWidth(50);
+        iv.setFitHeight(50);
+        iv.setX(90);
+        iv.setY(200);
 
+
+        RotateTransition rt = new RotateTransition(Duration.millis(3000), iv);
+        rt.setByAngle(360); 
+        rt.setCycleCount(Timeline.INDEFINITE);
+        rt.setInterpolator(Interpolator.LINEAR);
+
+        rt.play();
+
+
+        
+        pane.getChildren().addAll(rect, label, lab, iv,circle2);
         seqT.play();
+
+        
+
     }
 
     public Scene getSplashScene()
