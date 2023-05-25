@@ -352,7 +352,7 @@ public class DisplayRecipeScene implements Initializable {
         this.previousScene = previousScene;
 
         // Always load comments after recipe exists
-        reloadComments();
+        // reloadComments();
 
         RecipeName.setText(recipe.getName());
         RecipeShortDescription.setText(recipe.getDescription());
@@ -416,6 +416,10 @@ public class DisplayRecipeScene implements Initializable {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void addThisScenesController(DisplayRecipeScene controller) {
+        this.controller = controller;
     }
 
     // Below method is used if the prep time and cook time attributes are float
@@ -511,6 +515,7 @@ public class DisplayRecipeScene implements Initializable {
             for (int i = 0; i < allComments.size(); i++) {
                 // Load the fxml design onto a new AnchorPane
                 FXMLLoader fxmlLoader = new FXMLLoader();
+                // TODO: set correct comment fxml here
                 fxmlLoader.setLocation(Cookbook.class.getResource("viewComment.fxml"));
                 AnchorPane anchorPane = null;
                 anchorPane = fxmlLoader.load();
@@ -520,7 +525,7 @@ public class DisplayRecipeScene implements Initializable {
                 CommentController comController = fxmlLoader.getController();
                 // TODO: set the comments data to the controller here
                 // commentController.setData(allComments.get(i), ap);
-                comController.setData(allComments.get(i), anchorPane);
+                comController.setData(allComments.get(i), anchorPane, controller);
 
                 // Grid pane commands
                 CommentsGridPane.add(anchorPane, col, row++);
