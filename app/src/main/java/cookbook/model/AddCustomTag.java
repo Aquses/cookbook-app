@@ -40,8 +40,6 @@ public class AddCustomTag implements Initializable {
 
     private Recipe recipe;
 
-    private int recipe_id;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadData();
@@ -63,9 +61,10 @@ public class AddCustomTag implements Initializable {
     @FXML
     public void initialization(Recipe recipe) {
         this.recipe = recipe;
-        this.recipe_id = recipe.getId();
+        recipe.getId();
     }
 
+    // method: gets userId and recipe_id, inserts custom_tag based on user and recipe.
     public void addCustomTagsToRecipe() {
         User user = Session.getCurrentUser();
         int userId = user.getUserId();

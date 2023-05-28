@@ -131,6 +131,10 @@ public class AddRecipeController implements Initializable {
       loadData();
       measurementField.getItems().addAll(measurements);
 
+
+      // everything that was written in the textfields
+      // inputted into tableview
+      // everything will be inserted into database
       addRecipeButton.setOnAction(event -> {
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
@@ -141,6 +145,7 @@ public class AddRecipeController implements Initializable {
         User user = Session.getCurrentUser();
         int user_id = user.getUserId();
 
+        // this could have done better, I believe. But that is the only method I found on Youtube.
         List<String> selectedCheckboxValues = new ArrayList<>();
         if (checkbox1.isSelected()) {
           selectedCheckboxValues.add(checkbox1.getText());
@@ -231,7 +236,6 @@ public class AddRecipeController implements Initializable {
         }
         clearFields();
       });
-
 
       addTagButton.setOnAction(event -> {
         Tags tag = new Tags(tagsField.getText());

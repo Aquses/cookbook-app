@@ -26,7 +26,7 @@ public class UserLoginScene implements Initializable {
 
     @FXML private Label passwordLabel;
 
-    @FXML private Label errorLabel; // errorlabel doesn't show fix later 
+    @FXML private Label errorLabel;
 
     @FXML private TextField usernameField;
 
@@ -94,10 +94,4 @@ public class UserLoginScene implements Initializable {
             errorLabel.setText("Invalid username or password.");
         }
     }
-    
-
 }
-
-
-
-

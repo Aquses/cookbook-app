@@ -154,11 +154,11 @@
                                     <CheckBox fx:id="checkbox1" layoutX="7.0" layoutY="6.0" mnemonicParsing="false" text="Vegan" />
                                     <CheckBox fx:id="checkbox2" layoutX="7.0" layoutY="33.0" mnemonicParsing="false" text="Vegeterian" />
                                     <CheckBox fx:id="checkbox3" layoutX="7.0" layoutY="60.0" mnemonicParsing="false" text="Lactose free" />
-                                    <CheckBox fx:id="checkbox4" layoutX="6.0" layoutY="92.0" mnemonicParsing="false" text="Gluten Free" />
-                                    <CheckBox fx:id="checkbox5" layoutX="6.0" layoutY="115.0" mnemonicParsing="false" text="Starter" />
-                                    <CheckBox fx:id="checkbox6" layoutX="7.0" layoutY="141.0" mnemonicParsing="false" text="Main course" />
+                                    <CheckBox fx:id="checkbox4" layoutX="170.0" layoutY="6.0" mnemonicParsing="false" text="Gluten Free" />
+                                    <CheckBox fx:id="checkbox5" layoutX="105.0" layoutY="33.0" mnemonicParsing="false" text="Starter" />
+                                    <CheckBox fx:id="checkbox6" layoutX="105.0" layoutY="60.0" mnemonicParsing="false" text="Main course" />
                                     <CheckBox fx:id="checkbox7" layoutX="7.0" layoutY="169.0" mnemonicParsing="false" text="Dessert" />
-                                    <CheckBox fx:id="checkbox8" layoutX="88.0" layoutY="6.0" mnemonicParsing="false" text="Sweets" />
+                                    <CheckBox fx:id="checkbox8" layoutX="104.0" layoutY="6.0" mnemonicParsing="false" text="Sweets" />
                                  </children>
                                  <effect>
                                     <Blend />
