@@ -19,13 +19,14 @@ public class Recipe {
   private String instructions;
   private int servings;
 
-  // Below is for float type
-  // private float prepTime;
-  // private float cookTime;
-
   private int prepTime;
   private int cookTime;
 
+  /**
+   * This constructor uses a query result to initialize itself.
+   *
+   * @param rt SQL query result.
+   */
   public Recipe(ResultSet rt) {
     try {
       setId(rt.getInt(1));
@@ -33,15 +34,9 @@ public class Recipe {
       setDescription(rt.getString(3));
       setInstructions(rt.getString(4));
       setServings(rt.getInt(5));
-
-      // Below is for float type
-      // setPrepTime(rt.getFloat(6));
-      // setCookTime(rt.getFloat(7));
-
       setPrepTime(rt.getInt(6));
       setCookTime(rt.getInt(7));
       //setImgSrc();
-      //tODO: Add image source to the recipe in Recipe.java
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
