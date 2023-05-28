@@ -1,12 +1,7 @@
 package cookbook.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This object matches the database entry for recipes.
@@ -18,7 +13,6 @@ public class Recipe {
   private String description;
   private String instructions;
   private int servings;
-
   private int prepTime;
   private int cookTime;
 
