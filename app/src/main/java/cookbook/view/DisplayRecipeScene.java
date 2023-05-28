@@ -151,8 +151,6 @@ public class DisplayRecipeScene implements Initializable {
     // Writing comments initialization functions
     try {
       writeCommentsInitialize();
-      favouritesInitialize();
-      tagsInitialize();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -194,12 +192,37 @@ public class DisplayRecipeScene implements Initializable {
     addButton.setVisible(false);
     cancelButton.setVisible(false);
 
+    FavouriteRecipeButton.setOnMouseClicked(event -> {
+      User user = Session.getCurrentUser();
+      int user_id = user.getUserId();
+
+      // check whether it is a favorite recipe or not
+      DataQuery db = new DataQuery();
+      boolean fav = false;
+      try {
+        fav = db.isFavorite(user_id, recipe_id);
+      } catch (SQLException e) {
+      }
+
+
+      // set icon
+      Image image;
+      db = new DataQuery();
+      if (!fav) {
+        db.insertFavorite(user_id, recipe_id);
+        image = new Image(getClass().getResource("/menuIcons/star-gold.png").toExternalForm());
+      } else {
+        db.removeFavorite(user_id, recipe_id);
+        image = new Image(getClass().getResource("/menuIcons/star.png").toExternalForm());
+      }
+      FavButtonIcon.setImage(image);
+    });
   }
 
   /**
    * This initializes the field where you can write comments and submit to the database.
 
-   * @throws SQLException Failed to make an SQL query using QueryMaker.
+   * @throws SQLException Failed to make a query using QueryMaker or failed to check if favorite exists.
    */
   private void writeCommentsInitialize() throws SQLException {
     QueryMaker qm = new QueryMaker();
@@ -258,17 +281,6 @@ public class DisplayRecipeScene implements Initializable {
     SubmitCommentButton.setOnMouseExited(event -> {
       SubmitCommentButton.setStyle("-fx-background-radius: 20; -fx-background-color: #BBDD2C");
     });
-
-    // Cancel button: Clears comment field if clicked
-    CancelCommentButton.setOnMouseClicked(e -> {
-      CommentTextField.setText("");
-      SubmitCommentButton.setDisable(true);
-      CancelCommentButton.setDisable(true);
-      CharacterCountHBox.setDisable(true);
-    });
-  }
-
-  private void favouritesInitialize() {
     FavouriteRecipeButton.setOnMouseClicked(event -> {
       User user = Session.getCurrentUser();
       int user_id = user.getUserId();
@@ -295,9 +307,6 @@ public class DisplayRecipeScene implements Initializable {
       }
       FavButtonIcon.setImage(image);
     });
-  }
-
-  private void tagsInitialize() {
 
     addTagButton.setOnAction(event -> {
       try {
@@ -319,8 +328,23 @@ public class DisplayRecipeScene implements Initializable {
         throw new RuntimeException(e);
       }
     });
+
+    // Cancel button: Clears comment field if clicked
+    CancelCommentButton.setOnMouseClicked(e -> {
+      CommentTextField.setText("");
+      SubmitCommentButton.setDisable(true);
+      CancelCommentButton.setDisable(true);
+      CharacterCountHBox.setDisable(true);
+    });
   }
 
+  /**
+   * This updates the scene's controller data to contain the provided recipe in the params.
+
+   * @param recipe Recipe object to provide data for the scene.
+   * @param parentAnchorPane This allows the previous scene to be called and to be returned to.
+   * @throws SQLException Failed to check favorites.
+   */
   public void addRecipeObject(Recipe recipe, AnchorPane parentAnchorPane) throws SQLException {
     QueryMaker qm = new QueryMaker();
     this.recipe = recipe;
@@ -398,23 +422,6 @@ public class DisplayRecipeScene implements Initializable {
     this.controller = controller;
   }
 
-  // Below method is used if the prep time and cook time attributes are float
-  public String floatToMinutes(float time) {
-    String t = Float.toString(time);
-    float remainder = (time * 60) % 60;
-
-    if (remainder == 0) {
-      int place = t.indexOf(".");
-      String subT = t.substring(0, place);
-      return subT + " min";
-    } else {
-      float seconds = remainder * 60;
-      int place = t.indexOf(".");
-      String subT = t.substring(0, place);
-      return subT + "min " + seconds + "s";
-    }
-  }
-
   @FXML
   private void transitionEditScene(ActionEvent event) {
     FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipeEditor.fxml"));
@@ -478,9 +485,12 @@ public class DisplayRecipeScene implements Initializable {
     ap.getChildren().add(n);
   }
 
-
+  /**
+   * This method reloads the comments displayed in the comments section.
+   */
   public void reloadComments() {
-    int row = 1, col = 0;
+    int row = 1;
+    int col = 0;
     // QueryMaker qm = null;
 
     // Clear the grid to update for new comments
@@ -499,7 +509,6 @@ public class DisplayRecipeScene implements Initializable {
       for (int i = 0; i < allComments.size(); i++) {
         // Load the fxml design onto a new AnchorPane
         FXMLLoader fxmlLoader = new FXMLLoader();
-        // TODO: set correct comment fxml here
         fxmlLoader.setLocation(Cookbook.class.getResource("viewComment.fxml"));
         AnchorPane anchorPane = null;
         anchorPane = fxmlLoader.load();
@@ -507,8 +516,6 @@ public class DisplayRecipeScene implements Initializable {
         // Obtain the controller from the respective fxml design and add the details of
         // the comments
         CommentController comController = fxmlLoader.getController();
-        // TODO: set the comments data to the controller here
-        // commentController.setData(allComments.get(i), ap);
         comController.setData(allComments.get(i), anchorPane, controller);
 
         // Grid pane commands
