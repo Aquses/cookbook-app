@@ -484,16 +484,24 @@ public class DisplayRecipeScene implements Initializable {
     // Return to previous scene
     @FXML
     private void transitionPreviousScene() {
-        // previousScene is already loaded when the addRecipeObject function is called.
-        AnchorPane.setTopAnchor(previousScene, 0.0);
-        AnchorPane.setRightAnchor(previousScene, 0.0);
-        AnchorPane.setBottomAnchor(previousScene, 0.0);
-        AnchorPane.setLeftAnchor(previousScene, 0.0);
+        FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+        Node n;    
 
-        parentAnchorPane.getChildren().clear();
-        parentAnchorPane.getChildren().add(previousScene);
+        try {
+            n = fxmlLoader.load();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
 
+        AnchorPane.setTopAnchor(n, 0.0);
+        AnchorPane.setRightAnchor(n, 0.0);
+        AnchorPane.setBottomAnchor(n, 0.0);
+        AnchorPane.setLeftAnchor(n, 0.0);
+
+        ap.getChildren().clear();
+        ap.getChildren().add(n);
     }
+
 
     public void reloadComments() {
         int row = 1, col = 0;
