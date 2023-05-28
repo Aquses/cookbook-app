@@ -52,6 +52,7 @@ public class HelpScene implements Initializable {
         helps.add(new Help("Update or Delete a comment", "/tutorials/updatecomments.png"));
         helps.add(new Help("Viewing Messages", "/tutorials/viewingmessages.png"));
         helps.add(new Help("Weekly Plan", "/tutorials/weeklyplan.png"));
+        helps.add(new Help("Creating a recipe", "/tutorials/addingarecipe.png"));
 
 
         FilteredList<Help> filteredHelps = new FilteredList<>(helps, b -> true);
