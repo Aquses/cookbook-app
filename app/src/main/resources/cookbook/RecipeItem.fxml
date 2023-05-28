@@ -13,14 +13,14 @@
 <AnchorPane prefHeight="192.0" prefWidth="192.0" style="-fx-background-radius: 10;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.ItemController">
    <children>
       <Pane layoutY="144.0" prefHeight="66.0" prefWidth="202.0" style="-fx-background-color: #FEFD9F;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <ImageView fx:id="FoodImage" fitHeight="192.0" fitWidth="198.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="foodImage" fitHeight="192.0" fitWidth="198.0" pickOnBounds="true" preserveRatio="true" />
       <Pane layoutY="144.0" opacity="0.4" prefHeight="66.0" prefWidth="202.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Pane fx:id="RecipePane" layoutY="-1.0" opacity="0.0" prefHeight="210.0" prefWidth="202.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox fx:id="NumberLabels" prefHeight="62.0" prefWidth="198.0" AnchorPane.bottomAnchor="129.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="recipePane" layoutY="-1.0" opacity="0.0" prefHeight="210.0" prefWidth="202.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <VBox fx:id="numberLabels" prefHeight="62.0" prefWidth="198.0" AnchorPane.bottomAnchor="129.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="14.0" prefWidth="130.0" spacing="5.0">
                <children>
-                  <Label fx:id="ServingsCount" text="0">
+                  <Label fx:id="servingsCount" text="0">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
@@ -37,7 +37,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="14.0" prefWidth="130.0" spacing="5.0">
                <children>
-                  <Label fx:id="TimeTakenCount" text="0">
+                  <Label fx:id="timeTakenCount" text="0">
                      <font>
                         <Font name="Segoe UI" size="12.0" />
                      </font>
@@ -59,7 +59,7 @@
       </VBox>
       <VBox alignment="BOTTOM_LEFT" layoutY="144.0" prefHeight="66.0" prefWidth="202.0">
          <children>
-            <Label fx:id="FoodItemNameWhite" alignment="BOTTOM_LEFT" minHeight="-Infinity" prefHeight="66.0" prefWidth="202.0" text="Recipe Name" textFill="WHITE">
+            <Label fx:id="foodItemNameWhite" alignment="BOTTOM_LEFT" minHeight="-Infinity" prefHeight="66.0" prefWidth="202.0" text="Recipe Name" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Light" size="15.0" />
                </font>
@@ -69,7 +69,7 @@
             </Label>
          </children>
       </VBox>
-      <Label fx:id="FoodItemDescription" alignment="TOP_LEFT" layoutY="-10.0" minHeight="-Infinity" opacity="0.0" prefHeight="126.0" prefWidth="198.0" text="Description here" textFill="WHITE" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="foodItemDescription" alignment="TOP_LEFT" layoutY="-10.0" minHeight="-Infinity" opacity="0.0" prefHeight="126.0" prefWidth="198.0" text="Description here" textFill="WHITE" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="Segoe UI" size="12.0" />
          </font>
@@ -77,6 +77,6 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </Label>
-      <Pane fx:id="RecipeButton" layoutX="10.0" layoutY="164.0" opacity="0.3" prefHeight="210.0" prefWidth="202.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="recipeButton" layoutX="10.0" layoutY="164.0" opacity="0.3" prefHeight="210.0" prefWidth="202.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
