@@ -21,88 +21,96 @@ import java.util.ResourceBundle;
 
 // Gustavo edited this page.
 
+/**
+ * This is the controller for the popup window when the user wants to create the shopping list.
+ */
 public class SelectWeeklyPlanWindowController implements Initializable {
 
-    @FXML
-    private Button CancelButton;
+  @FXML
+  private Button CancelButton;
 
-    @FXML
-    private Button SelectButton;
+  @FXML
+  private Button SelectButton;
 
-    @FXML
-    private TableColumn<WeeklyDinnerList, String> weekNameCol;
+  @FXML
+  private TableColumn<WeeklyDinnerList, String> weekNameCol;
 
-    @FXML
-    private TableColumn<WeeklyDinnerList, Integer> weekNumberCol;
+  @FXML
+  private TableColumn<WeeklyDinnerList, Integer> weekNumberCol;
 
-    @FXML
-    private TableView<WeeklyDinnerList> weeklyPlanTable;
+  @FXML
+  private TableView<WeeklyDinnerList> weeklyPlanTable;
 
-    private ObservableList<WeeklyDinnerList> weeklyList = FXCollections.observableArrayList();
+  private ObservableList<WeeklyDinnerList> weeklyList = FXCollections.observableArrayList();
 
-    private WeeklyDinnerList selectedPlan;
+  private WeeklyDinnerList selectedPlan;
 
-    private ShoppingListController callerController;
+  private ShoppingListController callerController;
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        User user = Session.getCurrentUser();
-        loadTable();
-        loadWeeklyPlans(user);  
-        //Stage stage = (Stage) SelectButton.getScene().getWindow();
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    User user = Session.getCurrentUser();
+    loadTable();
+    loadWeeklyPlans(user);
+    //Stage stage = (Stage) SelectButton.getScene().getWindow();
 
-        SelectButton.setOnMouseClicked(event -> {
-            if(selectedPlan != null){
-                callerController.setSelectedPlan(selectedPlan);
-                Node source = (Node) event.getSource();
-                Stage stage = (Stage) source.getScene().getWindow();
-                stage.close();
-            } else{
-                SelectButton.setDisable(true);
-            }
-        });
+    SelectButton.setOnMouseClicked(event -> {
+      if (selectedPlan != null) {
+        callerController.setSelectedPlan(selectedPlan);
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+      } else {
+        SelectButton.setDisable(true);
+      }
+    });
 
-        CancelButton.setOnMouseClicked(event -> {
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
-        });
+    CancelButton.setOnMouseClicked(event -> {
+      Node source = (Node) event.getSource();
+      Stage stage = (Stage) source.getScene().getWindow();
+      stage.close();
+    });
+  }
+
+  /**
+   * This loads the weekly plans that the user has created, if they exist.
+
+   * @param user The user using the current session.
+   */
+  public void loadWeeklyPlans(User user) {
+    weeklyList.clear();
+
+    try {
+      QueryMaker qm = new QueryMaker();
+      ObservableList<WeeklyDinnerList> databaseWeeklyPlans = qm.retrieveWeeklyListObjects(user);
+
+      for (WeeklyDinnerList week : databaseWeeklyPlans) {
+        weeklyList.add(week);
+      }
+    } catch (SQLException e) {
+      System.out.println("Error: " + e.getMessage());
     }
+    weeklyPlanTable.setItems(weeklyList);
+  }
 
-    public void loadWeeklyPlans(User user) {
-        weeklyList.clear();
+  public void loadTable() {
+    weekNumberCol.setCellValueFactory(new PropertyValueFactory<>("weekNumber"));
+    weekNameCol.setCellValueFactory(new PropertyValueFactory<>("weekName"));
+  }
 
-        try {
-            QueryMaker qm = new QueryMaker();
-            ObservableList<WeeklyDinnerList> databaseWeeklyPlans = qm.retrieveWeeklyListObjects(user);
-
-            for (WeeklyDinnerList week : databaseWeeklyPlans) {
-                weeklyList.add(week);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        weeklyPlanTable.setItems(weeklyList);
+  @FXML
+  private void weeklyPlanClicked() {
+    //first, make select button clickable (enable)
+    if (SelectButton.isDisabled()) {
+      SelectButton.setDisable(false);
     }
+    //then set the variable that will retain the values from the click
+    selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
+    //submission is handled in initialization
+  }
 
-    public void loadTable() {
-        weekNumberCol.setCellValueFactory(new PropertyValueFactory<>("weekNumber"));
-        weekNameCol.setCellValueFactory(new PropertyValueFactory<>("weekName"));
-    }
-
-    @FXML
-    private void weeklyPlanClicked(){
-        //first, make select button clickable (enable)
-        if(SelectButton.isDisabled()){
-            SelectButton.setDisable(false);
-        }
-        //then set the variable that will retain the values from the click
-        selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
-        //submission is handled in initialization
-    }
-
-    public void setCallerController(ShoppingListController controller){
-        callerController = controller;
-    }
+  public void setCallerController(ShoppingListController controller) {
+    callerController = controller;
+  }
 }
