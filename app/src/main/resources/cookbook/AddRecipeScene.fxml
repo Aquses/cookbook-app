@@ -21,7 +21,7 @@
 
 <AnchorPane fx:id="ap" prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #2F2928;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cookbook.controller.AddRecipeController">
    <children>
-      <VBox prefHeight="650.0" prefWidth="1158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="680.0" prefWidth="940.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="10.0" left="100.0" right="30.0" top="50.0" />
          </padding>
@@ -75,7 +75,7 @@
             </VBox>
             <HBox alignment="TOP_CENTER" prefHeight="563.0" prefWidth="814.0" style="-fx-background-color: #2F2928; -fx-background: #2F2928;" VBox.vgrow="ALWAYS">
                <children>
-                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="472.0" prefWidth="825.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="472.0" prefWidth="810.0" style="-fx-background: #2F2928; -fx-background-color: #2F2928;">
                      <content>
                         <AnchorPane prefHeight="505.0" prefWidth="822.0">
                            <children>
@@ -157,7 +157,7 @@
                                     <CheckBox fx:id="checkbox4" layoutX="170.0" layoutY="6.0" mnemonicParsing="false" text="Gluten Free" />
                                     <CheckBox fx:id="checkbox5" layoutX="105.0" layoutY="33.0" mnemonicParsing="false" text="Starter" />
                                     <CheckBox fx:id="checkbox6" layoutX="105.0" layoutY="60.0" mnemonicParsing="false" text="Main course" />
-                                    <CheckBox fx:id="checkbox7" layoutX="7.0" layoutY="169.0" mnemonicParsing="false" text="Dessert" />
+                                    <CheckBox fx:id="checkbox7" layoutX="170.0" layoutY="33.0" mnemonicParsing="false" text="Dessert" />
                                     <CheckBox fx:id="checkbox8" layoutX="104.0" layoutY="6.0" mnemonicParsing="false" text="Sweets" />
                                  </children>
                                  <effect>

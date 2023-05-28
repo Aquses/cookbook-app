@@ -63,15 +63,6 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <Button fx:id="EditRecipeMenuButton" disable="true" mnemonicParsing="false" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 50;">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../menuIcons/icons8-pencil-drawing-48.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
                            </children>
                            <padding>
                               <Insets right="10.0" />
