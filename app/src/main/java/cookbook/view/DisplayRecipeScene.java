@@ -323,16 +323,21 @@ public class DisplayRecipeScene implements Initializable {
         addTagButton.setOnAction(event -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(Cookbook.class.getResource("AddCustomTag.fxml"));
+                AddCustomTag editor;
 
+                fxmlLoader.setLocation(Cookbook.class.getResource("AddCustomTag.fxml"));
+            
                 Parent window = fxmlLoader.load();
+                editor = fxmlLoader.getController();
+                editor.initialization(recipe);
+            
                 Stage stage = new Stage();
                 stage.setTitle("Select Custom Tag");
                 stage.setScene(new Scene(window, 400, 550));
                 stage.show();
-
+            
             } catch (IOException e) {
-                throw new RuntimeException(e);
+              throw new RuntimeException(e);
             }
         });
 

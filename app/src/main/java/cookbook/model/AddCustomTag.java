@@ -38,6 +38,10 @@ public class AddCustomTag implements Initializable {
 
     @FXML private TableColumn<Tags, String> cTagColumn;
 
+    private Recipe recipe;
+
+    private int recipe_id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadData();
@@ -56,10 +60,16 @@ public class AddCustomTag implements Initializable {
         });
     }
 
+    @FXML
+    public void initialization(Recipe recipe) {
+        this.recipe = recipe;
+        this.recipe_id = recipe.getId();
+    }
+
     public void addCustomTagsToRecipe() {
         User user = Session.getCurrentUser();
         int userId = user.getUserId();
-        int recipe_id = 1; // have to pass recipe_id to another scene
+        int recipe_id = recipe.getId();
     
         ObservableList<Tags> tags = cTagView.getItems();
         List<Integer> cTagList = new ArrayList<>();

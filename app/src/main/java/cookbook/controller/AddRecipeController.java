@@ -87,7 +87,7 @@ public class AddRecipeController implements Initializable {
     @FXML private Label measurementLabel;
     
     @FXML private ChoiceBox<String> measurementField;
-    // load from database or custom array?
+    
     private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
 
     @FXML private Label quantityLabel;
