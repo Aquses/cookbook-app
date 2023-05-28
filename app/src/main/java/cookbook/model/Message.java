@@ -1,9 +1,6 @@
 package cookbook.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-
-
 
 public class Message {
     private int message_id; 

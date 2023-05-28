@@ -6,6 +6,13 @@ public class IngredientsAddRecipe {
     private int quantity;
     private String measurement;
 
+   /**
+   * A simple constructor for AddRecipeController.
+   * Ingredients part.
+   * 
+   * @param rt SQL query result.
+   */
+
     public IngredientsAddRecipe(String name, int quantity, String measurement) {
         this.name = name;
         this.quantity = quantity;

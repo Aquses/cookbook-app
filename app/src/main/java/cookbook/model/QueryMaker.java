@@ -68,7 +68,13 @@ public class QueryMaker {
         return setUserToList();
     }
 
-    // user story 8, Eldaras, query loads tags and custom_tags. 
+
+    /**
+    * Simple method with query that loads tags and custom_tags.
+    * Takes recipe_id and user_id from Recipe and Session.
+    * 
+    * @param rt customTags.
+    */
     public List<String> getCustomTagsForRecipe(int recipe_id, int user_id) throws SQLException {
         List<String> customTags = new ArrayList<>();
         Connection conn2 = DriverManager.getConnection("jdbc:mysql://localhost/cookbook?user=root&password=123456&useSSL=false");

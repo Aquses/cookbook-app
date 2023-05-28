@@ -1,6 +1,5 @@
 package cookbook.view;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -66,6 +65,12 @@ public class UserLoginScene implements Initializable {
         });
 
     }
+
+    /**
+    * Login method, if username and password matches same in the database, then it will change scene.
+    * Will also pass the user id.
+    * If one or both of the TextFields are incorrect, the error will appear.
+    */ 
 
     private void login() throws SQLException {
         String username = usernameField.getText();

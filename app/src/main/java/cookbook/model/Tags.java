@@ -7,6 +7,12 @@ public class Tags {
     private int tag_id;
     private String Name;
 
+    /**
+    * A simple constructor for AddRecipeController.
+    *
+    * @param rt ResultSet
+    */
+
     public Tags(ResultSet rt) {
         try {
             setId(rt.getInt(1));
@@ -16,7 +22,6 @@ public class Tags {
           throw new RuntimeException(e);
         }
     }
-    
 
     public Tags(String Name) {
         this.Name = Name;
