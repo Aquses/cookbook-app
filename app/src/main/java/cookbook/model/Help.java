@@ -1,7 +1,7 @@
 package cookbook.model;
 
 public class Help {
-    // wtf is this class naming ???????????
+
 
     private String name;
     private String image;
