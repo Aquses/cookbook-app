@@ -88,8 +88,6 @@ public class AddRecipeController implements Initializable {
     
     @FXML private ChoiceBox<String> measurementField;
     
-    private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
-
     @FXML private Label quantityLabel;
 
     @FXML private TextField quantityField;
@@ -114,6 +112,9 @@ public class AddRecipeController implements Initializable {
 
     @FXML private TableColumn<Tags, String> tagNameColumn;
 
+    @FXML private AnchorPane ap;
+    @FXML private GridPane grid;
+
     @FXML private CheckBox checkbox1;
     @FXML private CheckBox checkbox2;
     @FXML private CheckBox checkbox3;
@@ -123,18 +124,19 @@ public class AddRecipeController implements Initializable {
     @FXML private CheckBox checkbox7;
     @FXML private CheckBox checkbox8;
 
-    @FXML private AnchorPane ap;
-    @FXML private GridPane grid;
+    private String[] measurements = {"kg", "g", "l", "ml", "tbsp", "tsp", "cup", "cups", "cloves", "large", "head"};
+
+    /**
+    * This function initialize has addButton.
+    * All the information written in the TextFields and given to the TableView,
+    * are being stored inside the database.
+    */ 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       loadData();
       measurementField.getItems().addAll(measurements);
 
-
-      // everything that was written in the textfields
-      // inputted into tableview
-      // everything will be inserted into database
       addRecipeButton.setOnAction(event -> {
         String recipeName = nameField.getText();
         String recipeDesc = descField.getText();
@@ -145,7 +147,8 @@ public class AddRecipeController implements Initializable {
         User user = Session.getCurrentUser();
         int user_id = user.getUserId();
 
-        // this could have done better, I believe. But that is the only method I found on Youtube.
+        // The if statement could have been dealt better but could not find a better solution.
+        // Source: https://youtu.be/5YX18em7vBw 
         List<String> selectedCheckboxValues = new ArrayList<>();
         if (checkbox1.isSelected()) {
           selectedCheckboxValues.add(checkbox1.getText());
@@ -237,70 +240,78 @@ public class AddRecipeController implements Initializable {
         clearFields();
       });
 
-      addTagButton.setOnAction(event -> {
-        Tags tag = new Tags(tagsField.getText());
-        ObservableList<Tags> tags = tagsView.getItems();
-        tags.add(tag);
-        tagsView.setItems(tags);
-        tagsField.clear();
-      });
+    /**
+    * The addTagButton puts the written tag inside the TableView.
+    */ 
 
-      submitButton.setOnAction(event -> {
-        IngredientsAddRecipe ingredient = new IngredientsAddRecipe(ingField.getText(),
-                                              Integer.parseInt(quantityField.getText()),
-                                              measurementField.getValue());
-        ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
-        ingredients.add(ingredient);
-        tableView.setItems(ingredients);
-        ingField.clear();
-        quantityField.clear();
-      });
+    addTagButton.setOnAction(event -> {
+      Tags tag = new Tags(tagsField.getText());
+      ObservableList<Tags> tags = tagsView.getItems();
+      tags.add(tag);
+      tagsView.setItems(tags);
+      tagsField.clear();
+    });
 
-      removeButton.setOnAction(event -> {
-        int selectedID = tableView.getSelectionModel().getSelectedIndex();
-        tableView.getItems().remove(selectedID);
-      });
+    /**
+    * Similar to addTagButton but with ingredients.
+    */ 
 
-      returnButton.setOnMouseClicked(event -> {
-        transitionPreviousScene();
-      });
-    }
-
-    public void loadData() {
-      ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
-      quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
-      measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
-      tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
-    }
-
-    public void clearFields() {
-      nameField.clear();
-      descField.clear();
-      insField.clear();
+    submitButton.setOnAction(event -> {
+      IngredientsAddRecipe ingredient = new IngredientsAddRecipe(ingField.getText(),
+                                            Integer.parseInt(quantityField.getText()),
+                                            measurementField.getValue());
+      ObservableList<IngredientsAddRecipe> ingredients = tableView.getItems();
+      ingredients.add(ingredient);
+      tableView.setItems(ingredients);
       ingField.clear();
-      servingsField.clear();
-      prepField.clear();
-      cookField.clear();
       quantityField.clear();
+    });
+
+    removeButton.setOnAction(event -> {
+      int selectedID = tableView.getSelectionModel().getSelectedIndex();
+      tableView.getItems().remove(selectedID);
+    });
+
+    returnButton.setOnMouseClicked(event -> {
+      transitionPreviousScene();
+    });
+  }
+
+  public void loadData() {
+    ingColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("name"));
+    quantityColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, Integer>("quantity"));
+    measurementColumn.setCellValueFactory(new PropertyValueFactory<IngredientsAddRecipe, String>("measurement"));
+    tagNameColumn.setCellValueFactory(new PropertyValueFactory<Tags, String>("Name"));
+  }
+
+  public void clearFields() {
+    nameField.clear();
+    descField.clear();
+    insField.clear();
+    ingField.clear();
+    servingsField.clear();
+    prepField.clear();
+    cookField.clear();
+    quantityField.clear();
+  }
+
+  @FXML
+  public void transitionPreviousScene() {
+    FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
+    Node nd;   
+
+    try {
+      nd = fxmlLoader.load();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
 
-    @FXML
-    public void transitionPreviousScene() {
-      FXMLLoader fxmlLoader = new FXMLLoader(Cookbook.class.getResource("RecipesScene.fxml"));
-      Node n;   
+    AnchorPane.setTopAnchor(nd, 0.0);
+    AnchorPane.setRightAnchor(nd, 0.0);
+    AnchorPane.setBottomAnchor(nd, 0.0);
+    AnchorPane.setLeftAnchor(nd, 0.0);
 
-      try {
-        n = fxmlLoader.load();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
-      AnchorPane.setTopAnchor(n, 0.0);
-      AnchorPane.setRightAnchor(n, 0.0);
-      AnchorPane.setBottomAnchor(n, 0.0);
-      AnchorPane.setLeftAnchor(n, 0.0);
-
-      ap.getChildren().clear();
-      ap.getChildren().add(n);
-    }
+    ap.getChildren().clear();
+    ap.getChildren().add(nd);
+  }
 }

@@ -73,7 +73,6 @@ public class UserLoginScene implements Initializable {
         Stage primaryStage = (Stage) usernameField.getScene().getWindow(); // Get the current stage
         DataQuery dq = new DataQuery();
         boolean result = dq.checkCredentials(username, password);
-        errorLabel = new Label("");
         errorLabel.setStyle("-fx-text-fill: red;");
     
         if (result) {

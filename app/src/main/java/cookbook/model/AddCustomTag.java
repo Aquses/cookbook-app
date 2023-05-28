@@ -64,7 +64,12 @@ public class AddCustomTag implements Initializable {
         recipe.getId();
     }
 
-    // method: gets userId and recipe_id, inserts custom_tag based on user and recipe.
+    /**
+    * The function addCustomTagsToRecipe.
+    * Simply takes the written cTag in the TextField and puts it in the TableView
+    * With database insertion, we determine to which user and which recipe should have the unique cTag.
+    */
+    
     public void addCustomTagsToRecipe() {
         User user = Session.getCurrentUser();
         int userId = user.getUserId();
