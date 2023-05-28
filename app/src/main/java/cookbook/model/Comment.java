@@ -2,8 +2,6 @@ package cookbook.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
@@ -13,6 +11,12 @@ public class Comment {
   private int User_id;
   private int recipe_id;
 
+  /**
+   * method to set the relevant data to the database
+   *
+   * @param rt
+   * @throws SQLException
+   */
   public Comment(ResultSet rt) throws SQLException {
     setId(rt.getInt(1));
     setUser_id(rt.getInt(2));
@@ -20,22 +24,6 @@ public class Comment {
     setComment_text(rt.getString(4));
     setDate(rt.getDate(5));
 
-  }
-
-  // a method to set the date format for the date of comments
-  public Date StringToDate(String s) {
-
-    Date result = null;
-    try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      result = dateFormat.parse(s);
-    }
-
-    catch (ParseException e) {
-      e.printStackTrace();
-
-    }
-    return result;
   }
 
   /**

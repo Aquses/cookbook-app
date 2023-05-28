@@ -30,7 +30,7 @@ public class WeeklyDinnerList {
   }
 
   /**
-   * @param week_id the week_id to set
+   * @param weekId the week_id to set
    */
   public void setWeekId(int weekId) {
     this.weekId = weekId;
@@ -58,7 +58,7 @@ public class WeeklyDinnerList {
   }
 
   /**
-   * @param week_name the week_name to set
+   * @param weekName the week_name to set
    */
   public void setWeekName(String weekName) {
     this.weekName = weekName;
@@ -72,7 +72,7 @@ public class WeeklyDinnerList {
   }
 
   /**
-   * @param week_number the week_number to set
+   * @param weekNumber the week_number to set
    */
   public void setWeekNumber(int weekNumber) {
     this.weekNumber = weekNumber;
