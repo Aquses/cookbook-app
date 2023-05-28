@@ -2,7 +2,6 @@ package cookbook.controller;
 
 import cookbook.Cookbook;
 import cookbook.model.Session;
-import cookbook.model.ShoppingList;
 import cookbook.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

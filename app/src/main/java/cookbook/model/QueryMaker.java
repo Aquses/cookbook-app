@@ -106,19 +106,6 @@ public class QueryMaker {
         }
         return customTags;
     }
-    
-    /*
-    private List<Recipe> setToList() throws SQLException {
-        List<Recipe> list = new ArrayList<>();
-        Recipe recipe;
-        results = statement.executeQuery(query);
-
-        while (results.next()) {
-            recipe = new Recipe(results);
-            list.add(recipe);
-        }
-        return list;
-    }*/
 
     private ObservableList<Recipe> setToList() throws SQLException {
         ObservableList<Recipe> list = FXCollections.observableArrayList();
@@ -222,9 +209,9 @@ public class QueryMaker {
 
     public void updateRecipe(Recipe recipe) {
         String query = "UPDATE recipes "
-                + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
-                + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
-                + "WHERE recipe_id = ?";
+                       + "SET recipe_name = ?, recipe_description = ?, recipe_instructions = ?, "
+                       + "servings = ?, prep_time_minutes = ?, cook_time_minutes = ? "
+                       + "WHERE recipe_id = ?";
 
         try {
             PreparedStatement statement = conn.prepareStatement(query);
