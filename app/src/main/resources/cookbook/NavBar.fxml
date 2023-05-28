@@ -16,13 +16,13 @@
     <children>
         <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
-                <HBox fx:id="MenuSlider" prefHeight="397.0" prefWidth="142.0" style="-fx-background-color: #18432D;" BorderPane.alignment="CENTER">
+                <HBox fx:id="menuSlider" prefHeight="397.0" prefWidth="142.0" style="-fx-background-color: #18432D;" BorderPane.alignment="CENTER">
                     <children>
                         <VBox prefHeight="397.0" prefWidth="141.0" style="-fx-background-color: #18432D;">
                             <children>
                                 <VBox prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: B9DA2C;">
                                     <children>
-                                        <Button fx:id="HomeButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #8DAE00;" text="Home">
+                                        <Button fx:id="homeButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #8DAE00;" text="Home">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
@@ -38,7 +38,7 @@
                                 </VBox>
                                 <VBox prefHeight="92.0" prefWidth="142.0" style="-fx-background-color: #B9DA2C;">
                                     <children>
-                                        <Button fx:id="RecipesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #BBDD2C;" text="Recipes">
+                                        <Button fx:id="recipesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #BBDD2C;" text="Recipes">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
@@ -66,22 +66,7 @@
                                 </VBox>
                                 <VBox prefHeight="192.0" prefWidth="141.0" style="-fx-background-color: #247927;">
                                     <children>
-                                        <Button alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Planner">
-                                            <font>
-                                                <Font name="System Bold" size="12.0" />
-                                            </font>
-                                            <graphic>
-                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../menuIcons/icons8-planner-48.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                                        </Button>
-                                        <Button fx:id="ShoppingList" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Shopping List">
+                                        <Button fx:id="shoppingList" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #247927;" text="Shopping List">
                                             <font>
                                                 <Font name="System Bold" size="12.0" />
                                             </font>
@@ -96,7 +81,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                                         </Button>
-                              <Button fx:id="MessagesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Messages">
+                              <Button fx:id="messagesButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="50.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Messages">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -111,7 +96,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="WeeklyPlanButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Weekly Plan">
+                              <Button fx:id="weeklyPlanButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="141.0" style="-fx-background-color: #247927;" text="Weekly Plan">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -128,7 +113,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                                 </VBox>
-                                  <Button fx:id="HelpButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: #18432D;" text="Help">
+                                  <Button fx:id="helpButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: #18432D;" text="Help">
                                       <font>
                                           <Font name="System Bold" size="12.0" />
                                       </font>
@@ -141,7 +126,7 @@
                                       </graphic>
                                   </Button>
                                 <VBox prefHeight="95.0" prefWidth="141.0" style="-fx-background-color: #18432D;" />
-                        <Button fx:id="AdminButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #18432D;" text="Admin">
+                        <Button fx:id="adminButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="45.0" prefWidth="143.0" style="-fx-background-color: #18432D;" text="Admin">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -176,7 +161,7 @@
             <top>
                 <AnchorPane prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #C6B13F;" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="MenuOpen" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="36.0" style="-fx-background-color: #C6B03F;" textFill="WHITE">
+                        <Button fx:id="menuOpen" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="36.0" style="-fx-background-color: #C6B03F;" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -188,7 +173,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="MenuClosed" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="36.0" style="-fx-background-color: #C6B03F;" textFill="WHITE">
+                        <Button fx:id="menuClosed" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="42.0" prefWidth="36.0" style="-fx-background-color: #C6B03F;" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -220,7 +205,7 @@
             <center>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
-                  <AnchorPane fx:id="ContentAnchor" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="contentAnchor" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Pane fx:id="darkenPane" opacity="0.6" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                 </AnchorPane>

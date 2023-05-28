@@ -24,43 +24,42 @@ import javafx.stage.Stage;
 public class MainNavigation implements Initializable {
 
   @FXML
-  private Button MenuClosed;
+  private Button menuClosed;
   @FXML
-  private Button MenuOpen;
+  private Button menuOpen;
   @FXML
-  private HBox MenuSlider;
+  private HBox menuSlider;
   @FXML
-  private Button RecipesButton;
+  private Button recipesButton;
   @FXML
-  private Button AdminButton;
+  private Button adminButton;
   @FXML
   private Pane darkenPane;
   @FXML
-  private Button HomeButton;
+  private Button homeButton;
 
   @FXML
-  private Button MessagesButton;
+  private Button messagesButton;
 
   @FXML
-  private Button HelpButton;
+  private Button helpButton;
 
   @FXML
-  private AnchorPane ContentAnchor;
+  private AnchorPane contentAnchor;
 
   @FXML
   private Button favouritesButton;
 
   @FXML
-  private Button WeeklyPlanButton;
+  private Button weeklyPlanButton;
 
   @FXML
-  private Button ShoppingList;
+  private Button shoppingList;
 
   @FXML
   private Button logoutButton;
 
-  /**
-   * Use this to load the scene.
+  /** Use this to load the scene.
    * @return Returns the FXML file attributed to this controller.
    * @throws IOException The FXML file was not found or could not be loaded.
    */
@@ -72,7 +71,7 @@ public class MainNavigation implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     User currentUser = Session.getCurrentUser();
-    AdminButton.setVisible(currentUser.getIsAdmin());
+    adminButton.setVisible(currentUser.getIsAdmin());
     try {
       loadScene(0);
     } catch (IOException e) {
@@ -85,42 +84,42 @@ public class MainNavigation implements Initializable {
    * This initializes and specifies the navbar menu controls.
    */
   private void menuControls() {
-    MenuSlider.setPrefWidth(50);
+    menuSlider.setPrefWidth(50);
     darkenPane.setVisible(false);
 
-    MenuClosed.setOnMouseClicked(event -> {
-      MenuSlider.setPrefWidth(143);
+    menuClosed.setOnMouseClicked(event -> {
+      menuSlider.setPrefWidth(143);
 
-      MenuOpen.setVisible(true);
-      MenuClosed.setVisible(false);
+      menuOpen.setVisible(true);
+      menuClosed.setVisible(false);
       darkenPane.setVisible(true);
     });
 
-    MenuOpen.setOnMouseClicked(event -> {
-      MenuSlider.setPrefWidth(50);
+    menuOpen.setOnMouseClicked(event -> {
+      menuSlider.setPrefWidth(50);
 
-      MenuOpen.setVisible(false);
-      MenuClosed.setVisible(true);
+      menuOpen.setVisible(false);
+      menuClosed.setVisible(true);
       darkenPane.setVisible(false);
     });
 
     darkenPane.setOnMouseClicked(event -> {
-      MenuSlider.setPrefWidth(50);
+      menuSlider.setPrefWidth(50);
 
-      MenuOpen.setVisible(false);
-      MenuClosed.setVisible(true);
+      menuOpen.setVisible(false);
+      menuClosed.setVisible(true);
       darkenPane.setVisible(false);
     });
 
-    HomeButton.setOnMouseClicked(event -> {
-      MenuSlider.setPrefWidth(50);
+    homeButton.setOnMouseClicked(event -> {
+      menuSlider.setPrefWidth(50);
 
-      MenuOpen.setVisible(false);
-      MenuClosed.setVisible(true);
+      menuOpen.setVisible(false);
+      menuClosed.setVisible(true);
       darkenPane.setVisible(false);
     });
 
-    RecipesButton.setOnMouseClicked(event -> {
+    recipesButton.setOnMouseClicked(event -> {
       try {
         loadScene(1);
       } catch (IOException e) {
@@ -128,7 +127,7 @@ public class MainNavigation implements Initializable {
       }
     });
 
-    HomeButton.setOnMouseClicked(event -> {
+    homeButton.setOnMouseClicked(event -> {
       try {
         loadScene(0);
       } catch (IOException e) {
@@ -136,7 +135,7 @@ public class MainNavigation implements Initializable {
       }
     });
 
-    AdminButton.setOnMouseClicked(event -> {
+    adminButton.setOnMouseClicked(event -> {
       try {
         loadScene(2);
       } catch (IOException e) {
@@ -152,14 +151,14 @@ public class MainNavigation implements Initializable {
       }
     });
 
-    MessagesButton.setOnMouseClicked(event -> {
+    messagesButton.setOnMouseClicked(event -> {
       try {
         loadScene(4);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     });
-    HelpButton.setOnMouseClicked(event -> {
+    helpButton.setOnMouseClicked(event -> {
       try {
         loadScene(5);
       } catch (IOException e) {
@@ -167,7 +166,7 @@ public class MainNavigation implements Initializable {
       }
     });
 
-    WeeklyPlanButton.setOnMouseClicked(event -> {
+    weeklyPlanButton.setOnMouseClicked(event -> {
       try {
         loadScene(6);
       } catch (IOException e) {
@@ -175,7 +174,7 @@ public class MainNavigation implements Initializable {
       }
     });
 
-    ShoppingList.setOnMouseClicked(event -> {
+    shoppingList.setOnMouseClicked(event -> {
       try {
         loadScene(7);
       } catch (IOException e) {
@@ -243,8 +242,8 @@ public class MainNavigation implements Initializable {
     AnchorPane.setBottomAnchor(n, 0.0);
     AnchorPane.setLeftAnchor(n, 0.0);
 
-    ContentAnchor.getChildren().clear();
-    ContentAnchor.getChildren().add(n);
+    contentAnchor.getChildren().clear();
+    contentAnchor.getChildren().add(n);
 
     switch (sceneId) {
       case 7 -> {
