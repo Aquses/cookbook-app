@@ -63,7 +63,7 @@ public class MainNavigation implements Initializable {
   private Button logoutButton;
 
   /**
-   *
+   * Use this to load the scene.
    * @return Returns the FXML file attributed to this controller.
    * @throws IOException The FXML file was not found or could not be loaded.
    */
@@ -85,7 +85,7 @@ public class MainNavigation implements Initializable {
   }
 
   /**
-   * This initializes and specifies the navbar controls.
+   * This initializes and specifies the navbar menu controls.
    */
   private void menuControls() {
     MenuSlider.setPrefWidth(50);
@@ -203,6 +203,11 @@ public class MainNavigation implements Initializable {
     });
   }
 
+  /**
+   * This function loads the scenes.
+   * @param sceneID a.
+   * @throws IOException test.
+   */
   private void loadScene(int sceneID) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader();
     Node n;
