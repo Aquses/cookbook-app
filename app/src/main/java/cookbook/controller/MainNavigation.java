@@ -223,17 +223,32 @@ public class MainNavigation implements Initializable {
     Node n;
 
     switch (sceneId) {
-      case 0 -> fxmlLoader.setLocation(Cookbook.class.getResource("HubScene.fxml"));
-      case 1 -> fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
-      case 2 -> fxmlLoader.setLocation(Cookbook.class.getResource("AdminScene.fxml"));
-      case 3 -> fxmlLoader.setLocation(Cookbook.class.getResource("FavouritesScene.fxml"));
-      case 4 -> fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
-      case 5 -> fxmlLoader.setLocation(Cookbook.class.getResource("HelpScene.fxml"));
-      case 6 -> fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
-      case 7 -> fxmlLoader.setLocation(Cookbook.class.getResource("ShoppingListScene.fxml"));
-      default -> {
+      case 0:
+        fxmlLoader.setLocation(Cookbook.class.getResource("HubScene.fxml"));
+        break;
+      case 1:
+        fxmlLoader.setLocation(Cookbook.class.getResource("RecipesScene.fxml"));
+        break;
+      case 2:
+        fxmlLoader.setLocation(Cookbook.class.getResource("AdminScene.fxml"));
+        break;
+      case 3:
+        fxmlLoader.setLocation(Cookbook.class.getResource("FavouritesScene.fxml"));
+        break;
+      case 4:
+        fxmlLoader.setLocation(Cookbook.class.getResource("MessagesScene.fxml"));
+        break;
+      case 5:
+        fxmlLoader.setLocation(Cookbook.class.getResource("HelpScene.fxml"));
+        break;
+      case 6:
+        fxmlLoader.setLocation(Cookbook.class.getResource("WeeklyPlanScene.fxml"));
+        break;
+      case 7:
+        fxmlLoader.setLocation(Cookbook.class.getResource("ShoppingListScene.fxml"));
+        break;
+      default:
         throw new IOException("The provided scene ID to load does not exist.");
-      }
     }
 
     n = fxmlLoader.load();
