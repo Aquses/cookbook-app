@@ -90,7 +90,7 @@ public class ShoppingListController {
   }
 
   public void setTable() {
-    testingShoppingList();
+    setShoppingList();
     loadTable();
     itemTable.setItems(shoppingListItems);
     setCopyArea();
@@ -125,6 +125,9 @@ public class ShoppingListController {
     this.plan = plan;
   }
 
+  /**
+   * Set the text area conent for the shopping list same as the table view.
+   */
   public void setCopyArea() {
     StringBuilder textAreaContent = new StringBuilder();
 
@@ -139,8 +142,11 @@ public class ShoppingListController {
     copyArea.setText(textAreaContent.toString());
   }
 
-
-  private void testingShoppingList() {
+  /**
+   * Check first for shopping list already existing in database for weeklyplan.
+   * If no shopping list, generate shopping list and insert items.
+   */
+  private void setShoppingList() {
 
     try {
       QueryMaker qm = new QueryMaker();
@@ -170,6 +176,11 @@ public class ShoppingListController {
     }
   }
 
+  /**
+   * Delete shopping list item from shopping list. 
+   *
+   * @param event on item selecton and button click
+   */
   @FXML
   void delete(ActionEvent event) {
     ShoppingListItem selectedItem = itemTable.getSelectionModel().getSelectedItem();
@@ -188,6 +199,11 @@ public class ShoppingListController {
     }
   }
 
+  /**
+   * Edit the quantity of a shopping list item.
+   *
+   * @param event on text field not null and a number and button click
+   */
   @FXML
   void edit(ActionEvent event) {
     ShoppingListItem selectedItem = itemTable.getSelectionModel().getSelectedItem();
