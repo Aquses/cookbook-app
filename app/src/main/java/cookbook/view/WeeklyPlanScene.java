@@ -26,7 +26,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 
-
+/**
+ * {@summary} Class that is responsible for managing and displaying weekly plan scene. 
+ * Users can view, create, delete weekly meal plans.
+ */
 public class WeeklyPlanScene {
 
   @FXML
@@ -110,7 +113,10 @@ public class WeeklyPlanScene {
   private GridPane sundayGrid;
 
 
-
+  /**
+   * {@summary} Initializes the ui components and weekly plan functionality for the weekly
+   * plan/dinner list scene.
+   */
   @FXML
   public void initialize() {
     this.user = Session.getCurrentUser();
@@ -125,12 +131,8 @@ public class WeeklyPlanScene {
     yesDelete.setVisible(false);
     noDelete.setVisible(false);
 
-
-
     loadTable();
     loadWeeklyPlans();
-
-
   }
 
   public void loadTable() {
@@ -138,6 +140,9 @@ public class WeeklyPlanScene {
     weekNameCol.setCellValueFactory(new PropertyValueFactory<>("weekName"));
   }
 
+  /**
+   * {@summary} Retrieves the weekly plans and loads them into the weekly plan table component.
+   */
   public void loadWeeklyPlans() {
     weeklyList.clear();
 
@@ -164,6 +169,10 @@ public class WeeklyPlanScene {
     createButton.setVisible(true);
   }
 
+  /**
+   * {@summary} Manages the creation of a new weekly plan list. Retrieves and validates user
+   * input, and then insertes the plan into the database while updating the ui accordingly.
+   */
   @FXML
   void create(ActionEvent event) {
     int weekNum = Integer.parseInt(weekNumber.getText());
@@ -171,7 +180,7 @@ public class WeeklyPlanScene {
     if (weekNum >= 1 && weekNum <= 52) {
       try {
         QueryMaker queryMaker = new QueryMaker();
-        queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId() );
+        queryMaker.insertWeeklyPlan(weekName.getText(), weekNum, user.getUserId());
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -207,6 +216,11 @@ public class WeeklyPlanScene {
     }
   }
 
+  /**
+   * {@summary} Handles the deletion of a weekly plan from a selected plan object in the table,
+   * should the user choose to click the delete button.
+   *
+   */
   @FXML
   void delete(ActionEvent event) {
     WeeklyDinnerList selectedWeeklyList = weeklyPlanTable.getSelectionModel().getSelectedItem();
@@ -240,6 +254,11 @@ public class WeeklyPlanScene {
     noDelete.setVisible(false);
   }
 
+  /**
+   * {@summary} Handles the event when a weekly plan object is selected/clicked in the table
+   * component. Starts by clearing grids to refresh each selection, and then retrieves the selected
+   * plan, loading the daily recipes into their respective grids for each day of the week.
+   */
   @FXML
   private void weeklyPlanClicked(MouseEvent event) {
     mondayGrid.getChildren().clear();
@@ -249,7 +268,6 @@ public class WeeklyPlanScene {
     fridayGrid.getChildren().clear();
     saturdayGrid.getChildren().clear();
     sundayGrid.getChildren().clear();
-
 
     WeeklyDinnerList selectedPlan = weeklyPlanTable.getSelectionModel().getSelectedItem();
     ObservableList<ObservableList<Recipe>> weeklyRecipes = selectedPlan.getWeeklyPlan();
@@ -274,18 +292,23 @@ public class WeeklyPlanScene {
 
     ObservableList<Recipe> sundayRecipes = weeklyRecipes.get(6);
     loadDailyRecipes(sundayRecipes, sundayGrid);
-
   }
 
+
+  /**
+   * {@summary} Loads clickable daily recipe item fxml containing recipe contents into respective
+   * grid panes depending on the index within list - with 0 representing monday.
+   *
+   * @param dailyRecipeList List of daily recipes in order from monday to sunday
+   * @param grid Grid pane
+   */
   public void loadDailyRecipes(ObservableList<Recipe> dailyRecipeList, GridPane grid) {
+    int row = 0;
+    int col = 0;
 
-
-    int row = 0, col = 0;
-
-    for (int i=0; i < dailyRecipeList.size(); i++) {
+    for (int i = 0; i < dailyRecipeList.size(); i++) {
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource("/cookbook/DailyRecipeItem.fxml"));
-      // fxmlLoader.setLocation(getClass().getResource("/cookbook/RecipeItem.fxml"));
       AnchorPane anchorPane = null;
       try {
         anchorPane = fxmlLoader.load();
