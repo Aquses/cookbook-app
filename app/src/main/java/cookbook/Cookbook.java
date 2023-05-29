@@ -41,8 +41,8 @@ public class Cookbook extends Application {
 
     private final String APP_TITLE = "May The Dish Be With You";
 
-    private final String LOGO_IMAGE_PATH = "app/src/main/resources/menuIcons/lets_dish.png";
-    private final String DARTH_IMAGE_PATH = "app/src/main/resources/menuIcons/Dish_Vader.png";
+    private final String LOGO_IMAGE_PATH = "src/main/resources/menuIcons/lets_dish.png";
+    private final String DARTH_IMAGE_PATH = "src/main/resources/menuIcons/Dish_Vader.png";
 
     private final String APP_NAME = "Preparing Your Kitchen...";
     private final Font APP_NAME_FONT = new Font("Times New Roman", 28);
